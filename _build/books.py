@@ -20,7 +20,7 @@ BOOKS=parse(os.path.join(_D,'books_ot1.txt'))+parse(os.path.join(_D,'books_ot2.t
 assert [b['n'] for b in BOOKS]==list(range(1,67)),[b['n'] for b in BOOKS]
 V2={}
 for _l in open(os.path.join(_D,'books_v2.txt')):
-    _id,_r=_l.rstrip('\n').split('|',1); _k,_t=_r.split('|trap:'); V2[_id]={'key':[x.strip() for x in _k.replace('key:','',1).split(' | ')],'trap':_t.strip()}
+    _id,_r=_l.rstrip('\n').split('|',1); _k,_t=_r.split('|trap:'); V2[_id]={'key':[x.strip() for x in re.split(r'\s*\|\s*',_k.replace('key:','',1).strip()) if x.strip()],'trap':_t.strip()}
 def qmark(t,auto=True): return rich(t,auto)
 PAL=['#ffcb5c','#ff6fa5','#b78cff','#5cc8ff','#3ee0a1','#ff9f43','#2dd4bf','#f472b6']
 RNG=re.compile(r'^\s*(\d+)(?::(\d+))?(?:\s*[–-]\s*(\d+)(?::(\d+))?)?\s*(.*)$')
