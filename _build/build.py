@@ -8,3 +8,5 @@ out={'timeline.html':p_timeline.build(),'geography.html':p_geo.build(),'creeds.h
 out['sources.html']=p_misc.sources()
 for k,v in out.items(): open(S+k,'w').write(v); print(k,len(v))
 print('verified short quotes:',len(QUOTES))
+import merpre
+merpre.run(list(out.keys()))

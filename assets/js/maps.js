@@ -45,7 +45,9 @@ function build(el){
   if(cfg.legend){const lg=L.control({position:'bottomleft'});lg.onAdd=()=>{const d=L.DomUtil.create('div','mlabel');d.style.whiteSpace='normal';d.style.maxWidth='220px';d.style.lineHeight='1.6';d.innerHTML=cfg.legend.map(x=>'<span style="display:inline-block;width:12px;height:4px;background:'+x[0]+';margin-right:6px;vertical-align:middle"></span>'+x[1]).join('<br>');return d};lg.addTo(m)}
   el._map=m; setTimeout(()=>m.invalidateSize(),300);
 }
-function init(){document.querySelectorAll('.map[data-map]').forEach(el=>{try{build(el)}catch(e){console.warn(e);el.innerHTML='<div class="mapfb">地图加载失败</div>'}})}
+function safe(el){if(el._built)return;el._built=1;el.innerHTML='';try{build(el)}catch(e){console.warn(e);el.innerHTML='<div class="mapfb">地图加载失败</div>'}}
+function init(){const els=[...document.querySelectorAll('.map[data-map]')];if(!('IntersectionObserver' in window)){els.forEach(safe);return}
+const io=new IntersectionObserver(es=>es.forEach(en=>{if(en.isIntersecting){io.unobserve(en.target);safe(en.target)}}),{rootMargin:'500px 0px'});els.forEach(el=>io.observe(el));window.__mapsAll=()=>els.forEach(safe)}
 if(document.readyState!=='loading')init();else document.addEventListener('DOMContentLoaded',init);
 addEventListener('resize',()=>document.querySelectorAll('.map').forEach(el=>el._map&&el._map.invalidateSize()));
 })();
