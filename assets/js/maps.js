@@ -29,7 +29,7 @@ function base(el,cfg){
 function lab(m,ll,t,cls){return L.marker(ll,{icon:L.divIcon({className:'',html:'<span class="mlabel '+(cls||'')+'">'+t+'</span>',iconSize:null})}).addTo(m)}
 function pt(m,p,color){
   const c=L.circleMarker(p.ll,{radius:p.r||6,color:'#fff',weight:1.5,fillColor:p.c||color||'#ff6b6b',fillOpacity:1}).addTo(m);
-  c.bindTooltip(p.n,{permanent:p.perm!==false,direction:p.dir||'right',className:'mlabel',offset:[6,0]});
+  const small=innerWidth<640;c.bindTooltip(p.n,{permanent:p.perm!==false&&(!small||p.k),direction:p.dir||'right',className:'mlabel',offset:[6,0]});
   if(p.d)c.bindPopup('<b>'+p.n+'</b><br>'+p.d);
   return c;
 }
