@@ -1,0 +1,22 @@
+import sys,os,json
+from playwright.sync_api import sync_playwright
+SITE=os.path.dirname(os.path.dirname(os.path.abspath(__file__))); pages=sys.argv[1].split(',') if len(sys.argv)>1 and sys.argv[1]!='all' else [f for f in sorted(os.listdir(SITE)) if f.endswith('.html')]
+widths=[390,820,1440]; shots=len(sys.argv)>2
+res=[]
+with sync_playwright() as p:
+    b=p.chromium.launch(executable_path='/usr/bin/google-chrome',args=['--no-sandbox'])
+    for w in widths:
+        ctx=b.new_context(viewport={'width':w,'height':900},device_scale_factor=1)
+        for pg in pages:
+            page=ctx.new_page(); errs=[]
+            page.on('console',lambda m,errs=errs: errs.append(m.text) if m.type=='error' else None)
+            page.on('pageerror',lambda e,errs=errs: errs.append('PAGEERR '+str(e)))
+            page.goto('file://'+SITE+'/'+pg); page.wait_for_timeout(2500)
+            page.evaluate("document.querySelectorAll('.reveal').forEach(e=>e.classList.add('in'))")
+            r=page.evaluate("""()=>{const d=document.documentElement;const over=[];document.querySelectorAll('main *').forEach(e=>{const r=e.getBoundingClientRect();if(r.right>d.clientWidth+1&&!e.closest('.tw,.chart,.mer,.era,.nav,.leaflet-container,.filters,.toc')&&r.width>0)over.push(e.tagName+'.'+e.className+':'+Math.round(r.right))});
+            return {sw:d.scrollWidth,cw:d.clientWidth,over:over.slice(0,8),mer:document.querySelectorAll('pre.mermaid svg').length,merTot:document.querySelectorAll('pre.mermaid').length,merErr:[...document.querySelectorAll('pre.mermaid')].filter(p=>/Syntax error|error/i.test(p.textContent)&&!p.querySelector('svg')).length,maps:document.querySelectorAll('.leaflet-container').length,books:document.querySelectorAll('.bk').length}}""")
+            r.update(page=pg,w=w,errs=[e for e in errs if 'tile' not in e.lower() and 'net::' not in e][:5])
+            res.append(r); print(json.dumps(r,ensure_ascii=False))
+            if shots: page.screenshot(path=f'/workspace/wb/shots/{pg[:-5]}_{w}.png')
+            page.close()
+        ctx.close()

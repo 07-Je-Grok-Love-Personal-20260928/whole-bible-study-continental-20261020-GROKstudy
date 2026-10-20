@@ -1,0 +1,114 @@
+[
+ {
+  "kind": "BC",
+  "url": "https://ccifellowship.org/books/book-of-praise/confessions/the-belgic-confession/30",
+  "segments": 6,
+  "found": 6,
+  "missing": []
+ },
+ {
+  "kind": "BC",
+  "url": "https://ccifellowship.org/books/book-of-praise/confessions/the-belgic-confession/21",
+  "segments": 17,
+  "found": 17,
+  "missing": []
+ },
+ {
+  "kind": "BC",
+  "url": "https://ccifellowship.org/books/book-of-praise/confessions/the-belgic-confession/14",
+  "segments": 12,
+  "found": 12,
+  "missing": []
+ },
+ {
+  "kind": "BC",
+  "url": "https://ccifellowship.org/books/book-of-praise/confessions/the-belgic-confession/31",
+  "segments": 6,
+  "found": 6,
+  "missing": []
+ },
+ {
+  "kind": "BC",
+  "url": "https://ccifellowship.org/books/book-of-praise/confessions/the-belgic-confession/4",
+  "segments": 9,
+  "found": 9,
+  "missing": []
+ },
+ {
+  "kind": "BC",
+  "url": "https://ccifellowship.org/books/book-of-praise/confessions/the-belgic-confession/32",
+  "segments": 4,
+  "found": 4,
+  "missing": []
+ },
+ {
+  "kind": "HC",
+  "url": "https://ccifellowship.org/books/book-of-praise/confessions/heidelberg-catechism/section2/lord-day-6",
+  "segments": 6,
+  "found": 6,
+  "missing": []
+ },
+ {
+  "kind": "HC",
+  "url": "https://ccifellowship.org/books/book-of-praise/confessions/heidelberg-catechism/section2/lord-day-10",
+  "segments": 5,
+  "found": 5,
+  "missing": []
+ },
+ {
+  "kind": "HC",
+  "url": "https://ccifellowship.org/books/book-of-praise/confessions/heidelberg-catechism/section1/lord-day-3",
+  "segments": 7,
+  "found": 7,
+  "missing": []
+ },
+ {
+  "kind": "HC",
+  "url": "https://ccifellowship.org/books/book-of-praise/confessions/heidelberg-catechism/section2/part2/lord-day-21",
+  "segments": 6,
+  "found": 6,
+  "missing": []
+ },
+ {
+  "kind": "HC",
+  "url": "https://ccifellowship.org/books/book-of-praise/confessions/heidelberg-catechism/section3/lord-day-33",
+  "segments": 5,
+  "found": 5,
+  "missing": []
+ },
+ {
+  "kind": "HC",
+  "url": "https://ccifellowship.org/books/book-of-praise/confessions/heidelberg-catechism/section2/part1/lord-day-14",
+  "segments": 3,
+  "found": 3,
+  "missing": []
+ },
+ {
+  "kind": "DT",
+  "url": "https://ccifellowship.org/books/book-of-praise/confessions/canons-of-dort/section1/3",
+  "segments": 2,
+  "found": 2,
+  "missing": []
+ },
+ {
+  "kind": "DT",
+  "url": "https://ccifellowship.org/books/book-of-praise/confessions/canons-of-dort/section2/4",
+  "segments": 2,
+  "found": 2,
+  "missing": []
+ },
+ {
+  "kind": "DT",
+  "url": "https://ccifellowship.org/books/book-of-praise/confessions/canons-of-dort/section3-4/14",
+  "segments": 4,
+  "found": 4,
+  "missing": []
+ },
+ {
+  "kind": "DT",
+  "url": "https://ccifellowship.org/books/book-of-praise/confessions/canons-of-dort/section5/2",
+  "segments": 3,
+  "found": 3,
+  "missing": []
+ }
+]
