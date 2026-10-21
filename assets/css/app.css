@@ -381,3 +381,5 @@ body.rzing .rz::after{opacity:1;width:6px;left:3px;height:100%;top:0;margin-top:
  body.pk .kcol{background:#f6f6f6}body.pk .kch .btn{display:none}
  body:not(.pk) *{visibility:visible!important}
 }
+.kd{flex-basis:auto;margin:0;padding:2px 5px;border-radius:7px;border:1px dashed var(--line2);font-size:10.5px;align-self:center}
+.bk{contain-intrinsic-size:auto 1600px}@media(max-width:760px){.bk{contain-intrinsic-size:auto 3000px}}
