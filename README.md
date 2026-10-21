@@ -1,17 +1,17 @@
-# 整本圣经研读-20261020-v2-GROKstudy
+# 整本圣经研读-20261021-v3-GROKstudy
 
-> **主题**：整本《圣经》解读（欧陆改革宗 · 正统神学）｜**时间**：2026-10-20｜**版本号**：v2｜GROKstudy
+> **主题**：整本《圣经》解读（欧陆改革宗 · 正统神学）｜**时间**：2026-10-21｜**版本号**：v3｜GROKstudy
 
 时间线 · 故事线 · 地理 · 真实背景 · 文化区域 · 诸王与时代 · 圣经神学 · 圣约神学 · 66 卷逐卷解读 · 三大普世信经背诵版与深度对比 · 三项联合信条全文 · 记忆测验。
 信经与信条引文全部**逐字**取自 [ccifellowship.org](https://ccifellowship.org)（中国改革宗教会），构建时自动校验；经文采用和合本。
 
-## 🔗 在线访问（当前版本 v2）
+## 🔗 在线访问（当前版本 v3）
 
 | 平台 | 链接 |
 |---|---|
 | GitHub Pages | https://07-je-grok-love-personal-20260928.github.io/whole-bible-study-continental-20261020-GROKstudy/ |
-| Surge | https://whole-bible-study-20261020-v2-grokser.surge.sh/ |
-| Netlify | https://whole-bible-study-20261020-v2-grokser.netlify.app/ |
+| Surge | https://whole-bible-study-20261021-v3-grokser.surge.sh/ |
+| Netlify | https://whole-bible-study-20261021-v3-grokser.netlify.app/ |
 | 源码仓库 | https://github.com/07-Je-Grok-Love-Personal-20260928/whole-bible-study-continental-20261020-GROKstudy |
 
 ## 📑 页面结构（11 页）
@@ -42,7 +42,14 @@ python3 _build/check.py all  # 无头 Chromium 在 390/820/1440 宽度检查溢�
 
 ## 📝 版本历史
 
-### v2 — 2026-10-20（tag `v2-20261020`）
+### v3 — 2026-10-21（tag `v3-20261021`）
+- 三项联合信条页目录：海德堡 52 个主日全部显示「图标 + 主日N（Q范围）+ 主题」（如 🤐 主日36（Q99–100）第三诫：不可妄称神名；主题为本站概括，非引文）；比利时信条 37 条、多特信经各部分/各条（含错谬反驳）各配一个不重复的贴切图标，原标题逐字保留；三份信条的一、二级标题与三大信经页各节也配上不同图标；所有页面的一级目录现显示章节图标。
+- 目录底部「全站页面」固定为单列。
+- 拖动目录边缘时的彩色动画提示：渐变流动发光把手、悬停放大、实时宽度气泡（px）；首次访问显示一次“拖动右边缘调整目录宽度”提示（之后不再打扰）。
+- 性能保持 v2 水平（如 forms@1440 长任务 0 ms、平均帧 16.8 ms）。
+
+### v2 — 2026-10-20（tag `v2-20261020`，[Release](https://github.com/07-Je-Grok-Love-Personal-20260928/whole-bible-study-continental-20261020-GROKstudy/releases/tag/v2-20261020)）
+- 在线（保留）：Surge https://whole-bible-study-20261020-v2-grokser.surge.sh/ · Netlify https://whole-bible-study-20261020-v2-grokser.netlify.app/
 - **性能 / 丝滑**：Mermaid 改为构建时预渲染成内联 SVG（明/暗两套），浏览器端不再加载 3.5 MB 运行时；Leaflet 地图进入视口才构建；`content-visibility:auto` 用于章节与 66 卷卡片；只在顶栏保留 backdrop-filter；滚动处理全部 passive + rAF；进度条用 `transform:scaleX`；动画只用 transform/opacity；支持 `prefers-reduced-motion`；本地 Lenis 1.3.27 作可选惯性滚动（🌊 按钮，默认关闭 → 原生合成器滚动最顺）。
 - **三级目录**：由正文 h2/h3/h4 静态生成；一级编号 一、二、…，二/三级嵌套编号；每个节点可折叠，有“二级/全开/全收”、筛选、二分查找式滚动高亮（自动展开祖先节点）；桌面可隐藏，手机为抽屉；**拖动右边缘调整宽度**（220–680px，双击复位，localStorage 记忆）。
 - **结构**：全站重组为编号的 h2/h3/h4 层级（如时间线：总览 / 王国时代 / 帝国·被掳·归回 / 两约之间与新约）；信条页每条/每主日都进目录。
@@ -69,7 +76,7 @@ python3 _build/check.py all  # 无头 Chromium 在 390/820/1440 宽度检查溢�
 | creeds.html@390 | 17 → **16.7** | 0 → **0** | 1541 → **0** | 1171 → **40** | 2203 → **301** | 801 → 1058 |
 
 ### v1 — 2026-10-20（tag `v1-20261020`，[Release](https://github.com/07-Je-Grok-Love-Personal-20260928/whole-bible-study-continental-20261020-GROKstudy/releases/tag/v1-20261020)）
-- 在线（保留）：Surge https://whole-bible-study-20261020-v1-grokser.surge.sh/ · Netlify https://whole-bible-study-20261020-v1-grokser.netlify.app/（GitHub Pages 现已指向 v2）
+- 在线（保留）：Surge https://whole-bible-study-20261020-v1-grokser.surge.sh/ · Netlify https://whole-bible-study-20261020-v1-grokser.netlify.app/（GitHub Pages 现已指向最新版本）
 - 全新多页面架构（11 页），毛玻璃 + 极光背景、明/暗主题、可隐藏目录（桌面折叠/手机抽屉）、阅读进度条、滚动高亮、渐显动画。
 - 66 卷全部完成，每卷 13 个维度；42 位君王全表（3+19+20）与 SVG 年代图；8 幅离线可用交互地图；10+ Mermaid 流程图/思维导图。
 - 三大信经 + 三项联合信条全文逐字引自 ccifellowship.org，并于 2026-10-20 与在线页面重新比对（信经段落 100% 一致；16 个信条页面抽查 100% 一致）。
