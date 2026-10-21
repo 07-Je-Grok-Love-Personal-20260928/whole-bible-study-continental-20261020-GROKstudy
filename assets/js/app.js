@@ -40,10 +40,14 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape')body.classList.remov
 /* resizable TOC */
 const W0=parseInt(LS.g('wb-tocw'));if(W0)root.style.setProperty('--toc',W0+'px');
 const rz=$('.rz');
-if(rz){let sx=0,sw=0,raf=0,nw=0;
-  const mv=e=>{nw=Math.max(220,Math.min(MOB()?innerWidth*.96:Math.min(680,innerWidth*.6),sw+e.clientX-sx));if(!raf)raf=requestAnimationFrame(()=>{root.style.setProperty('--toc',nw+'px');raf=0})};
+if(rz){let sx=0,sw=0,raf=0,nw=0,ty=0;const tip=$('.rztip',rz),hint=$('.rzhint');
+  const show=()=>{tip.textContent=Math.round(nw||toc.getBoundingClientRect().width)+' px';tip.style.transform='translateY('+(ty-toc.getBoundingClientRect().top-14)+'px)'};
+  const mv=e=>{nw=Math.max(220,Math.min(MOB()?innerWidth*.96:Math.min(680,innerWidth*.6),sw+e.clientX-sx));ty=e.clientY;if(!raf)raf=requestAnimationFrame(()=>{root.style.setProperty('--toc',nw+'px');show();raf=0})};
   const up=()=>{body.classList.remove('rzing');removeEventListener('pointermove',mv);removeEventListener('pointerup',up);if(nw)LS.s('wb-tocw',Math.round(nw))};
-  rz.addEventListener('pointerdown',e=>{e.preventDefault();sx=e.clientX;sw=toc.getBoundingClientRect().width;body.classList.add('rzing');addEventListener('pointermove',mv,{passive:true});addEventListener('pointerup',up)});
+  const hideHint=()=>{if(hint&&!hint.hidden){hint.classList.add('out');setTimeout(()=>hint.hidden=true,400);LS.s('wb-rzhint','1')}};
+  rz.addEventListener('pointerdown',e=>{e.preventDefault();hideHint();sx=e.clientX;sw=toc.getBoundingClientRect().width;nw=sw;ty=e.clientY;show();body.classList.add('rzing');addEventListener('pointermove',mv,{passive:true});addEventListener('pointerup',up)});
+  rz.addEventListener('pointermove',e=>{if(!body.classList.contains('rzing')){ty=e.clientY;nw=0;show()}},{passive:true});
+  if(hint&&!LS.g('wb-rzhint')&&!MOB()&&!body.classList.contains('tochide')){setTimeout(()=>{hint.hidden=false},900);setTimeout(hideHint,8000)}
   rz.addEventListener('dblclick',()=>{root.style.removeProperty('--toc');LS.s('wb-tocw','')});
 }
 /* ---------- progress / totop (rAF, cached sizes) ---------- */

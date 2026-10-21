@@ -41,17 +41,17 @@ def build():
     c.append(note('🧭 使用方法','<p>① 先通读干净版；② 点 <b>🙈 遮盖背诵模式</b>，逐句默背，点击一句即可揭开；③ 用下方“关键词钩子”自测；④ 到 <a href="memory.html">记忆·测验</a> 做信经填空题。</p>','gold'))
     c.append(legend_box())
     c.append(h2('texts','📜','三大信经 · 干净阅读版'))
-    c.append(h3('apostles','① 使徒信经'))
+    c.append(h3('apostles','🌱 使徒信经'))
     c.append(creedcard('apostles','①','传统分为十二条；海德堡要理问答第23问全文载有此信经，第24–58问逐条讲解。'))
     c.append(note('🪝 关键词钩子（12条）','<p><span class="mn">父·创造</span> → <span class="mn">子·独生</span> → <span class="mn">灵孕·童女</span> → <span class="mn">彼拉多·十架·死·葬·阴间</span> → <span class="mn">三日复活</span> → <span class="mn">升天·右边</span> → <span class="mn">再来审判</span> → <span class="mn">圣灵</span> → <span class="mn">教会·相通</span> → <span class="mn">赦罪</span> → <span class="mn">身体复活</span> → <span class="mn">永生·阿们</span></p><p>结构口诀：<span class="key">“三位一体三段落：父造、子救、灵使成圣”</span>（参海德堡第24问）。</p>','emer'))
-    c.append(h3('nicene','② 尼西亚信经（尼西亚—君士坦丁堡信经）'))
+    c.append(h3('nicene','🔥 尼西亚信经（尼西亚—君士坦丁堡信经）'))
     c.append(creedcard('nicene','②','注意第四段“他从父和子而出”（filioque，西方教会文本）。'))
     c.append(note('🪝 关键词钩子','<p><span class="mn">独一的神·可见不可见</span> → <span class="mn">万世以前为父所生</span> → <span class="mn">神出于神·光出于光·真神出于真神</span> → <span class="mn">受生非被造·与父同质</span> → <span class="mn">为拯救我们降世</span> → <span class="mn">照圣经第三天复活</span> → <span class="mn">国没有穷尽</span> → <span class="mn">圣灵·赐生命的主</span> → <span class="mn">一·圣·公·使徒性</span> → <span class="mn">独一洗礼</span> → <span class="mn">复活·更新的世界</span></p><p>记忆：教会的四个标记 <span class="key">“一、圣、公、使徒”</span>。</p>','emer'))
-    c.append(h3('athanasian','③ 亚他那修信经（42 节）'))
+    c.append(h3('athanasian','🔺 亚他那修信经（42 节）'))
     c.append(creedcard('athanasian','③','网站介绍称第二部分为“第29-43点”，而网站所载正文编号至 42)；本站照录正文，不作改动。'))
     c.append(note('🪝 结构钩子','<p><span class="mn">1–2 序：必须持守</span> → <span class="mn">3–28 三一：位格不紊、本质不分</span> → <span class="mn">29–41 基督：完全的神、完全的人、一位</span> → <span class="mn">42 结语</span></p><p>三一段的“节奏”：<span class="key">“父如何，子就如何，圣灵也如何”</span>——每个属性说三次，然后说“非三位……乃一位……”。</p>','emer'))
     c.append(h2('cmpx','⚖️','深度对比与历史战场'))
-    c.append(h3('compare','三大信经对照表'))
+    c.append(h3('compare','📊 三大信经对照表'))
     c.append(table(['比较项','使徒信经','尼西亚信经','亚他那修信经'],[
      ['📅 形成时间','古罗马信经（约2世纪）→ 约公元400年形式，8世纪定型','325 尼西亚会议 → 381 君士坦丁堡会议正式采纳','约6世纪上半叶，作者不详（非亚他那修本人）'],
      ['🌍 来源','西方（罗马）洗礼认信','东方教会为主，东西方共同承认','西方（拉丁），东正教不认可'],
@@ -75,7 +75,7 @@ def build():
      ['亚波利拿留','基督没有人的理性灵魂（神的逻各斯取代之）',qmark('{{AT|他既是完全的神，又是具有人的灵魂和肉体的完全的人}}')],
      ['聂斯脱利','基督是两个位格（神子与人耶稣并列）',qmark('{{AT|尽管既是神又是人，基督仍是一位，而非两位}}')],
      ['欧迪奇（基督一性论）','两性混合为第三种本质',qmark('{{AT|他是一位，并非因两质相混，乃是因神人二性合于一个位格}}')]]))
-    c.append(h3('why3','为什么需要三份信经，而不是一份？'))
+    c.append(h3('why3','🧩 为什么需要三份信经，而不是一份？'))
     c.append('<div class="grid g3 reveal">'+''.join(f'<div class="card tile" style="--c:{col}"><div class="big">{i}</div><h4>{t}</h4><p>{d}</p></div>' for i,t,d,col in [
      ('🧒','① 不同的“问题”，不同的“答案”','使徒信经回答“基督徒信什么？”（洗礼认信）；尼西亚信经回答“耶稣究竟是谁？是神吗？”（亚流危机）；亚他那修信经回答“如何同时说一与三、神与人而不自相矛盾？”（教义语法）。一份信经无法同时兼顾简洁可背、会议权威、精密定义。','#5ec8ff'),
      ('🔬','② 越来越高的分辨率','好比同一张地图的三种比例尺：使徒信经是“全国地图”（救恩历史大事），尼西亚是“城市地图”（子与圣灵的神性），亚他那修是“街道图”（位格、本质、两性的精确关系）。不是新增内容，而是在同一圣经真理上提高清晰度。','#b18cff'),
@@ -98,7 +98,7 @@ style A fill:#173a5a,stroke:#5ec8ff
 style N fill:#3a2350,stroke:#b18cff
 style T fill:#4a1d2a,stroke:#ff6b6b''','三大信经与三项联合信条的关系（流程图）'))
     c.append(h2('forms-rel','📚','与三项联合信条的关系：同一信仰的展开'))
-    c.append(h3('forms-map','主题对照表'))
+    c.append(h3('forms-map','🗺️ 主题对照表'))
     c.append(table(['三大信经主题','比利时信条','海德堡要理问答','多特信经'],[
      ['独一神·三位一体','第1、8–11条','第25问（及第24问的三分）','—（预设）'],
      ['创造与护理（父）','第12–13条','第26–28问','—'],
@@ -106,7 +106,7 @@ style T fill:#4a1d2a,stroke:#ff6b6b''','三大信经与三项联合信条的关�
      ['圣灵与教会','第11、27–35条','第53–55问','第三、四项教义（重生）'],
      ['罪得赦免·称义','第22–23条','第56、59–64问','第一、二项教义'],
      ['身体复活·永生·审判','第37条','第57–58、52问','第五项教义（圣徒蒙保守）']]))
-    c.append(h3('forms-src','信条原文：比利时第9条 · 海德堡第23–25问'))
+    c.append(h3('forms-src','📖 信条原文：比利时第9条 · 海德堡第23–25问'))
     c.append(bc(9))
     c.append(hc(23)); c.append(hc(24)); c.append(hc(25))
     c.append(h2('recite','🎯','背诵策略：三天三信经'))

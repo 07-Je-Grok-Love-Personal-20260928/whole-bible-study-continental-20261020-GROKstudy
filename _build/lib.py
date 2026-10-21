@@ -1,5 +1,5 @@
 import json,re,html
-V='v2'; DATE='2026-10-20'
+V='v3'; DATE='2026-10-21'
 import os
 HERE=os.path.dirname(os.path.abspath(__file__))
 CCI=os.path.join(HERE,'data','cci')+'/'
@@ -59,6 +59,8 @@ def number(content):
         if lv==4 and nm: num=nm.group(1)
         if 'nonum' in cls: num=''
         txt=html.unescape(tm.group(1)) if tm else _plain(inner)
+        icm=re.search(r'<span class="ic">(.*?)</span>',inner,re.S)
+        if lv==2 and icm and not tm: txt=_plain(icm.group(1))+' '+txt
         if 'notoc' not in cls: toc.append((lv,hid,num,txt))
         sn=f'<span class="sn">{num}</span>' if num else ''
         if '<span class="ic">' in inner: inner=re.sub(r'(<span class="ic">.*?</span>)',lambda x:x.group(1)+sn,inner,count=1,flags=re.S)
@@ -157,7 +159,7 @@ def page(fn,title,content,extra_head='',scripts='',cv=True):
 <body data-mer="assets/vendor/mermaid.min.js"><div class="aurora"><i></i></div><div class="prog"></div>
 <header class="top"><button class="ibtn" id="tocBtn" title="目录 显示/隐藏" aria-label="目录">☰</button><a class="brand" href="index.html">📖 <b>整本圣经</b><span class="t">· 欧陆改革宗研读</span><small>GROKstudy {V}</small></a><nav class="nav">{nav}</nav><button class="ibtn" id="lenisBtn" title="Lenis 惯性丝滑滚动（默认关闭=原生合成器滚动最流畅；点击开启）" aria-label="丝滑滚动">🌊</button><button class="ibtn" id="themeBtn" title="明/暗主题" aria-label="主题">◐</button></header>
 <div class="wrap"><aside class="toc" id="toc"><div class="toch"><b>📑 本页目录</b><button id="tocL2" title="只展开到二级">二级</button><button id="tocAll" title="全部展开">全开</button><button id="tocNone" title="全部收起">全收</button><button id="tocClose" title="隐藏目录" aria-label="隐藏目录">✕</button></div>
-<input id="tocq" placeholder="🔍 筛选目录…" aria-label="筛选目录"><div class="tocbody" data-lenis-prevent>{toctree(toc)}<div class="tocpages"><b>🧭 全站页面</b>{pages}</div></div><div class="rz" title="拖动调整目录宽度（双击复位）" role="separator" aria-orientation="vertical"></div></aside><div class="scrim"></div>
+<input id="tocq" placeholder="🔍 筛选目录…" aria-label="筛选目录"><div class="tocbody" data-lenis-prevent>{toctree(toc)}<div class="tocpages"><b>🧭 全站页面</b>{pages}</div></div><div class="rz" title="拖动调整目录宽度（双击复位）" role="separator" aria-orientation="vertical"><span class="rztip"></span></div><div class="rzhint" hidden>↔ 拖动右边缘调整目录宽度</div></aside><div class="scrim"></div>
 <main id="main">{content}
 <footer class="ft">📖 整本圣经 · 欧陆改革宗研读 — GROKstudy {V}（{DATE}）。信经与信条引文逐字取自 <a href="https://ccifellowship.org" target="_blank" rel="noopener">ccifellowship.org</a>（中国改革宗教会）；经文采用和合本。本站为学习辅助，日期采用保守派（Thiele 式）年代学，个别年份学界有±1–2年差异。<br>页面：{" · ".join(f'<a href="{f}">{t}</a>' for f,i,t in PAGES)}</footer></main></div>
 <button class="ibtn totop" aria-label="回到顶部">↑</button>
