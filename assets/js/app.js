@@ -37,6 +37,18 @@ const lazies=$$('.bk>.body[data-lazy]');
 if(lazies.length){if('IntersectionObserver' in window){const lo=new IntersectionObserver(es=>es.forEach(en=>{if(en.isIntersecting){lo.unobserve(en.target);const b=en.target.querySelector(':scope>.body[data-lazy]');if(b){lazyQ.push(b);if(!lazyT)lazyT=requestAnimationFrame(pump)}}}),{rootMargin:'1800px 0px 1800px 0px'});lazies.forEach(b=>lo.observe(b.parentElement))}else lazies.forEach(hydrate)}
 function findLazy(id){for(const b of $$('.bk>.body[data-lazy]')){const t=b.querySelector(':scope>template');if(t&&t.content.getElementById(id))return b}return null}
 window.__hydrateAll=()=>$$('.bk>.body[data-lazy]').forEach(hydrate);
+/* idle pre-layout: hydrate + lay out one card per idle slot (nearest first) while the user is NOT scrolling,
+   so later scrolling only paints already-laid-out cards (content-visibility keeps their layout). */
+let lastScroll=0;addEventListener('scroll',()=>{lastScroll=performance.now()},{passive:true});
+const cards=$$('.bk,section.blk');
+if(cards.length){const ric=window.requestIdleCallback||(f=>setTimeout(()=>f({timeRemaining:()=>8,didTimeout:false}),50));
+  const next=()=>{let best=null,bd=1e15;const y=scrollY+innerHeight/2;for(const c of cards){if(c.__pl||c.classList.contains('hidden'))continue;const d=Math.abs(c.offsetTop+c.offsetHeight/2-y);if(d<bd){bd=d;best=c}}return best};
+  const step=dl=>{if(performance.now()-lastScroll<300){setTimeout(()=>ric(step,{timeout:2000}),320);return}
+    if(dl&&!dl.didTimeout&&dl.timeRemaining()<6){ric(step,{timeout:2000});return}
+    const c=next();if(!c)return;c.__pl=1;const b=c.querySelector(':scope>.body[data-lazy]');if(b)hydrate(b);
+    c.style.contentVisibility='visible';void c.offsetHeight;c.style.contentVisibility='';
+    ric(step,{timeout:2000})};
+  addEventListener('load',()=>setTimeout(()=>ric(step,{timeout:2000}),400))}
 function goTo(id){let el=document.getElementById(id);if(!el){const lb=findLazy(id);if(lb){hydrate(lb);el=document.getElementById(id)}}if(!el)return;let dd=el.closest('details');while(dd){dd.open=true;dd=dd.parentElement.closest('details')}
   const off=()=>(parseInt(getComputedStyle(root).getPropertyValue('--top'))||56)+10+(el.closest('.bk')&&$('.filters')&&innerWidth>1000?58:0);
   const far=Math.abs(el.getBoundingClientRect().top)>innerHeight*2.5;
