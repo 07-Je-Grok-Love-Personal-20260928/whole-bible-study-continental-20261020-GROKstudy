@@ -12,7 +12,7 @@ const LAKES={
  '加利利海':[[32.9,35.59],[32.86,35.65],[32.8,35.65],[32.71,35.6],[32.75,35.53],[32.84,35.52]]
 };
 function base(el,cfg){
-  const m=L.map(el,{scrollWheelZoom:false,zoomSnap:.25,worldCopyJump:false,attributionControl:true,preferCanvas:false});
+  const m=L.map(el,{scrollWheelZoom:false,zoomSnap:.25,worldCopyJump:false,attributionControl:true,preferCanvas:true});
   const off=L.layerGroup();
   if(window.LAND)L.geoJSON(window.LAND,{style:{color:'#c9a96a',weight:1,fillColor:'#e8d9b0',fillOpacity:.92},interactive:false}).addTo(off);
   const wat=L.layerGroup();
@@ -47,7 +47,10 @@ function build(el){
 }
 function safe(el){if(el._built)return;el._built=1;el.innerHTML='';try{build(el)}catch(e){console.warn(e);el.innerHTML='<div class="mapfb">地图加载失败</div>'}}
 function init(){const els=[...document.querySelectorAll('.map[data-map]')];if(!('IntersectionObserver' in window)){els.forEach(safe);return}
-const io=new IntersectionObserver(es=>es.forEach(en=>{if(en.isIntersecting){io.unobserve(en.target);safe(en.target)}}),{rootMargin:'500px 0px'});els.forEach(el=>io.observe(el));window.__mapsAll=()=>els.forEach(safe)}
+/* build only while the user is not scrolling (Leaflet init is a long task) */
+let lastS=0,qT=0;const q=[];addEventListener('scroll',()=>{lastS=performance.now()},{passive:true});
+const pump=()=>{qT=0;if(!q.length)return;const idle=performance.now()-lastS;if(idle<350){qT=setTimeout(pump,380-idle);return}safe(q.shift());if(q.length)qT=setTimeout(pump,120)};
+const io=new IntersectionObserver(es=>es.forEach(en=>{if(en.isIntersecting){io.unobserve(en.target);q.push(en.target);if(!qT)qT=setTimeout(pump,60)}}),{rootMargin:'300px 0px'});els.forEach(el=>io.observe(el));window.__mapsAll=()=>els.forEach(safe)}
 if(document.readyState!=='loading')init();else document.addEventListener('DOMContentLoaded',init);
-addEventListener('resize',()=>document.querySelectorAll('.map').forEach(el=>el._map&&el._map.invalidateSize()));
+let rzT=0;addEventListener('resize',()=>{clearTimeout(rzT);rzT=setTimeout(()=>document.querySelectorAll('.map').forEach(el=>el._map&&el._map.invalidateSize()),200)},{passive:true});
 })();

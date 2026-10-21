@@ -92,7 +92,7 @@ def card(b):
 <div class="bgrid">
 <div class="box">{H('bg','🏺 真实背景 · 受众')}<p>{qmark(b['bg'])}</p></div>
 <div class="box">{H('why','🎯 为什么写')}<p>{qmark(b['why'])}</p></div>
-<div class="box">{H('core','💎 核心信息 · 基督中心')}<p>{qmark(core)}</p>{co('xc','<p>'+qmark(b['xc'])+'</p>','基督')}</div>
+<div class="box">{H('core','💎 核心信息 · 基督中心')}<p class="sideb">{qmark(core)}</p>{co('xc','<p>'+qmark(b['xc'])+'</p>','基督')}</div>
 <div class="box">{H('cov','🤝 圣约位置')}<p>{qmark(b['cov'])}</p></div>
 <div class="box">{H('lit','📐 文学视角 · 写了什么')}<p>{qmark(V4[b['id']]['lit'])}</p>{confline(b)}</div>
 <div class="box">{H('kv','📖 关键经文')}{kv}</div>
