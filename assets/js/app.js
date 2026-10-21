@@ -69,6 +69,8 @@ if(tree){
 }
 /* ---------- reveal + structure bars ---------- */
 if('IntersectionObserver' in window&&!RM){const ro=new IntersectionObserver(es=>es.forEach(en=>{if(en.isIntersecting){en.target.classList.add('in','go');ro.unobserve(en.target)}}),{rootMargin:'0px 0px -5% 0px'});$$('.rv,.sbar').forEach(el=>ro.observe(el))}else $$('.rv,.sbar').forEach(el=>el.classList.add('in','go'));
+/* ---------- print a block ---------- */
+$$('[data-print]').forEach(b=>b.addEventListener('click',()=>{body.classList.add('pk');addEventListener('afterprint',()=>body.classList.remove('pk'),{once:true});print();setTimeout(()=>body.classList.remove('pk'),1500)}));
 /* ---------- era band ---------- */
 const eb=$('.eraband');if(eb&&'IntersectionObserver' in window){const sp=$$('span',eb);const eo=new IntersectionObserver(es=>es.forEach(en=>{if(en.isIntersecting){const i=+en.target.dataset.era;sp.forEach((x,j)=>x.classList.toggle('on',j===i))}}),{rootMargin:'-30% 0px -60% 0px'});$$('[data-era]').forEach(e=>{if(e.dataset.era!=='')eo.observe(e)})}
 /* ---------- lazy Mermaid ---------- */

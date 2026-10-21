@@ -44,6 +44,25 @@ def sbar(b):
         sp+=f'<span style="flex:{ww/T*100:.2f} 1 0;background:{col};transition-delay:{i*.08:.2f}s" title="{E(items[i])}">{E(lab) if ww/T>.1 else ""}</span>'
         lg+=f'<span><i style="background:{col}"></i>{E(rng)} {E(lab)}</span>'
     return f'<div class="sbar" role="img" aria-label="{E(b["name"])}结构图">{sp}</div><div class="sleg">{lg}</div>'
+V4={}
+for _l in open(os.path.join(_D,'books_v4.txt')):
+    _m=re.match(r'^(\w+)\|前因：(.*?)\s*\|\s*后果：(.*?)\|文学：(.*)$',_l.rstrip('\n'))
+    V4[_m.group(1)]={'pre':_m.group(2).strip(),'post':_m.group(3).strip(),'lit':_m.group(4).strip()}
+_USED=set()
+def confline(b):
+    for c in [x.strip() for x in b['cf'].split(',')]:
+        k=c if not c.startswith('DT') else 'DT'+c[2:].replace('.','_')
+        if k not in SRC or k in _USED: continue
+        t=re.sub(r'^答：','',SRC[k][0].strip())
+        cl=re.split(r'[。；？！]',t)[0].strip()
+        if 10<=len(cl)<=80 and '“' not in cl and '\n' not in cl:
+            _USED.add(k); return co('conf','<p>'+rich('{{'+k+'|'+cl+'}}',False)+'</p>','认信一句（逐字）')
+    return ''
+def v4strip(b):
+    x=V4[b['id']]
+    return (f'<div class="causal"><div class="cz pre"><b>⏮️ 前因</b>{rich(x["pre"])}</div><div class="cz arr" aria-hidden="true">➜</div>'
+            f'<div class="cz now" style="--c:{CATS[b["cat"]][1]}"><b>📍 {E(b["name"])}</b>{rich(b["one"].split("：")[0],False)}</div><div class="cz arr" aria-hidden="true">➜</div>'
+            f'<div class="cz post"><b>⏭️ 后果</b>{rich(x["post"])}</div></div>')
 def card(b):
     cl,col,ic=CATS[b['cat']]; x=V2[b['id']]; i=b['id']
     ol=''.join(f'<li>{qmark(re.sub(r"^(\S+)",r"**\1**",x_.strip(),count=1),False)}</li>' for x_ in b['ol'].split('|'))
@@ -61,6 +80,7 @@ def card(b):
 <div class="chips" style="margin-top:6px"><span class="chip" style="border-color:{col};color:{col}">{cl}</span><span class="chip">{test}第{b['n'] if b['n']<=39 else b['n']-39}卷</span><span class="chip">✍️ {E(b['au'][:22])}</span><span class="chip">🕰️ {E(b['dt'].split('；')[0][:30])}</span></div></div>
 <div class="one">💡 {qmark(one)}</div></header>
 <div class="body">
+{v4strip(b)}
 <div class="bgrid btop">
 <div class="box span2">{H('ol','🧩 结构大纲 · 结构图')}{sbar(b)}<ol class="outline">{ol}</ol></div>
 <div class="box">{co('core','<ol>'+keys+'</ol>','核心三要点')}{co('mnc','<p class="mn">'+E(b['mn'])+'</p>','记忆口诀')}<div class="srcline">✍️ 作者：{E(b['au'])}<br>🕰️ 日期：{qmark(b['dt'])}</div></div>
@@ -70,6 +90,7 @@ def card(b):
 <div class="box">{H('why','🎯 为什么写')}<p>{qmark(b['why'])}</p></div>
 <div class="box">{H('core','💎 核心信息 · 基督中心')}<p>{qmark(core)}</p>{co('xc','<p>'+qmark(b['xc'])+'</p>','基督')}</div>
 <div class="box">{H('cov','🤝 圣约位置')}<p>{qmark(b['cov'])}</p></div>
+<div class="box">{H('lit','📐 文学视角 · 写了什么')}<p>{qmark(V4[b['id']]['lit'])}</p>{confline(b)}</div>
 <div class="box">{H('kv','📖 关键经文')}{kv}</div>
 <div class="box">{H('hard','⚠️ 难点 · 易错')}{co('hardc','<p>'+qmark(b['hard'])+'</p>','难点辨析')}{co('trap','<p>'+qmark(x['trap'],False)+'</p>','易错点')}</div>
 <div class="box">{H('app','🌱 应用')}{co('app','<ul>'+app+'</ul>','教牧应用')}</div>

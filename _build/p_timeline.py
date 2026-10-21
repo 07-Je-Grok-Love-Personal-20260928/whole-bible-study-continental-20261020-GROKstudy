@@ -1,4 +1,5 @@
 from lib import *
+from v4extra import *
 from kings import *
 VC={'good':'#3ee0a1','evil':'#ff6b6b','mix':'#ffb34d'}
 VL={'good':'<span class="good">✅ 善</span>','evil':'<span class="evil">❌ 恶</span>','mix':'<span class="mix">⚖️ 善恶参半</span>'}
@@ -77,6 +78,8 @@ style J fill:#5a4614,stroke:#f5c76b''','救赎历史的十一站（流程图）'
     c.append(h3('master','主时间线：从亚伯拉罕到拔摩岛'))
     c.append('<div class="tl">'+''.join(f'<div class="ev reveal" data-era="{ERAC.get(col,"")}" style="--c:{col}"><span class="d">{rich(d)}</span>{rich(t,False)}<br><small style="color:var(--mut)">{r}</small></div>' for d,t,col,r in EVENTS)+'</div>')
     c.append(h2('kingdom','👑','王国时代：统一 · 分裂 · 先知'))
+    c.append(h3('kcheat','一屏速记卡（42 位君王 · 可打印）'))
+    c.append(kcheat())
     c.append(h3('united','统一王国（约1050–931）：三王各四十年'))
     c.append(ktable(UNITED))
     c.append(note('🧠 口诀','<span class="mn">“扫大所，各四十；扫罗失心，大卫得约，所罗门建殿后失足”</span>（徒13:21；王上2:11；11:42）','emer'))

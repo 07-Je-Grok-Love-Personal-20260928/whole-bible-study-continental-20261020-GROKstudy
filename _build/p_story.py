@@ -1,4 +1,5 @@
 from lib import *
+from v4extra import *
 from books import qmark
 THEMES=[('👑 神的国','伊甸：神借人治理','应许给亚伯拉罕“君王从你而出”','神权国·西奈','大卫之约：永远的国','先知：人子之国（但7）','基督：“天国近了”','新天新地：国度完全'),
 ('🏛️ 神的同在·圣殿','园子是圣所','祭坛·伯特利（神的殿）','会幕：住在他们中间','圣殿（所罗门）','荣耀离开（结10）/新殿应许','道成肉身支搭帐棚（约1:14）；教会是殿','城内无殿，神与羔羊为殿（启21:22）'),
@@ -29,6 +30,8 @@ A["亚当"]-->S["塞特"]-->N["挪亚"]-->SH["闪"]-->AB["亚伯拉罕"]-->I["�
 style C fill:#5a4614,stroke:#f5c76b''','蛇的后裔一再企图截断这条线：该隐杀亚伯、法老杀男婴、亚她利雅灭王室、哈曼灭族、希律杀婴——神却一一保守（参太1；路3）'))
     c.append(h3('themes','圣经神学：七条主题线贯穿全本'))
     c.append(table(['主题','创造/伊甸','族长','摩西','大卫/王国','先知','基督','新天新地'],[list(t) for t in THEMES]))
+    c.append(h3('synth','🧬 圣经神学 × 圣约神学：一张合成表'))
+    c.append(synth())
     c.append(h4('bt','什么是“圣经神学”？'))
     c.append(note('🧭 什么是“圣经神学”？','<p>系统神学按主题问“圣经整体教导什么”（如神论、基督论）；圣经神学按<span class="key">历史顺序</span>问“神的启示如何逐步展开”。荷兰—美国改革宗学者霍志恒（Geerhardus Vos，普林斯顿）被称为“改革宗圣经神学之父”，其传统在威斯敏斯特神学院（<a href="https://www.wts.edu" target="_blank" rel="noopener">wts.edu</a>）等延续；荷兰“救赎历史式讲道”（斯基德尔、霍尔维达）也深刻影响了加拿大归正神学院（<a href="https://canadianreformedseminary.ca" target="_blank" rel="noopener">canadianreformedseminary.ca</a>）的讲道传统。</p>','vio'))
     c.append(h2('read','✝️','基督中心与读经原则'))

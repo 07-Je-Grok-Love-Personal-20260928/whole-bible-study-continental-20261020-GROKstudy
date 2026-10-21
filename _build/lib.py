@@ -1,5 +1,5 @@
 import json,re,html
-V='v3'; DATE='2026-10-21'
+V='v4'; DATE='2026-10-21'
 import os
 HERE=os.path.dirname(os.path.abspath(__file__))
 CCI=os.path.join(HERE,'data','cci')+'/'
