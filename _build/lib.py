@@ -1,5 +1,5 @@
 import json,re,html
-V='v4'; DATE='2026-10-21'
+V='v5'; DATE='2026-10-21'
 import os
 HERE=os.path.dirname(os.path.abspath(__file__))
 CCI=os.path.join(HERE,'data','cci')+'/'
@@ -94,7 +94,9 @@ for _i,_h in enumerate(DT['heads']):
 QUOTES=[]
 EMR=[(r'\*\*(.+?)\*\*',r'<b class="k">\1</b>'),(r'==(.+?)==',r'<mark class="hy">\1</mark>'),(r'%%(.+?)%%',r'<mark class="hg">\1</mark>'),
      (r'!!(.+?)!!',r'<span class="uw">\1</span>'),(r'\+\+(.+?)\+\+',r'<span class="ug">\1</span>'),(r'\^\^(.+?)\^\^',r'<span class="ub">\1</span>'),
-     (r'\[\[(.+?)\]\]',r'<span class="cx">\1</span>'),(r'~~(.+?)~~',r'<span class="cr">\1</span>')]
+     (r'\[\[(.+?)\]\]',r'<span class="cx">\1</span>'),(r'~~(.+?)~~',r'<span class="cr">\1</span>'),
+     (r'@@(.+?)@@',r'<span class="must">\1</span>'),(r';;(.+?);;',r'<span class="ud">\1</span>')]
+REFRE=re.compile(r'(?<![\d:新旧立守背盟之圣])((?:撒上|撒下|王上|王下|代上|代下|林前|林后|帖前|帖后|提前|提后|彼前|彼后|约一|约二|约三|[创出利民申书士得拉尼斯伯诗箴传歌赛耶哀结但何珥摩俄拿弥鸿哈番该亚玛太可路约徒罗加弗腓西多门来雅犹启])\d{1,3}:\d{1,3}(?:[–\-]\d{1,3}(?::\d{1,3})?)?)(?![\d])')
 TERMS=['恩典之约','行为之约','救赎之约','亚伯拉罕之约','摩西之约','西奈之约','大卫之约','挪亚之约','新约应许','因信称义','代赎','中保','道成肉身','受苦的仆人','预表','护理','拣选','归算','三位一体','神的主权']
 DATERE=re.compile(r'(?<![\d\^])((?:约|主前|主后|公元前|AD ?)?\d{2,4}(?:[–\-]\d{2,4})?(?: ?BC| ?AD|年代?))(?![\d\^])')
 def em(t,auto=True):
@@ -110,6 +112,7 @@ def em(t,auto=True):
                 x=x[:i]+'[['+w+']]'+x[i+len(w):]; seen.add(w)
     for p,r in EMR: x=re.sub(p,r,x)
     x=x.replace('^^','')
+    x=REFRE.sub(r'<span class="rf">\1</span>',x)
     return x
 def rich(t,auto=True):
     ph=[]
@@ -135,7 +138,11 @@ LEGEND_EM=('<div class="legend-em">'
  '<span class="it"><span class="ug">绿实线</span> 恩典·应许</span>'
  '<span class="it"><span class="uw">红波浪</span> 易错·异端·常见误解</span>'
  '<span class="it"><span class="cr">红字</span> 罪·审判</span>'
- '<span class="it"><span class="key">“紫引文”</span> 信条逐字引文</span>'
+ '<span class="it"><span class="key">“金底引文”</span> 信条逐字引文</span>'
+ '<span class="it"><span class="must">必背</span> 必须背诵</span>'
+ '<span class="it"><span class="ud">金双线</span> 定义 · 原则</span>'
+ '<span class="it"><span class="rf">罗8:28</span> 经文出处（自动）</span>'
+ '<span class="it"><span class="kpb">1</span> 编号要点徽章</span>'
  '<span class="pills">'+''.join(f'<span class="pill co {k}">{v[0]}{v[1]}框</span>' for k,v in CO.items())+'</span></div>')
 def legend_box(open_=False):
     return f'<details class="dx legendbox"{" open" if open_ else ""}><summary>🎨 笔记式标注图例（颜色编码说明）</summary><div class="in">{LEGEND_EM}</div></details>'
@@ -144,9 +151,42 @@ def wrap_sections(c):
     def bal(p): return all(p.count('<'+t)==p.count('</'+t+'>') for t in ('div','section','details','article','figure','table'))
     if not all(bal(p) for p in parts): return c
     return ''.join(p if not p.startswith('<h2') else f'<section class="blk">{p}</section>' for p in parts)
+THEMES=[('night','🌌','星空深蓝','#060a1c','#ffcb5c'),('dawn','🌅','晨曦米白','#f6f3ec','#b07000'),('jade','🍃','翡翠清新','#eaf6f0','#04875a'),('ruby','👑','红宝石宫廷','#1c0711','#ffd27a'),('contrast','🔆','高对比护眼','#0b0a08','#ffd400')]
+HDR='<button class="ibtn hdx" id="plainBtn" title="笔记模式：显示/隐藏彩色标注" aria-label="笔记模式">🖍️</button><button class="ibtn hdx" id="focusBtn" title="专注模式：淡化非重点文字" aria-label="专注模式">🎯</button><button class="ibtn" id="tpBtn" title="主题配色 · 阅读模式" aria-label="主题与阅读模式" aria-expanded="false">🎨</button><div class="tpanel" id="tpanel" hidden><b class="tpt">🎨 主题配色</b><div class="tsw">{tsw}</div><b class="tpt">📖 阅读模式</b><label class="tgl"><input type="checkbox" id="plainChk"> 🖍️ 笔记模式 <small>关闭 = 隐藏全部彩色标注</small></label><label class="tgl"><input type="checkbox" id="focusChk"> 🎯 专注模式 <small>淡化非重点，只亮关键句</small></label><label class="tgl"><input type="checkbox" id="lenisChk"> 🌊 惯性滚动 <small>默认关闭：原生滚动最顺</small></label></div>'.format(tsw=''.join(f'<button data-theme="{k}" style="--sw:{bg};--sa:{ac}"><i></i>{ic} {n}</button>' for k,ic,n,bg,ac in THEMES))
+TAGRE=re.compile(r'(<[^>]+>)')
+VOID={'br','img','input','meta','link','hr','wbr','source','col','area'}
+SKIPT={'a','cite','svg','script','style','textarea','button','code','pre','title','h2','h3','h4','h5','summary','th'}
+SKIPC=re.compile(r'class="[^"]*\b(refs|conf|creed|mersvg|kc|kcheat|rf|tag|chip|sleg|sbar|canon|kt|covflow|map|fc|ord|quiz|era)\b')
+def autoref(html_):
+    out=[];stack=[];skip=0
+    for part in TAGRE.split(html_):
+        if part.startswith('<'):
+            if part.startswith('<!--') or part.startswith('<!'): out.append(part);continue
+            m=re.match(r'</?([a-zA-Z0-9]+)',part)
+            if not m: out.append(part);continue
+            t=m.group(1).lower()
+            if part.startswith('</'):
+                while stack:
+                    tt,sk=stack.pop()
+                    if sk: skip-=1
+                    if tt==t: break
+            elif t not in VOID and not part.endswith('/>'):
+                sk=1 if (t in SKIPT or SKIPC.search(part)) else 0
+                skip+=sk; stack.append((t,sk))
+            out.append(part)
+        else:
+            out.append(part if skip or ':' not in part else REFRE.sub(r'<span class="rf">\1</span>',part))
+    return ''.join(out)
 def page(fn,title,content,extra_head='',scripts='',cv=True):
     content=content.replace(' reveal"',' rv"').replace('"reveal ','"rv ').replace('class="reveal"','class="rv"')
+    from v5extra import tldr
+    t5=tldr(fn)
+    if t5:
+        if content.lstrip().startswith('<section class="hero'):
+            k=content.index('</section>')+len('</section>'); content=content[:k]+t5+content[k:]
+        else: content=t5+content
     content,toc=number(content)
+    content=autoref(content)
     if cv: content=wrap_sections(content)
     nav=''.join(f'<a href="{f}" class="{"on" if f==fn else ""}">{i} {t}</a>' for f,i,t in PAGES)
     pages=''.join(f'<a href="{f}" class="{"on" if f==fn else ""}">{i} {t}</a>' for f,i,t in PAGES)
@@ -154,16 +194,17 @@ def page(fn,title,content,extra_head='',scripts='',cv=True):
 <title>{E(title)} · 整本圣经 欧陆改革宗研读 {V}</title><meta name="description" content="整本圣经解读：救赎历史、圣约神学、时间线、诸王、地理、66卷逐卷、三大信经与三项联合信条（欧陆改革宗）。GROKstudy {V} {DATE}">
 <meta name="theme-color" content="#070b1a"><meta name="wb-version" content="{V}-{DATE}">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📖</text></svg>">
-<script>try{{var w=localStorage.getItem('wb-tocw');if(w)document.documentElement.style.setProperty('--toc',w+'px');if(localStorage.getItem('wb-theme')==='light')document.documentElement.classList.add('light')}}catch(e){{}}</script>
+<script>try{{var d=document.documentElement,L=localStorage,t=L.getItem('wb-theme');if(t==='light')t='dawn';if(!t||t==='dark'||!/^(night|dawn|jade|ruby|contrast)$/.test(t))t='night';d.dataset.theme=t;if(t==='dawn'||t==='jade')d.classList.add('light');if(L.getItem('wb-plain')==='1')d.classList.add('plain');if(L.getItem('wb-focus')==='1')d.classList.add('focus');var w=L.getItem('wb-tocw');if(w)d.style.setProperty('--toc',w+'px')}}catch(e){{}}</script>
+<script type="speculationrules">{{"prerender":[{{"where":{{"href_matches":"*.html"}},"eagerness":"moderate"}}]}}</script>
 <link rel="stylesheet" href="assets/css/app.css?v={V}">{extra_head}</head>
-<body data-mer="assets/vendor/mermaid.min.js"><div class="aurora"><i></i></div><div class="prog"></div>
-<header class="top"><button class="ibtn" id="tocBtn" title="目录 显示/隐藏" aria-label="目录">☰</button><a class="brand" href="index.html">📖 <b>整本圣经</b><span class="t">· 欧陆改革宗研读</span><small>GROKstudy {V}</small></a><nav class="nav">{nav}</nav><button class="ibtn" id="lenisBtn" title="Lenis 惯性丝滑滚动（默认关闭=原生合成器滚动最流畅；点击开启）" aria-label="丝滑滚动">🌊</button><button class="ibtn" id="themeBtn" title="明/暗主题" aria-label="主题">◐</button></header>
+<body data-mer="assets/vendor/mermaid.min.js"><div class="aurora"></div><div class="prog"></div>
+<header class="top"><button class="ibtn" id="tocBtn" title="目录 显示/隐藏" aria-label="目录">☰</button><a class="brand" href="index.html">📖 <b>整本圣经</b><span class="t">· 欧陆改革宗研读</span><small>GROKstudy {V}</small></a><nav class="nav">{nav}</nav>'''+HDR+f'''</header>
 <div class="wrap"><aside class="toc" id="toc"><div class="toch"><b>📑 本页目录</b><button id="tocL2" title="只展开到二级">二级</button><button id="tocAll" title="全部展开">全开</button><button id="tocNone" title="全部收起">全收</button><button id="tocClose" title="隐藏目录" aria-label="隐藏目录">✕</button></div>
 <input id="tocq" placeholder="🔍 筛选目录…" aria-label="筛选目录"><div class="tocbody" data-lenis-prevent>{toctree(toc)}<div class="tocpages"><b>🧭 全站页面</b>{pages}</div></div><div class="rz" title="拖动调整目录宽度（双击复位）" role="separator" aria-orientation="vertical"><span class="rztip"></span></div><div class="rzhint" hidden>↔ 拖动右边缘调整目录宽度</div></aside><div class="scrim"></div>
 <main id="main">{content}
 <footer class="ft">📖 整本圣经 · 欧陆改革宗研读 — GROKstudy {V}（{DATE}）。信经与信条引文逐字取自 <a href="https://ccifellowship.org" target="_blank" rel="noopener">ccifellowship.org</a>（中国改革宗教会）；经文采用和合本。本站为学习辅助，日期采用保守派（Thiele 式）年代学，个别年份学界有±1–2年差异。<br>页面：{" · ".join(f'<a href="{f}">{t}</a>' for f,i,t in PAGES)}</footer></main></div>
 <button class="ibtn totop" aria-label="回到顶部">↑</button>
-<script src="assets/vendor/lenis.min.js" defer></script>{scripts}<script src="assets/js/app.js?v={V}" defer></script></body></html>'''
+{scripts}<script src="assets/js/app.js?v={V}" defer></script></body></html>'''
 def h4(id,t,num=None): return f'<h4 class="h" id="{id}"{f" data-num={chr(34)}{num}{chr(34)}" if num else ""}>{t}</h4>'
 def h2(id,ic,t,toc=None): return f'<h2 class="h reveal" id="{id}"{f" data-toc={chr(34)}{E(toc)}{chr(34)}" if toc else ""}><span class="ic">{ic}</span>{t}</h2>'
 def h3(id,t,toc=None): return f'<h3 class="h" id="{id}"{f" data-toc={chr(34)}{E(toc)}{chr(34)}" if toc else ""}>{t}</h3>'

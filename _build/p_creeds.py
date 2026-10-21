@@ -1,5 +1,6 @@
 import re
 from lib import *
+from v5extra import *
 from v4extra import *
 from books import qmark
 def lines_ap(t):
@@ -65,6 +66,8 @@ def build():
      ['⚠️ 咒诅条款','无','无（原325年版有附咒诅）','有（第2、42节）：强调信仰的严肃性'],
      ['⛪ 礼仪用途','欧陆改革宗主日崇拜常用（如下午崇拜认信）','圣餐主日或节期常用','较少在礼拜中诵读，用于教导'],
      ['📏 篇幅','最短，易背','中等','最长（42节）']],'cmp'))
+    c.append(h3('clen','📏 篇幅对比：异端越精细，回答越精确'))
+    c.append(creedlen())
     c.append(h3('matrix','📐 教义覆盖矩阵（逐字短语）'))
     c.append(creedmatrix())
     c.append(h3('heresies','🛡️ 每一句都有“战场”：异端与信经回应对照'))

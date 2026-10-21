@@ -1,18 +1,43 @@
-/* GROKstudy whole-Bible v2 — shared UI (perf-tuned: IO, passive, rAF, lazy libs) */
+/* GROKstudy whole-Bible v5 — shared UI: 5 themes, IO-only scroll-spy, lazy book bodies, paused off-screen loops */
 (function(){
 const $=(s,r=document)=>r.querySelector(s),$$=(s,r=document)=>[...r.querySelectorAll(s)];
 const root=document.documentElement,body=document.body,LS={g:k=>{try{return localStorage.getItem(k)}catch(e){return null}},s:(k,v)=>{try{localStorage.setItem(k,v)}catch(e){}}};
 const RM=matchMedia('(prefers-reduced-motion: reduce)').matches, MOB=()=>innerWidth<=1000;
-if(LS.g('wb-theme')==='light')root.classList.add('light');
-$('#themeBtn')&&$('#themeBtn').addEventListener('click',()=>{root.classList.toggle('light');LS.s('wb-theme',root.classList.contains('light')?'light':'dark');rerenderMer()});
-/* ---------- Lenis smooth scroll (desktop, fine pointer, optional) ---------- */
+/* ---------- themes & reading modes ---------- */
+const THEMES=['night','dawn','jade','ruby','contrast'],LIGHT={dawn:1,jade:1},TC={night:'#060a1c',dawn:'#f6f3ec',jade:'#edf8f2',ruby:'#16060f',contrast:'#0b0a08'};
+const tp=$('#tpanel'),tpb=$('#tpBtn');
+function markTheme(){const t=root.dataset.theme||'night';$$('.tsw button').forEach(b=>b.classList.toggle('on',b.dataset.theme===t));const m=$('meta[name=theme-color]');m&&m.setAttribute('content',TC[t]||TC.night)}
+function setTheme(t){if(!THEMES.includes(t))t='night';const ap=()=>{root.dataset.theme=t;root.classList.toggle('light',!!LIGHT[t]);markTheme()};LS.s('wb-theme',t);
+  if(document.startViewTransition&&!RM)document.startViewTransition(ap);else ap()}
+markTheme();
+$$('.tsw button').forEach(b=>b.addEventListener('click',()=>setTheme(b.dataset.theme)));
+tpb&&tpb.addEventListener('click',e=>{e.stopPropagation();tp.hidden=!tp.hidden;tpb.setAttribute('aria-expanded',String(!tp.hidden))});
+document.addEventListener('click',e=>{if(tp&&!tp.hidden&&!e.target.closest('#tpanel,#tpBtn')){tp.hidden=true;tpb.setAttribute('aria-expanded','false')}});
+function mode(cls,key,on){root.classList.toggle(cls,on);LS.s(key,on?'1':'0');syncModes()}
+function syncModes(){const pl=root.classList.contains('plain'),fo=root.classList.contains('focus');$('#plainChk')&&($('#plainChk').checked=!pl);$('#focusChk')&&($('#focusChk').checked=fo);$('#plainBtn')&&$('#plainBtn').classList.toggle('on',!pl);$('#focusBtn')&&$('#focusBtn').classList.toggle('on',fo)}
+syncModes();
+$('#plainBtn')&&$('#plainBtn').addEventListener('click',()=>mode('plain','wb-plain',!root.classList.contains('plain')));
+$('#focusBtn')&&$('#focusBtn').addEventListener('click',()=>mode('focus','wb-focus',!root.classList.contains('focus')));
+$('#plainChk')&&$('#plainChk').addEventListener('change',e=>mode('plain','wb-plain',!e.target.checked));
+$('#focusChk')&&$('#focusChk').addEventListener('change',e=>mode('focus','wb-focus',e.target.checked));
+window.__setTheme=setTheme;
+/* ---------- Lenis (opt-in, loaded on demand) ---------- */
 let lenis=null;
-function lenisOn(){if(lenis||!window.Lenis||RM)return;lenis=new Lenis({lerp:.11,wheelMultiplier:1,smoothWheel:true,anchors:{offset:-(parseInt(getComputedStyle(root).getPropertyValue('--top'))||56)-10},prevent:n=>n.closest&&n.closest('.tocbody,.leaflet-container')});
-  const raf=t=>{lenis&&(lenis.raf(t),requestAnimationFrame(raf))};requestAnimationFrame(raf);root.classList.add('wb-smooth')}
+function lenisOn(){if(lenis||RM)return;const go=()=>{lenis=new Lenis({lerp:.11,wheelMultiplier:1,smoothWheel:true,anchors:{offset:-(parseInt(getComputedStyle(root).getPropertyValue('--top'))||56)-10},prevent:n=>n.closest&&n.closest('.tocbody,.leaflet-container,.tpanel')});
+  const raf=t=>{lenis&&(lenis.raf(t),requestAnimationFrame(raf))};requestAnimationFrame(raf);root.classList.add('wb-smooth')};
+  if(window.Lenis)go();else{const s=document.createElement('script');s.src='assets/vendor/lenis.min.js';s.onload=go;document.head.appendChild(s)}}
 function lenisOff(){if(lenis){lenis.destroy();lenis=null;root.classList.remove('wb-smooth')}}
-const lb=$('#lenisBtn');const wantL=LS.g('wb-lenis')==='1'&&matchMedia('(pointer:fine)').matches&&!RM;
-if(wantL)lenisOn(); lb&&(lb.classList.toggle('on',!!lenis),lb.addEventListener('click',()=>{if(lenis){lenisOff();LS.s('wb-lenis','0')}else{lenisOn();LS.s('wb-lenis','1')}lb.classList.toggle('on',!!lenis)}));
-function goTo(id){const el=document.getElementById(id);if(!el)return;let dd=el.closest('details');while(dd){dd.open=true;dd=dd.parentElement.closest('details')}
+const lc=$('#lenisChk');if(LS.g('wb-lenis')==='1'&&matchMedia('(pointer:fine)').matches&&!RM)lenisOn();
+lc&&(lc.checked=LS.g('wb-lenis')==='1',lc.addEventListener('change',()=>{if(lc.checked){lenisOn();LS.s('wb-lenis','1')}else{lenisOff();LS.s('wb-lenis','0')}}));
+/* ---------- lazy book bodies (template hydration) ---------- */
+const lazyQ=[];let lazyT=0;const onHyd=[];
+function hydrate(body){if(!body||!body.hasAttribute('data-lazy'))return;const t=body.querySelector(':scope>template');body.removeAttribute('data-lazy');if(t)body.replaceChildren(t.content);onHyd.forEach(f=>f(body))}
+function pump(){lazyT=0;const t0=performance.now();while(lazyQ.length&&performance.now()-t0<8){hydrate(lazyQ.shift())}if(lazyQ.length)lazyT=requestAnimationFrame(pump)}
+const lazies=$$('.bk>.body[data-lazy]');
+if(lazies.length){if('IntersectionObserver' in window){const lo=new IntersectionObserver(es=>es.forEach(en=>{if(en.isIntersecting){lo.unobserve(en.target);const b=en.target.querySelector(':scope>.body[data-lazy]');if(b){lazyQ.push(b);if(!lazyT)lazyT=requestAnimationFrame(pump)}}}),{rootMargin:'1800px 0px 1800px 0px'});lazies.forEach(b=>lo.observe(b.parentElement))}else lazies.forEach(hydrate)}
+function findLazy(id){for(const b of $$('.bk>.body[data-lazy]')){const t=b.querySelector(':scope>template');if(t&&t.content.getElementById(id))return b}return null}
+window.__hydrateAll=()=>$$('.bk>.body[data-lazy]').forEach(hydrate);
+function goTo(id){let el=document.getElementById(id);if(!el){const lb=findLazy(id);if(lb){hydrate(lb);el=document.getElementById(id)}}if(!el)return;let dd=el.closest('details');while(dd){dd.open=true;dd=dd.parentElement.closest('details')}
   const off=()=>(parseInt(getComputedStyle(root).getPropertyValue('--top'))||56)+10+(el.closest('.bk')&&$('.filters')&&innerWidth>1000?58:0);
   const far=Math.abs(el.getBoundingClientRect().top)>innerHeight*2.5;
   const tgt=()=>Math.max(0,scrollY+el.getBoundingClientRect().top-off());const jump=y=>lenis?lenis.scrollTo(y,{immediate:true,force:true}):scrollTo({top:y,behavior:'instant'});
@@ -50,25 +75,46 @@ if(rz){let sx=0,sw=0,raf=0,nw=0,ty=0;const tip=$('.rztip',rz),hint=$('.rzhint');
   if(hint&&!LS.g('wb-rzhint')&&!MOB()&&!body.classList.contains('tochide')){setTimeout(()=>{hint.hidden=false},900);setTimeout(hideHint,8000)}
   rz.addEventListener('dblclick',()=>{root.style.removeProperty('--toc');LS.s('wb-tocw','')});
 }
-/* ---------- progress / totop (rAF, cached sizes) ---------- */
-const prog=$('.prog'),tt=$('.totop');let maxY=1,tick=false,lastOn=null;
-const measure=()=>{maxY=Math.max(1,root.scrollHeight-innerHeight)};measure();
-addEventListener('resize',measure,{passive:true});if('ResizeObserver' in window)new ResizeObserver(measure).observe(body);
-function onS(){tick=false;const y=scrollY;prog&&(prog.style.transform='scaleX('+Math.min(1,y/maxY)+')');const on=y>600;if(on!==lastOn){tt&&tt.classList.toggle('on',on);lastOn=on}}
+/* ---------- progress (CSS scroll-timeline when supported) / totop ---------- */
+const prog=$('.prog'),tt=$('.totop'),CSSPROG=window.CSS&&CSS.supports&&CSS.supports('animation-timeline:scroll()');let maxY=1,tick=false,lastOn=null,mT=0;
+const measure=()=>{maxY=Math.max(1,root.scrollHeight-innerHeight)};
+const measureSoon=()=>{if(!mT)mT=setTimeout(()=>{mT=0;measure()},200)};measure();
+addEventListener('resize',measureSoon,{passive:true});if(!CSSPROG&&'ResizeObserver' in window)new ResizeObserver(measureSoon).observe(body);
+function onS(){tick=false;const y=scrollY;if(prog&&!CSSPROG)prog.style.transform='scaleX('+Math.min(1,y/maxY)+')';const on=y>600;if(on!==lastOn){tt&&tt.classList.toggle('on',on);lastOn=on}}
 addEventListener('scroll',()=>{if(!tick){tick=true;requestAnimationFrame(onS)}},{passive:true});onS();
 tt&&tt.addEventListener('click',()=>lenis?lenis.scrollTo(0):scrollTo({top:0,behavior:'smooth'}));
-/* ---------- scroll-spy (binary search, cheap rect reads, rAF-throttled) ---------- */
-if(tree){
-  const links=$$('a',tree),hs=links.map(a=>document.getElementById(a.getAttribute('href').slice(1)));let cur=null,spyT=false;
-  const pos=h=>{const c=h.closest('section.blk,.bk');if(c){const r=c.getBoundingClientRect();if(r.bottom<-innerHeight||r.top>innerHeight*2)return r.top}return h.getBoundingClientRect().top};
-  function spy(){spyT=false;const th=innerHeight*.28;let lo=0,hi=hs.length-1,ans=-1;while(lo<=hi){const m=(lo+hi)>>1;if(hs[m]&&pos(hs[m])<=th){ans=m;lo=m+1}else hi=m-1}
-    const a=links[Math.max(0,ans)];if(!a||a===cur)return;cur&&cur.classList.remove('act');$$('a.anc',tree).forEach(x=>x.classList.remove('anc'));cur=a;a.classList.add('act');
+/* ---------- scroll-spy: IntersectionObserver only (no layout reads while scrolling) ----------
+   Band = everything above 28% of the viewport. A heading is "passed" when it is in the band.
+   Headings inside skipped content (content-visibility / lazy template) fall back to their container being fully passed. */
+if(tree&&'IntersectionObserver' in window){
+  const links=$$('a',tree),n=links.length,ids=links.map(a=>a.getAttribute('href').slice(1));
+  const hAbove=new Uint8Array(n),cGone=new Map();let cur=null,raf=0;const idx=new Map(),cont=new Array(n);
+  const TOPM=-(parseInt(getComputedStyle(root).getPropertyValue('--top'))||56);
+  const hio=new IntersectionObserver(es=>{es.forEach(e=>{const i=idx.get(e.target);if(i!==undefined)hAbove[i]=e.isIntersecting?1:0});sched()},{rootMargin:'100000px 0px -72% 0px'});
+  // container fully above the band  <=>  container NOT intersecting the region below the 28% line, and its top is above it
+  const cio2=new IntersectionObserver(es=>{es.forEach(e=>{const g=!e.isIntersecting&&e.boundingClientRect.top<(e.rootBounds?e.rootBounds.top:0);cGone.set(e.target,g)});sched()},{rootMargin:'-28% 0px 100000px 0px'});
+  function bind(i){const el=document.getElementById(ids[i]);const c=el?el.closest('section.blk,.bk'):null;
+    if(el){idx.set(el,i);hio.observe(el)}
+    let pc=c;if(!el){const lb=findLazy(ids[i]);pc=lb?lb.closest('.bk'):null}
+    cont[i]=pc;if(pc&&!cGone.has(pc)){cGone.set(pc,false);cio2.observe(pc)}}
+  for(let i=0;i<n;i++)bind(i);
+  onHyd.push(body=>{const card=body.closest('.bk');for(let i=0;i<n;i++){if(cont[i]!==card)continue;const el=document.getElementById(ids[i]);if(el&&!idx.has(el))bind(i)}sched()});
+  function sched(){if(!raf)raf=requestAnimationFrame(spy)}
+  function spy(){raf=0;let ans=0;for(let i=n-1;i>=0;i--){if(hAbove[i]||(cont[i]&&cGone.get(cont[i]))){ans=i;break}}
+    const a=links[ans];if(!a||a===cur)return;cur&&cur.classList.remove('act');$$('a.anc',tree).forEach(x=>x.classList.remove('anc'));cur=a;a.classList.add('act');
     let li=a.closest('li').parentElement.closest('li');while(li){li.classList.remove('closed');li.querySelector(':scope>.row>a').classList.add('anc');li=li.parentElement.closest('li')}
-    if(tb&&(!MOB()||body.classList.contains('tocopen'))){const r=a.getBoundingClientRect(),br=tb.getBoundingClientRect();if(r.top<br.top+30||r.bottom>br.bottom-30)tb.scrollTop+=r.top-br.top-br.height/3}}
-  addEventListener('scroll',()=>{if(!spyT){spyT=true;requestAnimationFrame(spy)}},{passive:true});addEventListener('load',spy);setTimeout(spy,300);
+    if(tb&&(!MOB()||body.classList.contains('tocopen'))){const r=a.getBoundingClientRect(),br=tb.getBoundingClientRect();if(r.top<br.top+30||r.bottom>br.bottom-30)tb.scrollTo({top:tb.scrollTop+r.top-br.top-br.height/3})}}
 }
-/* ---------- reveal + structure bars ---------- */
-if('IntersectionObserver' in window&&!RM){const ro=new IntersectionObserver(es=>es.forEach(en=>{if(en.isIntersecting){en.target.classList.add('in','go');ro.unobserve(en.target)}}),{rootMargin:'0px 0px -5% 0px'});$$('.rv,.sbar').forEach(el=>ro.observe(el))}else $$('.rv,.sbar').forEach(el=>el.classList.add('in','go'));
+/* ---------- reveal + structure bars + charts ---------- */
+const ro='IntersectionObserver' in window&&!RM?new IntersectionObserver(es=>es.forEach(en=>{if(en.isIntersecting){en.target.classList.add('in','go');ro.unobserve(en.target)}}),{rootMargin:'0px 0px -5% 0px'}):null;
+const REV='.rv,.sbar,.vchart,.hbar';
+function reveal(r){$$(REV,r).forEach(el=>ro?ro.observe(el):el.classList.add('in','go'))}
+reveal(document);onHyd.push(reveal);
+/* ---------- pause infinite animations when off-screen ---------- */
+if('IntersectionObserver' in window){const lo2=new IntersectionObserver(es=>es.forEach(e=>e.target.classList.toggle('run',e.isIntersecting)),{rootMargin:'100px 0px'});$$('.covflow,.floaty,.loop').forEach(el=>lo2.observe(el))}
+/* ---------- instant navigation: prefetch on hover / touch (fallback when Speculation Rules are unsupported) ---------- */
+if(!(HTMLScriptElement.supports&&HTMLScriptElement.supports('speculationrules'))){const done=new Set();const pf=e=>{const a=e.target.closest&&e.target.closest('a[href$=".html"],a[href*=".html#"]');if(!a)return;const u=a.href.split('#')[0];if(done.has(u)||u===location.href.split('#')[0])return;done.add(u);const l=document.createElement('link');l.rel='prefetch';l.href=u;document.head.appendChild(l)};
+  document.addEventListener('pointerover',pf,{passive:true});document.addEventListener('touchstart',pf,{passive:true})}
 /* ---------- print a block ---------- */
 $$('[data-print]').forEach(b=>b.addEventListener('click',()=>{body.classList.add('pk');addEventListener('afterprint',()=>body.classList.remove('pk'),{once:true});print();setTimeout(()=>body.classList.remove('pk'),1500)}));
 /* ---------- era band ---------- */
@@ -83,11 +129,12 @@ const mers=$$('pre.mermaid');
 if(mers.length){if('IntersectionObserver' in window){const mo=new IntersectionObserver(es=>es.forEach(en=>{if(en.isIntersecting){mo.unobserve(en.target);renderMer(en.target)}}),{rootMargin:'700px 0px'});mers.forEach(p=>mo.observe(p))}else mers.forEach(renderMer)}
 window.__merAll=()=>Promise.all(mers.map(p=>{renderMer(p);return loadMer()}));
 /* ---------- filters ---------- */
+const txt=it=>{if(!it.__t){const t=it.querySelector('template');it.__t=(it.textContent+(t?t.content.textContent:'')).toLowerCase()}return it.__t};
 $$('.filters').forEach(f=>{const items=$$(f.dataset.target);const q=$('input',f);let cat='all';
-  function apply(){const v=(q&&q.value||'').trim().toLowerCase();items.forEach(it=>{const okc=cat==='all'||it.dataset.cat===cat;const okq=!v||it.textContent.toLowerCase().includes(v);it.classList.toggle('hidden',!(okc&&okq))});measure()}
+  function apply(){const v=(q&&q.value||'').trim().toLowerCase();items.forEach(it=>{const okc=cat==='all'||it.dataset.cat===cat;const okq=!v||txt(it).includes(v);it.classList.toggle('hidden',!(okc&&okq))});measure()}
   $$('button[data-cat]',f).forEach(b=>b.addEventListener('click',()=>{$$('button[data-cat]',f).forEach(x=>x.classList.remove('on'));b.classList.add('on');cat=b.dataset.cat;apply()}));
   let tq;q&&q.addEventListener('input',()=>{clearTimeout(tq);tq=setTimeout(apply,160)});});
-$$('[data-expand]').forEach(b=>b.addEventListener('click',()=>{const open=b.dataset.state!=='open';$$(b.dataset.expand).forEach(d=>d.open=open);b.dataset.state=open?'open':'closed';b.textContent=open?'全部收起':'全部展开';measure()}));
+$$('[data-expand]').forEach(b=>b.addEventListener('click',()=>{const open=b.dataset.state!=='open';if(open&&/\.bk/.test(b.dataset.expand))window.__hydrateAll();$$(b.dataset.expand).forEach(d=>d.open=open);b.dataset.state=open?'open':'closed';b.textContent=open?'全部收起':'全部展开';measure()}));
 /* ---------- creed tools ---------- */
 $$('.ctool').forEach(t=>{const c=$(t.dataset.for);if(!c)return;
   $$('button',t).forEach(b=>b.addEventListener('click',()=>{const a=b.dataset.act;

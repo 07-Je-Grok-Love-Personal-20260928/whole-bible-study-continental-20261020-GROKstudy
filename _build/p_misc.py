@@ -1,5 +1,6 @@
 import json,random
 from lib import *
+from v5extra import *
 from books import *
 from kings import *
 def index():
@@ -19,6 +20,8 @@ def index():
     c.append(h2('canon','🌈','66 卷颜色地图'))
     c.append(h3('canon-grid','色块总图（颜色 = 文体分类，点击进入该卷）'))
     c.append(legend(list(CATS.keys()))+canon_grid())
+    c.append(h3('canon-ch','📏 章数比例条：66 卷一眼看出厚薄'))
+    c.append(canonbars())
     c.append(h3('canon-bar','比例条：每类各几卷'))
     sizes=[('law',5),('hist',12),('poet',5),('majp',5),('minp',12),('gosp',4),('acts',1),('paul',13),('gen',8),('rev',1)]
     c.append('<div class="bar" style="height:22px;margin-top:14px">'+''.join(f'<span title="{CATS[k][0]} {n}" style="width:{n/66*100:.2f}%;background:{CATS[k][1]}"></span>' for k,n in sizes)+'</div><p class="srcline">比例条：旧约 5+12+5+5+12=39；新约 4+1+13+8+1=27 —— 口诀 <span class="mn">“旧约 5-12-5-5-12，新约 4-1-13-8-1”</span></p>')
@@ -39,6 +42,8 @@ def index():
 def memory():
     c=['''<section class="hero reveal"><div class="chips"><span class="chip g">🧠 记忆·测验</span><span class="chip">口诀 · 闪卡 · 选择题 · 排序游戏</span></div><h1>把学到的<em>钉牢在心里</em></h1><p class="lead">记忆科学：<span class="key">提取练习</span>（自测）比重复阅读有效得多；<span class="key">间隔重复</span>（1-3-7-14 天）；<span class="key">颜色与图像编码</span>；<span class="key">串联故事</span>。</p></section>''']
     c.append(h2('mn','🪝','口诀：先挂钩'))
+    c.append(h3('quick66','📋 66 卷一句话 + 必背经文'))
+    c.append(bookquick())
     c.append(h3('mn-all','66 卷记忆口诀总表'))
     c.append(table(['#','书卷','一句话','口诀'],[[str(b['n']),f'<a href="{"ot" if b["n"]<=39 else "nt"}.html#b-{b["id"]}" style="color:{CATS[b["cat"]][1]}">{b["name"]}</a>',E(b['one']),f'<span class="mn">{E(b["mn"])}</span>'] for b in BOOKS]))
     cards=[('1446','出埃及（王上6:1：966建殿前480年）'),('931','国分为二：罗波安 vs 耶罗波安'),('722','北国撒玛利亚亡于亚述'),('586','耶路撒冷与圣殿毁于巴比伦'),('538','古列谕令，第一批归回'),('516','第二圣殿完成'),('444','尼希米修城墙（52天）'),('605','第一次被掳（但以理）'),('597','第二次被掳（以西结、约雅斤）'),('行为之约','神与亚当：顺服得生（何6:7；罗5）'),('恩典之约','神与信者及其儿女，中保基督；创3:15首次宣告'),('挪亚之约记号','彩虹'),('亚伯拉罕之约记号','割礼 → 新约：洗礼'),('大卫之约','永远的家、国、位（撒下7）'),('新约','律法写在心上（耶31:31–34；路22:20）'),('homoousios','“与父同质”——尼西亚驳亚流'),('filioque','“和子”——圣灵从父和子而出'),('亚他那修信经两部分','3–28 三一；29–41 基督两性'),('海德堡三部曲','愁苦 Q3–11 · 拯救 Q12–85 · 感恩 Q86–129'),('比利时信条','1561，德布利，37条'),('多特信经','1618–19，驳抗辩派五点'),('犹大八善王','亚撒、约沙法、约阿施、亚玛谢、乌西雅、约坦、希西家、约西亚'),('北国九朝代','耶罗波安、巴沙、心利、暗利、耶户、沙龙、米拿现、比加、何细亚'),('旧约 5-12-5-5-12','律法、历史、诗歌、大先知、小先知')]

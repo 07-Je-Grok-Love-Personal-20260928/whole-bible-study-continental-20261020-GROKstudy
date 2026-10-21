@@ -1,4 +1,5 @@
 from lib import *
+from v5extra import *
 from v4extra import *
 from kings import *
 VC={'good':'#3ee0a1','evil':'#ff6b6b','mix':'#ffb34d'}
@@ -71,6 +72,8 @@ A["🌍 创造·堕落<br/>创1–11"]-->B["⛺ 族长<br/>~2166–1805"]-->C["�
 style C fill:#5a2440,stroke:#ff7aa8
 style E fill:#173a5a,stroke:#5ec8ff
 style J fill:#5a4614,stroke:#f5c76b''','救赎历史的十一站（流程图）'))
+    c.append(h3('eralen','📏 时代长度：哪一段最长？'))
+    c.append(eralen())
     c.append(h3('pegs','八个“钉子年份”：先背这 8 个'))
     pegs=[('2091','亚伯兰蒙召入迦南','#ff9f5a'),('1446','出埃及','#ff7aa8'),('1010','大卫登基','#5ec8ff'),('966','建殿（前推480年=1446）','#5ec8ff'),('931','国分裂','#8ea2ff'),('722','北国亡（亚述）','#ff6b6b'),('586','南国亡（巴比伦）','#ff6b6b'),('538','归回（波斯古列）','#34d6d0')]
     c.append('<div class="steps reveal">'+''.join(f'<div style="--c:{col}"><span class="e">📍</span><b>{y}</b><span>{t}</span></div>' for y,t,col in pegs)+'</div>')

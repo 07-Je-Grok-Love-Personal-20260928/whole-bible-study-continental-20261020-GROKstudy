@@ -1,4 +1,5 @@
 from lib import *
+from v5extra import *
 from forms_icons import *
 def ipar(t): return ''.join(f'<p>{E(p.strip())}</p>' for p in t.split('\n\n') if p.strip())
 def qr(ld):
@@ -33,6 +34,8 @@ end
 style M fill:#4a1d2a,stroke:#ff6b6b
 style R fill:#173a5a,stroke:#5ec8ff
 style G fill:#173f2f,stroke:#3ee0a1''','海德堡要理问答三部曲——与罗马书结构（1–3罪；3–11救恩；12–16感恩）一致'))
+    c.append(h3('ov-bars','📏 篇幅分布：救赎是主体'))
+    c.append(hcparts()+dortbar())
     c.append(h3('ov-mn','🧠 口诀与易错'))
     c.append(co('trap','<p>'+rich("!!把 TULIP 当作多特信经的原始结构!!——多特原为**四部分（五项教义）**，顺序是拣选→救赎→败坏与归正→保守；TULIP 是后来英语世界的记忆法。!!以为“有限的救赎”指基督的死价值有限!!——多特第二项教义第3条说基督之死{{DT1_3|具有无限的价值，足以补赎普天下人所犯的一切罪}}；“限定”指**神的意图与果效**（第8条：有效地救赎所有被拣选的人）。",False)+'</p>'))
     c.append(note('🧠 口诀','<p><span class="mn">“比37、海129、多4（5）”</span>；海德堡三部曲 <span class="mn">“罪—救—谢”</span>；多特五点 <span class="mn">“全无限不圣”</span>（全然败坏、无条件拣选、限定的救赎（特定救赎）、不可抗拒的恩典、圣徒蒙保守；英文 TULIP 依多特原顺序则为 U-L-T/I-P）。</p>','gold'))

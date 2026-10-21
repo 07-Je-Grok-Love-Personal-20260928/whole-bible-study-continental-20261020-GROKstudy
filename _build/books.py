@@ -49,6 +49,9 @@ for _l in open(os.path.join(_D,'books_v4.txt')):
     _m=re.match(r'^(\w+)\|前因：(.*?)\s*\|\s*后果：(.*?)\|文学：(.*)$',_l.rstrip('\n'))
     V4[_m.group(1)]={'pre':_m.group(2).strip(),'post':_m.group(3).strip(),'lit':_m.group(4).strip()}
 _USED=set()
+import json as _json
+try: BKH=_json.load(open(os.path.join(_D,'data','bkh.json')))
+except Exception: BKH={}
 def confline(b):
     for c in [x.strip() for x in b['cf'].split(',')]:
         k=c if not c.startswith('DT') else 'DT'+c[2:].replace('.','_')
@@ -67,7 +70,7 @@ def card(b):
     cl,col,ic=CATS[b['cat']]; x=V2[b['id']]; i=b['id']
     ol=''.join(f'<li>{qmark(re.sub(r"^(\S+)",r"**\1**",x_.strip(),count=1),False)}</li>' for x_ in b['ol'].split('|'))
     app=''.join(f'<li>{qmark(x_.strip())}</li>' for x_ in b['app'].split('|'))
-    kv=''.join(verse(E(t),E(r)) for t,r in b['kv'])
+    kv=''.join(verse(E(t),E(r)).replace('<blockquote class="v">','<blockquote class="v must"><span class="star">★ 必背</span>',1 if j==0 else 0) for j,(t,r) in enumerate(b['kv']))
     cf=b['cf'].split(',')
     chips=''.join(f'<span class="tag" style="color:var(--vio)">{conflabel(s_)}</span>' for s_ in cf)
     test='旧约' if b['n']<=39 else '新约'
@@ -75,11 +78,12 @@ def card(b):
     core=re.sub(r'(“[^”{}]{4,60}”)',r'==\1==',b['core'],count=1)
     keys=''.join(f'<li>{qmark(k,False)}</li>' for k in x['key'])
     H=lambda k,t:f'<h4 class="h" id="b-{i}-{k}">{t}</h4>'
-    return f'''<article class="bk rv" id="bk-{i}" data-cat="{b['cat']}" style="--c:{col}">
+    ph=BKH.get(i,{})
+    return f'''<article class="bk" id="bk-{i}" data-cat="{b['cat']}" style="--c:{col};--phd:{ph.get('d',1500)}px;--pht:{ph.get('t',2100)}px;--phm:{ph.get('m',3000)}px;--pfd:{ph.get('D',1700)}px;--pft:{ph.get('T',2300)}px;--pfm:{ph.get('M',3300)}px">
 <header><div class="no">{b['n']}</div><div style="min-width:0;flex:1"><h3 class="h" id="b-{i}" data-num="{b['n']}" data-toc="{E(b['name'])}">{ic} {b['name']}<small>{b['en']} · {b['ch']}章</small></h3>
 <div class="chips" style="margin-top:6px"><span class="chip" style="border-color:{col};color:{col}">{cl}</span><span class="chip">{test}第{b['n'] if b['n']<=39 else b['n']-39}卷</span><span class="chip">✍️ {E(b['au'][:22])}</span><span class="chip">🕰️ {E(b['dt'].split('；')[0][:30])}</span></div></div>
 <div class="one">💡 {qmark(one)}</div></header>
-<div class="body">
+<div class="body" data-lazy><template>
 {v4strip(b)}
 <div class="bgrid btop">
 <div class="box span2">{H('ol','🧩 结构大纲 · 结构图')}{sbar(b)}<ol class="outline">{ol}</ol></div>
@@ -96,7 +100,7 @@ def card(b):
 <div class="box">{H('app','🌱 应用')}{co('app','<ul>'+app+'</ul>','教牧应用')}</div>
 </div>
 <details class="dx" style="margin-top:10px"><summary>📚 认信连接（三项联合信条原文，逐字引自 ccifellowship.org）{chips}</summary><div class="in">{confref(b['cf'])}</div></details>
-</div></article>'''
+</template></div></article>'''
 def canon_grid(sel=None):
     out=[]
     for b in BOOKS:
