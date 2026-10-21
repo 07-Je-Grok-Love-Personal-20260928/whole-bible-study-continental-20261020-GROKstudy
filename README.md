@@ -1,17 +1,17 @@
-# 整本圣经研读-20261021-v4-GROKstudy
+# 整本圣经研读-20261021-v5-GROKstudy
 
-> **主题**：整本《圣经》解读（欧陆改革宗 · 正统神学）｜**时间**：2026-10-21｜**版本号**：v4｜GROKstudy
+> **主题**：整本《圣经》解读（欧陆改革宗 · 正统神学）｜**时间**：2026-10-21｜**版本号**：v5｜GROKstudy
 
 时间线 · 故事线 · 地理 · 真实背景 · 文化区域 · 诸王与时代 · 圣经神学 · 圣约神学 · 66 卷逐卷解读 · 三大普世信经背诵版与深度对比 · 三项联合信条全文 · 记忆测验。
 信经与信条引文全部**逐字**取自 [ccifellowship.org](https://ccifellowship.org)（中国改革宗教会），构建时自动校验；经文采用和合本。
 
-## 🔗 在线访问（当前版本 v4）
+## 🔗 在线访问（当前版本 v5）
 
 | 平台 | 链接 |
 |---|---|
 | GitHub Pages | https://07-je-grok-love-personal-20260928.github.io/whole-bible-study-continental-20261020-GROKstudy/ |
-| Surge | https://whole-bible-study-20261021-v4-grokstudy.surge.sh/ |
-| Netlify | https://whole-bible-study-20261021-v4-grokstudy.netlify.app/ |
+| Surge | https://whole-bible-study-20261021-v5-grokstudy.surge.sh/ |
+| Netlify | https://whole-bible-study-20261021-v5-grokstudy.netlify.app/ |
 | 源码仓库 | https://github.com/07-Je-Grok-Love-Personal-20260928/whole-bible-study-continental-20261020-GROKstudy |
 
 ## 📑 页面结构（11 页）
@@ -42,7 +42,18 @@ python3 _build/check.py all  # 无头 Chromium 在 390/820/1440 宽度检查溢�
 
 ## 📝 版本历史
 
-### v4 — 2026-10-21（tag `v4-20261021`）
+### v5 — 2026-10-22（tag `v5-20261021`，[Release](https://github.com/07-Je-Grok-Love-Personal-20260928/whole-bible-study-continental-20261020-GROKstudy/releases/tag/v5-20261021)）
+- 在线：Surge https://whole-bible-study-20261021-v5-grokstudy.surge.sh/ · Netlify https://whole-bible-study-20261021-v5-grokstudy.netlify.app/ · GitHub Pages（main）
+- **5 套主题配色（点击 🎨 切换，记忆选择，首屏无闪烁）**：🌌 星空深蓝 · 🌅 晨曦米白 · 🍃 翡翠清新 · 👑 红宝石宫廷 · 🔆 高对比护眼；流程图/图表随主题换色，所有标注在 5 套主题下对比度 ≥ 4.5:1。
+- **阅读模式**：🖍️ 笔记模式（一键显示/隐藏全部彩色标注）、🎯 专注模式（淡化非重点文字，只亮关键句）、🌊 惯性滚动（可选）。
+- **丝滑优化**：66 卷书卡正文改为 `<template>` 延迟生成（接近视口或空闲时才生成并预排版），滚动高亮全部改用 IntersectionObserver，滚动层不再用 backdrop-filter，屏幕外动画暂停，地图分片空闲构建。4× CPU 降速实测：滚动长任务 6 次（461 ms）→ 0，>50 ms 卡帧 12 → 0，平均加载 321 → 313 ms。
+- **本质核心**：11 页每页开头一个「本页三要点」TL;DR（共 33 条）。
+- **新可视化**：66 卷按章数比例的正典色条（旧约 929 章 / 新约 260 章）、「神同在的曲线」（伊甸 → 新耶路撒冷）、时代长度条形图、三大信经篇幅图、海德堡三部分篇幅图、多特信经各部分条文数图。
+- **笔记标注升级**：关键词、术语、罪/审判、日期、经文出处、易错、恩典、黄底、绿底、必背、定义等标注统一配色并更新图例；手机端表格首列不再被挤成一字一行。
+- 已有功能（三级可拉宽目录、逐字校验 115 处引文等）全部保留；11 页 × 390/820/1440 × 5 主题检查无横向溢出、无控制台错误。
+
+### v4 — 2026-10-21（tag `v4-20261021`，[Release](https://github.com/07-Je-Grok-Love-Personal-20260928/whole-bible-study-continental-20261020-GROKstudy/releases/tag/v4-20261021)）
+- 在线（保留）：Surge https://whole-bible-study-20261021-v4-grokstudy.surge.sh/ · Netlify https://whole-bible-study-20261021-v4-grokstudy.netlify.app/
 - **66 卷 × 前因后果**：每卷新增「⏮️ 前因 ➜ 📍 本卷 ➜ ⏭️ 后果」因果条（66 条），并新增「📐 文学视角 · 写了什么」（66 条：文体、结构手法、阅读钥匙）。
 - **认信一句（逐字）**：56 卷自动配上一句三项联合信条原文（构建时校验）；全站逐字校验短引文 20 → 115 处。
 - **圣经神学 × 圣约神学合成表**（救赎大故事页）：8 个阶段 × 约 / 应许 / 危机 / 成全 / 认信（逐字）。
@@ -93,7 +104,7 @@ python3 _build/check.py all  # 无头 Chromium 在 390/820/1440 宽度检查溢�
 - 部署：GitHub Pages、Surge（`whole-bible-study-20261020-v1-grokser`）、Netlify（`whole-bible-study-20261020-v1-grokser`）。
 
 ### 后续版本命名约定
-`whole-bible-study-<YYYYMMDD>-v<N>-grokser`（Surge / Netlify 域名），README 标题 `整本圣经研读-<日期>-v<N>-GROKstudy`。
+`whole-bible-study-<YYYYMMDD>-v<N>-grokstudy`（Surge / Netlify 域名，v4 起；v1–v3 为 `-grokser`），README 标题 `整本圣经研读-<日期>-v<N>-GROKstudy`。
 
 ---
 年代采用保守派（Thiele 式）年代学；书卷解读与图表为本站依改革宗正统立场所作综述，凡逐字引文均标注出处并链接原页。
