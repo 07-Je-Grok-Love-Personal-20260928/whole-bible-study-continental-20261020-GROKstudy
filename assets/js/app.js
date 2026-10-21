@@ -32,7 +32,7 @@ lc&&(lc.checked=LS.g('wb-lenis')==='1',lc.addEventListener('change',()=>{if(lc.c
 /* ---------- lazy book bodies (template hydration) ---------- */
 const lazyQ=[];let lazyT=0;const onHyd=[];
 function hydrate(body){if(!body||!body.hasAttribute('data-lazy'))return;const t=body.querySelector(':scope>template');body.removeAttribute('data-lazy');if(t)body.replaceChildren(t.content);onHyd.forEach(f=>f(body))}
-function pump(){lazyT=0;const t0=performance.now();while(lazyQ.length&&performance.now()-t0<8){hydrate(lazyQ.shift())}if(lazyQ.length)lazyT=requestAnimationFrame(pump)}
+function pump(){lazyT=0;const t0=performance.now();do{hydrate(lazyQ.shift())}while(lazyQ.length&&performance.now()-t0<3)if(lazyQ.length)lazyT=requestAnimationFrame(pump)}
 const lazies=$$('.bk>.body[data-lazy]');
 if(lazies.length){if('IntersectionObserver' in window){const lo=new IntersectionObserver(es=>es.forEach(en=>{if(en.isIntersecting){lo.unobserve(en.target);const b=en.target.querySelector(':scope>.body[data-lazy]');if(b){lazyQ.push(b);if(!lazyT)lazyT=requestAnimationFrame(pump)}}}),{rootMargin:'1800px 0px 1800px 0px'});lazies.forEach(b=>lo.observe(b.parentElement))}else lazies.forEach(hydrate)}
 function findLazy(id){for(const b of $$('.bk>.body[data-lazy]')){const t=b.querySelector(':scope>template');if(t&&t.content.getElementById(id))return b}return null}
