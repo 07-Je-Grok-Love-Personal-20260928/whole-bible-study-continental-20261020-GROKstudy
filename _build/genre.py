@@ -45,11 +45,11 @@ def rtable(head,rows,cls=''): return table(head,[[R(x) if isinstance(x,str) and 
 def spans(rows,y0,y1,ticks,cap='',bands=None,rowh=30,lw=150,W=1100,id_=''):
     """BC/AD time-span chart. rows: (label,start,end,color,tip). years as signed ints (BC negative).
     bands: (label,start,end,color) background eras."""
-    n=len(rows); T=34; H=T+n*rowh+30
+    n=len(rows); T=50 if bands else 34; H=T+n*rowh+30
     X=lambda y: lw+(y-y0)/(y1-y0)*(W-lw-20)
     s=f'<svg viewBox="0 0 {W} {H}" role="img" aria-label="{E(cap)}">'
-    for lb,a,b,col in (bands or []):
-        s+=f'<rect x="{X(a):.1f}" y="{T-6}" width="{X(b)-X(a):.1f}" height="{H-T-20}" fill="{col}" opacity=".10"/><text x="{(X(a)+X(b))/2:.1f}" y="{T-12}" text-anchor="middle" class="ax" font-weight="800" fill="{col}">{E(lb)}</text>'
+    for k,(lb,a,b,col) in enumerate(bands or []):
+        s+=f'<rect x="{X(a):.1f}" y="{T-6}" width="{X(b)-X(a):.1f}" height="{H-T-20}" fill="{col}" opacity=".10"/><text x="{(X(a)+X(b))/2:.1f}" y="{T-12-(k%2)*15}" text-anchor="middle" class="ax" font-weight="800" fill="{col}">{E(lb)}</text>'
     for t in ticks:
         s+=f'<line x1="{X(t):.1f}" x2="{X(t):.1f}" y1="{T-4}" y2="{H-22}" class="gl"/><text x="{X(t):.1f}" y="{H-6}" text-anchor="middle" class="ax">{abs(t)}{" BC" if t<0 else (" AD" if t>0 else "")}</text>'
     for i,(lb,a,b,col,tip) in enumerate(rows):
