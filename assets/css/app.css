@@ -674,3 +674,4 @@ html.plain b.k{background:none}html.focus main :is(.uo,.mnf,mark.hb){color:var(-
 /* v7 perf: once a card is pre-laid-out in idle time it stays rendered on its own compositor layer, so fast flings only composite (no cv re-unskip / cull-rect repaint) */
 .bk.pl,section.blk.pl{content-visibility:visible;will-change:transform}
 .toc{will-change:transform}.tocbody{will-change:scroll-position}
+.dyn,.fstep{overflow-x:clip;overflow-clip-margin:0}
