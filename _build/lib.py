@@ -122,7 +122,7 @@ QUOTES=[]
 EMR=[(r'\*\*(.+?)\*\*',r'<b class="k">\1</b>'),(r'==(.+?)==',r'<mark class="hy">\1</mark>'),(r'%%(.+?)%%',r'<mark class="hg">\1</mark>'),
      (r'!!(.+?)!!',r'<span class="uw">\1</span>'),(r'\+\+(.+?)\+\+',r'<span class="ug">\1</span>'),(r'\^\^(.+?)\^\^',r'<span class="ub">\1</span>'),
      (r'\[\[(.+?)\]\]',r'<span class="cx">\1</span>'),(r'~~(.+?)~~',r'<span class="cr">\1</span>'),
-     (r'@@(.+?)@@',r'<span class="must">\1</span>'),(r';;(.+?);;',r'<span class="ud">\1</span>')]
+     (r'@@(.+?)@@',r'<span class="must">\1</span>'),(r';;(.+?);;',r'<span class="ud">\1</span>'),(r'__(.+?)__',r'<span class="uo">\1</span>'),(r'\$\$(.+?)\$\$',r'<mark class="hb">\1</mark>')]
 REFRE=re.compile(r'(?<![\d:新旧立守背盟之圣])((?:撒上|撒下|王上|王下|代上|代下|林前|林后|帖前|帖后|提前|提后|彼前|彼后|约一|约二|约三|[创出利民申书士得拉尼斯伯诗箴传歌赛耶哀结但何珥摩俄拿弥鸿哈番该亚玛太可路约徒罗加弗腓西多门来雅犹启])\d{1,3}:\d{1,3}(?:[–\-]\d{1,3}(?::\d{1,3})?)?)(?![\d])')
 TERMS=['恩典之约','行为之约','救赎之约','亚伯拉罕之约','摩西之约','西奈之约','大卫之约','挪亚之约','新约应许','因信称义','代赎','中保','道成肉身','受苦的仆人','预表','护理','拣选','归算','三位一体','神的主权']
 DATERE=re.compile(r'(?<![\d\^])((?:约|主前|主后|公元前|AD ?)?\d{2,4}(?:[–\-]\d{2,4})?(?: ?BC| ?AD|年代?))(?![\d\^])')
@@ -170,6 +170,11 @@ LEGEND_EM=('<div class="legend-em">'
  '<span class="it"><span class="ud">金双线</span> 定义 · 原则</span>'
  '<span class="it"><span class="rf">罗8:28</span> 经文出处（自动）</span>'
  '<span class="it"><span class="kpb">1</span> 编号要点徽章</span>'
+ '<span class="it"><span class="uo">橙粗线</span> 对比·差异</span>'
+ '<span class="it"><mark class="hb">蓝底点线</mark> 人物·地点</span>'
+ '<span class="it"><span class="mbadge">★ 必背</span> 必背徽章</span>'
+ '<span class="it"><span class="mnf">口诀</span> 记忆口诀</span>'
+ '<span class="it"><span class="kbmini">🔑</span> 钥点框（编号必背）</span>'
  '<span class="pills">'+''.join(f'<span class="pill co {k}">{v[0]}{v[1]}框</span>' for k,v in CO.items())+'</span></div>')
 def legend_box(open_=False):
     return f'<details class="dx legendbox"{" open" if open_ else ""}><summary>🎨 笔记式标注图例（颜色编码说明）</summary><div class="in">{LEGEND_EM}</div></details>'
