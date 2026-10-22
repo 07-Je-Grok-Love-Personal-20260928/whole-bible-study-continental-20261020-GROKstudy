@@ -1,5 +1,5 @@
 import json,re,html
-V='v5'; DATE='2026-10-21'
+V='v6'; DATE='2026-10-22'
 import os
 HERE=os.path.dirname(os.path.abspath(__file__))
 CCI=os.path.join(HERE,'data','cci')+'/'
@@ -32,7 +32,7 @@ def conflabel(s):
     if s.startswith('HC'): return f'海德堡{s[2:]}问'
     if s.startswith('BC'): return f'比利时{s[2:]}条'
     h,n=s[2:].split('.'); return f'多特{["一","二","三四","五"][int(h)]}·{n}'
-PAGES=[('index.html','🏠','首页总览'),('story.html','🧭','救赎大故事'),('covenant.html','🤝','圣约神学'),('timeline.html','⏳','时间线·诸王'),('geography.html','🗺️','地理文化'),('ot.html','📜','旧约39卷'),('nt.html','✝️','新约27卷'),('creeds.html','🕊️','三大信经'),('forms.html','📚','三项联合信条'),('memory.html','🧠','记忆·测验'),('sources.html','🔗','资料来源')]
+PAGES=[('index.html','🏠','首页总览'),('story.html','🧭','救赎大故事'),('covenant.html','🤝','圣约神学'),('timeline.html','⏳','时间线·诸王'),('geography.html','🗺️','地理文化'),('ot.html','📜','旧约39卷'),('nt.html','✝️','新约27卷'),('gospels.html','📗','四福音对照'),('life-of-christ.html','🌟','基督生平'),('kings-chronicles.html','👑','列王纪×历代志'),('compare.html','⚖️','书卷对照'),('stats.html','📊','圣经统计'),('creeds.html','🕊️','三大信经'),('forms.html','📚','三项联合信条'),('memory.html','🧠','记忆·测验'),('sources.html','🔗','资料来源')]
 CN='零一二三四五六七八九十'
 def cnum(n):
     if n<=10: return CN[n]
