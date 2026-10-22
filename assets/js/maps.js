@@ -1,5 +1,6 @@
 /* Leaflet maps: offline vector base (assets/data/land.js) + optional online tiles. Degrades to text list if Leaflet missing. */
 (function(){
+addEventListener('scroll',()=>{window.__mLS=performance.now()},{passive:true});
 const RIVERS={
  '尼罗河':[[24.09,32.9],[25.7,32.64],[27.18,31.18],[29.0,30.85],[30.04,31.23],[30.6,31.0],[31.45,30.4]],
  '尼罗河东支':[[30.04,31.23],[30.8,31.6],[31.4,31.85]],
@@ -12,7 +13,7 @@ const LAKES={
  '加利利海':[[32.9,35.59],[32.86,35.65],[32.8,35.65],[32.71,35.6],[32.75,35.53],[32.84,35.52]]
 };
 function base(el,cfg,jobs){
-  const m=L.map(el,{scrollWheelZoom:false,zoomSnap:.25,worldCopyJump:false,attributionControl:true,preferCanvas:false});
+  const m=L.map(el,{scrollWheelZoom:false,zoomSnap:.25,worldCopyJump:false,attributionControl:true,preferCanvas:!!cfg.canvas});
   const off=L.layerGroup();
   if(window.LAND){const gj=L.geoJSON(null,{style:{color:'#c9a96a',weight:1,fillColor:'#e8d9b0',fillOpacity:.92},interactive:false}).addTo(off);
     let fs=window.LAND.features||[window.LAND];fs=fs.flatMap(f=>f.geometry&&f.geometry.type==='MultiPolygon'?f.geometry.coordinates.map(c=>({type:'Feature',properties:{},geometry:{type:'Polygon',coordinates:c}})):[f]);
@@ -48,7 +49,7 @@ function build(el){
   (cfg.labels||[]).forEach(l=>jobs.push(()=>lab(m,l.ll,l.n,l.cls||'reg')));
   if(cfg.legend)jobs.push(()=>{const lg=L.control({position:'bottomleft'});lg.onAdd=()=>{const d=L.DomUtil.create('div','mlabel');d.style.whiteSpace='normal';d.style.maxWidth='220px';d.style.lineHeight='1.6';d.innerHTML=cfg.legend.map(x=>'<span style="display:inline-block;width:12px;height:4px;background:'+x[0]+';margin-right:6px;vertical-align:middle"></span>'+x[1]).join('<br>');return d};lg.addTo(m)});
   /* add layers in small time-sliced chunks so no single task is long */
-  const run=()=>{const t0=performance.now();while(jobs.length&&performance.now()-t0<12)jobs.shift()();if(jobs.length)setTimeout(run,16)};setTimeout(run,16);
+  const run=()=>{const now=performance.now();if(now-(window.__mLS||0)<260){setTimeout(run,200);return}const t0=now;while(jobs.length&&performance.now()-t0<8)jobs.shift()();if(jobs.length)setTimeout(run,24)};setTimeout(run,16);
   el._map=m; setTimeout(()=>m.invalidateSize(),300);
 }
 function safe(el){if(el._built)return;el._built=1;el.innerHTML='';try{build(el)}catch(e){console.warn(e);el.innerHTML='<div class="mapfb">地图加载失败</div>'}}
