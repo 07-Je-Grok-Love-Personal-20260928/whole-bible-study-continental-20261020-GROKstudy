@@ -541,3 +541,6 @@ html[data-theme=contrast]{--g-mt:#ffd400;--g-mk:#ff6b6b;--g-lk:#5cd0ff;--g-jn:#d
 .dyn>div:not(:last-child)::after{content:"➜";position:absolute;right:-12px;top:40%;color:var(--rose);font-weight:900;z-index:1}.dyn small{color:var(--ink2)}
 .v6c .axs{font-size:15px}
 .lifemap{will-change:transform}.lifemap .map{contain:strict;transform:translateZ(0)}
+
+/* v7 map label declutter */
+.leaflet-tooltip.mlhide{opacity:0!important;pointer-events:none}.leaflet-tooltip.mlhide.mlpeek{opacity:1!important;z-index:700}
