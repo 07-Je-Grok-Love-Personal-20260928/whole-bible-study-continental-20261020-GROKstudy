@@ -26,6 +26,7 @@ def build():
     c.append(h3('pins','五个钉子年份'))
     c.append(stats([('6–4 BC','降生（希律死于 4 BC 前）','🌟','var(--gold)'),('AD 26/27','受洗（AD 30 说）','🕊️','var(--sky)'),('3 个','约翰明记的逾越节','🐑','var(--vio)'),('AD 30','钉十字架（4月7日）','✝️','var(--rose)'),('AD 33','另一主要看法（4月3日）','📅','var(--emer)'),('40 + 10','升天第40天，五旬节第50天','☁️','var(--gold)')]))
     c.append(h3('ad30','AD 30 还是 AD 33？'))
+    c.append(h4('ad30-t','📋 两说对照'))
     c.append(table(['','AD 30 说','AD 33 说'],[
       ['<b>受洗</b>','AD 26/27 秋','AD 29'],
       ['<b>事工长度</b>','约3年半（约翰记 3 个逾越节，约5:1可能是第4个）','约3年半（4 个逾越节）'],
@@ -33,12 +34,14 @@ def build():
       ['<b>困难</b>','路3:1须按提庇留与奥古斯都共治（AD 11/12）起算','须把约2:20的“四十六年”理解为殿宇（naos）完工年份等'],
       ['<b>受难日</b>','尼散月14/15日为星期五：AD 30年4月7日','AD 33年4月3日'],
       ['<b>代表学者</b>','许多保守派年代学者','Harold Hoehner《基督生平年代》（1977）']]))
+    c.append(h4('ad30-c','🤝 共同点'))
     c.append(co('core','<p>'+rich('两种看法都**持守圣经无误**，都同意：==降生在希律死前、事工约三年半、星期五受难、第三天复活==。差别只在于如何对应罗马纪年；不要把年代学的分歧当作信仰问题。',False)+'</p>','核心'))
     c.append(h3('phases','八个阶段（色带）'))
     c.append('<div class="eraband rv lifeband">'+''.join(f'<span style="--c:{col};flex:{w} 1 0"><b>{t}</b><small>{d}</small></span>' for (k,t,d,col),w in zip(PH,(2,1,2,3,1.2,1.6,1.4,1.2)))+'</div>')
     # ----- interactive timeline + map
     c.append(h2('tl','🗺️','时间线 × 地图：点击事件，地图飞过去'))
     c.append(h3('tlmap',f'{len(EV)} 个事件 · 四福音出处'))
+    c.append(h4('tl-how','🖱️ 用法：筛选阶段 · 点击事件 · 自动播放'))
     c.append('<div class="lifeph" role="toolbar" aria-label="按阶段筛选"><button data-ph="all" class="on">全部</button>'+''.join(f'<button data-ph="{k}" style="--c:{col}">{t}</button>' for k,t,d,col in PH)+'<button id="lifePlay" class="play">▶️ 自动播放</button></div>')
     evs=''
     for i,(ph,d30,d33,t,r,pl,nt) in enumerate(EV):
@@ -51,6 +54,7 @@ def build():
     c.append(h2('feasts','🐑','约翰福音的节期：事工长度的钥匙'))
     c.append(h3('jfeasts','约翰记载的六个节期'))
     c.append('<div class="steps rv">'+''.join(f'<div style="--c:{"var(--rose)" if "逾越" in t else "var(--sky)"}"><span class="e">{"🐑" if "逾越" in t else "🎉"}</span><b>{E(t)}</b><span class="rf">{E(r)}</span><span>{E(d)}</span></div>' for t,r,d in FEASTS)+'</div>')
+    c.append(h4('jf-x','✝️ 节期指向基督'))
     c.append(co('xc','<p>'+rich('约翰把耶稣放在节期中：他是==真逾越节的羔羊==（约1:29；19:36），是**住棚节的活水与光**（7:37；8:12），是**真殿**（2:19–21）。节期是影儿，基督是实体（西2:16–17）。',False)+'</p>','基督'))
     # ----- passion week
     c.append(h2('passion','✝️','受难周：逐日看'))
@@ -63,11 +67,13 @@ def build():
     c.append(h3('friday','星期五：钉十字架的时辰'))
     hrs=[('清晨','公会定案，解交彼拉多','可15:1','var(--sky)'),('第三时（约9点）','钉十字架','可15:25','var(--rose)'),('第六时（正午）','遍地黑暗','可15:33','var(--vio)'),('第九时（约3点）','“以利，以利……”，断气','可15:34–37','var(--rose)'),('傍晚','约瑟、尼哥底母安葬','约19:38–42','var(--gold)')]
     c.append('<div class="hourline rv">'+''.join(f'<div style="--c:{col}"><b>{t}</b><span>{d}</span><span class="rf">{r}</span></div>' for t,d,r,col in hrs)+'</div>')
+    c.append(h4('fri-h','⚠️ 约翰的“第六时”'))
     c.append(co('hardc','<p>'+rich('约19:14说彼拉多判案“约在午正”（第六时）。常见解释：约翰可能用罗马式从午夜起算（约早上6点），或时间为约数。==这是计时方式的差异，不是矛盾==。',False)+'</p>','难点'))
     # ----- resurrection
     c.append(h2('risen','🌅','复活、显现、升天、五旬节'))
     c.append(h3('appear',f'复活后的 {len(APPEAR)} 次显现（按大致次序）'))
     c.append(table(['#','向谁显现','经文'],[[f'<span class="kpb">{i+1}</span>',f'<b>{E(a)}</b>',E(r)] for i,(a,r) in enumerate(APPEAR)]))
+    c.append(h4('ap-h','🔎 可查证的历史'))
     c.append(co('core','<p>'+rich('保罗列出复活见证人，许多“如今还在”（林前15:6）——==复活是可查证的历史事实==，不是信心的投射。',False)+'</p>'))
     # ----- offices & states
     c.append(h2('offices','👑','基督的三职与二状态'))
@@ -76,6 +82,7 @@ def build():
       ['📣 <b>先知</b>','摩西（申18:15）','完全启示神的旨意（约1:18；来1:1–2）','听他的话'],
       ['🩸 <b>祭司</b>','亚伦、麦基洗德（诗110:4）','一次献上自己，又长远代求（来7:25；9:12）','靠他的献祭坦然到神面前'],
       ['👑 <b>君王</b>','大卫（撒下7:12–16）','用道与圣灵统管、保护教会（太28:18）','顺服并依靠他的保守']]))
+    c.append(h4('three-hc','📘 海德堡第31–32问'))
     c.append(co('conf','<p>'+rich('海德堡要理问答第31问：他{{HC31|作我们的大先知和教师}}；{{HC31|他是我们唯一的大祭司，藉着他一次献上的身体救赎了我们}}；{{HC31|他是我们永远的君王，用他的话语和圣灵统管我们}}。',False)+'</p>','认信'))
     c.append(hc(31,open_=True)+hc(32))
     c.append(h3('states','降卑与升高：一条“V”字线'))
@@ -84,6 +91,7 @@ def build():
     for x in down+up: assert x in CR['apostles']['text'],x
     steps=''.join(f'<div class="vst dn" style="--i:{i}"><span>{E(x)}</span></div>' for i,x in enumerate(down))+''.join(f'<div class="vst up" style="--i:{len(up)-1-i}"><span>{E(x)}</span></div>' for i,x in enumerate(up))
     c.append(f'<div class="vline rv" role="img" aria-label="降卑与升高">{steps}</div><p class="srcline">每一级的文字均逐字取自 <a href="{CR["apostles"]["url"]}" target="_blank" rel="noopener">ccifellowship.org · 使徒信经</a>（构建时校验）。参：腓2:6–11；海德堡要理问答第35–52问；威斯敏斯特小要理问答第27–28问。</p>')
+    c.append(h4('states-44','📘 “降在阴间”（第44问）'))
     c.append(hc(44))
     c.append(co('trap','<p>'+rich('!!“降在阴间”不是说基督到地狱再受一次苦或给死人第二次机会!!。海德堡第44问把它解释为基督在一切苦难中，{{HC44|尤其是在十字架上所忍受的}}==无法言表的痛苦==，使我确知主{{HC44|已经拯救我脱离了地狱的痛苦和折磨}}。',False)+'</p>','易错'))
     c.append(co('app','<p>'+rich('读福音书的任何一段，都问：这是他**降卑**的哪一步？还是**升高**的预尝？——十字架之后必有冠冕（来12:2）。',False)+'</p>','应用'))

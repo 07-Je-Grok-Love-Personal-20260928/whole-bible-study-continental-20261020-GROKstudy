@@ -32,6 +32,7 @@ def build():
         cum+=b['ch']
     srt=sorted(zip(BOOKS,VERSES),key=lambda x:-x[1])
     c.append(h3('ext','之最'))
+    c.append(h4('ext-t','🏆 七个之最'))
     c.append(table(['项目','结果','依据'],[
       ['📚 章数最多',f'{max(BOOKS,key=lambda b:b["ch"])["name"]}（150 章）','本站章数'],
       ['🔢 节数最多',f'{srt[0][0]["name"]}（{srt[0][1]:,} 节），其次 {srt[1][0]["name"]}（{srt[1][1]:,}）、{srt[2][0]["name"]}（{srt[2][1]:,}）','KJV 分节'],
@@ -45,25 +46,30 @@ def build():
     by=lambda f:[(CATS[k][0],sum(f(b,v) for b,v in zip(BOOKS,VERSES) if b['cat']==k),CATS[k][1]) for k in cats]
     c.append(h3('g-books','按卷数 · 按章数 · 按节数'))
     c.append('<div class="grid g3">'+donut(by(lambda b,v:1),'按卷数',200)+donut(by(lambda b,v:b['ch']),'按章数',200)+donut(by(lambda b,v:v),'按节数（KJV）',200)+'</div>')
+    c.append(h4('g-obs','🔎 观察'))
     c.append(co('core','<p>'+rich('按卷数看，**小先知书与保罗书信各 12–13 卷**最多；按篇幅看，==历史书与诗歌智慧书==占全本最大比重——圣经首先是一部**历史**：神在时间中的作为。',False)+'</p>','观察'))
     # authors
     c.append(h2('auth','✍️','作者与成书年代'))
     c.append(h3('a-who','谁写了几卷？（传统归属）'))
     c.append(vbars([(a,n,['var(--paul)','var(--law)','var(--rev)','var(--poet)','var(--acts)','var(--gen)','var(--majp)','var(--sky)','var(--mut)'][i],f'{a}：{n} 卷（{d}）') for i,(a,n,d) in enumerate(AUTH)],h=220,cap='保守派传统归属；“作者不详”包括圣经本身未署名、教会传统看法不一的书卷。合计 66 卷。'))
     assert sum(n for _,n,_ in AUTH)==66
+    c.append(h4('a-tab','📋 作者一览'))
     c.append(table(['作者','卷数','书卷'],[[f'<b>{E(a)}</b>',str(n),E(d)] for a,n,d in AUTH]))
     c.append(h3('a-era','按成书世纪'))
     def cnt(v): return 27 if v=='新约27卷' else len(v.split())
     c.append(vbars([(k,cnt(v),'var(--gold)' if 'AD' in k else ('var(--mut)' if '不详' in k else 'var(--sky)'),f'{k}：{v}') for k,v in EC.items()],h=200,cap='约略的保守派成书年代（例如摩西五经约 1446–1406 BC；列王纪约 560 BC；新约约 AD 45–95）。约伯记、约珥书、俄巴底亚书的年代各家不一。'))
     assert sum(cnt(v) for v in EC.values())==66
+    c.append(h4('a-one','✝️ 一个主题'))
     c.append(co('xc','<p>'+rich('约 40 位作者、跨越约 1,500 年、三种语言（希伯来文、亚兰文、希腊文）、三大洲，却只有**一个主题**：==神在基督里的救赎==（路24:27）。这正是比利时信条所说圣经“{{BC5|这些经卷本身也证明它们是从神而来的}}”。',False)+'</p>','基督'))
     # OT in NT
     c.append(h2('otnt','🔗','旧约在新约中的引用'))
     c.append(h3('nicole','Roger Nicole 的保守统计（1958）'))
     c.append(vbars([('有引言公式的直接引用',224,'var(--gold)','224 处：有明确引言公式'),('以“又”接续的第二处引用',7,'var(--sky)','7 处'),('引言公式后的意译/概括',19,'var(--vio)','19 处'),('无公式但明确的引用',45,'var(--emer)','至少 45 处')],h=220,cap='合计至少 295 处，占新约约 352 节（4.4%）＝约每 22.5 节就有一节是引用。'))
+    c.append(h4('nic-src','📜 被引经文与暗引'))
     c.append('<div class="grid g2">'+donut([('摩西五经',94,'var(--law)'),('先知书',99,'var(--majp)'),('圣卷',85,'var(--poet)')],'被引用的 278 节旧约经文（按希伯来正典三部分）',200)
              +'<div>'+'<div class="hbar rv">'+''.join(f'<div><span>{a}</span><div class="t"><span style="--v:{n/4105:.3f};--c:{col}"></span></div><b>{n:,}</b></div>' for a,n,col in [('Nicole：引用',295,'var(--gold)'),('C. H. Toy：引用＋明确暗引',613,'var(--sky)'),('W. Dittmar',1640,'var(--vio)'),('E. Hühn：所有“令人想起”的经文',4105,'var(--rose)')])+'</div><p class="srcline">计数口径越宽，数字越大：从严格引用到一切暗引。</p></div></div>')
     c.append(co('core','<p>'+rich('Nicole 指出：新约**没有一次明确引用旧约次经**；在希伯来正典 22 卷（合并计）中只有六卷（士—得、歌、传、斯、拉—尼、代）未被明确引用。==新约作者把旧约当作神的话来引用==，从未质疑。',False)+'</p>','观察'))
+    c.append(h4('nic-ref','🔗 来源'))
     c.append(f'<p class="srcline">来源：Roger Nicole, “New Testament Use of the Old Testament,” in Carl F. H. Henry ed., <i>Revelation and the Bible</i> (Grand Rapids: Baker, 1958), pp. 137–151；网络版：<a href="{SRC_N}" target="_blank" rel="noopener">thirdmill.org</a>。</p>')
     # kings stats
     c.append(h2('kst','👑','诸王统计'))

@@ -47,6 +47,7 @@ def build():
     c.append(legend_box())
     c.append(h2('why','🧭','整体：为什么要写两遍？'))
     c.append(h3('cmp','一表对照'))
+    c.append(h4('cmp-t','📋 九项对照'))
     c.append(cmp2('📕 列王纪上下','📘 历代志上下',[
       ('成书','约 560–550 BC（被掳巴比伦期间；最后事件：约雅斤出狱 561 BC，王下25:27）','约 450–400 BC（归回后；家谱延至所罗巴伯之后数代，代上3:19–24）'),
       ('读者','被掳的以色列人','归回的余民'),
@@ -57,6 +58,7 @@ def build():
       ('结尾','约雅斤出狱——==大卫的灯未灭==（王下25:27–30）','古列谕令“你们中间凡作他子民的，可以上去”——++新的开始++（代下36:23）'),
       ('在希伯来正典','“前先知书”','“圣卷”的最后一卷——希伯来圣经以历代志结尾'),
       ('钥字','“使以色列人陷在罪里”“行耶和华眼中看为恶/正的事”','“寻求耶和华”“自卑”“全以色列”“利未人”')]))
+    c.append(h4('cmp-k','💎 一句话'))
     c.append(co('core','<p>'+rich('**列王纪＝诊断书**（为什么生病），**历代志＝康复计划**（怎样重新敬拜）。两卷互补：==审判是真实的，应许也是真实的==——都指向那位更大的大卫之子（太1:1）。',False)+'</p>','核心'))
     c.append(h3('srcs','两卷书引用的史料'))
     c.append(table(['书卷','所引史料（举例）','经文'],[
@@ -113,8 +115,10 @@ def build():
         return out
     jg=chunks(JUDAH,[4,4,4,4,4]); ig=chunks(ISRAEL,[4,4,4,4,3])
     def show(gs,col): return '<div class="rhy">'+''.join(f'<div style="--c:{col}"><b>{"".join(n[0] for n in g)}</b><span>{"、".join(g)}</span></div>' for g in gs)+'</div>'
+    c.append(h4('rh-j','🟦 犹大 20 王'))
     c.append('<p><b>🟦 犹大 20 王（四字一组）：</b></p>'+show(jg,'var(--sky)'))
     c.append(co('mnc','<p class="mn">'+'｜'.join(''.join(n[0] for n in g) for g in jg)+'</p>','犹大口诀'))
+    c.append(h4('rh-i','🟥 以色列 19 王'))
     c.append('<p><b>🟥 以色列 19 王（四字一组）：</b></p>'+show(ig,'var(--rose)'))
     c.append(co('mnc','<p class="mn">'+'｜'.join(''.join(n[0] for n in g) for g in ig)+'</p>','以色列口诀'))
     c.append(h3('good8','犹大 8 位善王'))
@@ -133,8 +137,11 @@ def build():
     c.append(h2('kstats','📊','统计图表'))
     c.append(h3('reign','在位年数（圣经记载）'))
     allk=[('J',k) for k in JUDAH]
+    c.append(h4('reign-j','🟦 犹大'))
     c.append(vbars([(k[0],k[4],VC[k[5]][0],f'犹大·{k[0]}：{k[4]}年（{k[2]}–{k[3]} BC）') for k in JUDAH],h=240,rot=True,cap='🟦 犹大 20 王在位年数（含共治；玛拿西 55 年最长）'))
+    c.append(h4('reign-i','🟥 以色列'))
     c.append(vbars([(k[0],k[4],VC[k[5]][0],f'以色列·{k[0]}：{k[4]}年（{k[2]}–{k[3]} BC）') for k in ISRAEL],h=240,rot=True,cap='🟥 以色列 19 王在位年数（心利 7 日、撒迦利雅 6 个月、沙龙 1 个月记为 0）'))
+    c.append(h4('reign-d','🍩 善恶分布与数字'))
     cnt=lambda ks,v: sum(1 for k in ks if k[5]==v)
     c.append('<div class="grid g2">'+donut([('善',cnt(JUDAH,'good'),'var(--emer)'),('参半',cnt(JUDAH,'mix'),'var(--gold)'),('恶',cnt(JUDAH,'evil'),'var(--rose)')],'🟦 犹大：善恶分布（本站评定）',190)
               +donut([('善',cnt(ISRAEL,'good'),'var(--emer)'),('恶',cnt(ISRAEL,'evil'),'var(--rose)')],'🟥 以色列：19 王全部“行恶”',190)+'</div>')
