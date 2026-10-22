@@ -122,4 +122,4 @@ def build():
       ('🙇','承认未知，不强求','加尔文《四福音合参注释》（1555）的态度：谦卑地合参，不为“和谐”而扭曲经文。','var(--rose)')])+'</div>')
     c.append(co('trap','<p>'+rich('!!不要把四卷压成一卷!!：合参是为了帮助理解，但每卷书都有自己的神学目的。读马可时问“马可要我看见什么”，而不只是“这件事完整经过如何”。',False)+'</p>','易错'))
     c.append(co('app','<p>'+rich('读福音书的三个问题：① 这一段**说耶稣是谁**？② 这一段在**本卷的结构**中处在哪里？③ 这一段在**其他福音书**怎样记？——先纵后横，再回到基督。',False)+'</p>','应用'))
-    return page('gospels.html','四福音深度对照',''.join(c),scripts='<script src="assets/js/v6.js?v=v6" defer></script>')
+    return page('gospels.html','四福音深度对照',''.join(c),scripts='<script src="assets/js/v6.js?v=v7" defer></script>')

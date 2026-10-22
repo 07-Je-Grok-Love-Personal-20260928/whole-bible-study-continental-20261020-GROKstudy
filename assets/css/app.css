@@ -544,3 +544,35 @@ html[data-theme=contrast]{--g-mt:#ffd400;--g-mk:#ff6b6b;--g-lk:#5cd0ff;--g-jn:#d
 
 /* v7 map label declutter */
 .leaflet-tooltip.mlhide{opacity:0!important;pointer-events:none}.leaflet-tooltip.mlhide.mlpeek{opacity:1!important;z-index:700}
+/* ===== v7: grouped nav (5 groups, numbered) ===== */
+.nav{gap:4px;mask-image:none;align-items:center;overflow:visible}
+.ng{position:relative;flex:none}
+.ngb{display:flex;align-items:center;gap:4px;white-space:nowrap;padding:6px 11px;border-radius:99px;border:1px solid transparent;background:none;color:var(--ink2);font:inherit;font-size:13.5px;font-weight:700;cursor:pointer;transition:background .2s,color .2s,border-color .2s}
+.ngb .gn{color:var(--gold);font-weight:900}.ngb i{font-style:normal;font-size:10px;opacity:.7;transition:transform .2s}
+.ngb:hover,.ng.open .ngb{background:var(--card2);color:var(--ink)}
+.ng.on .ngb{background:linear-gradient(135deg,rgba(255,203,92,.26),rgba(255,111,165,.22));color:var(--ink);border-color:color-mix(in srgb,var(--gold) 55%,transparent)}
+.ng.open .ngb i{transform:rotate(180deg)}
+.ndd{display:none;position:fixed;top:calc(var(--top) - 4px);left:var(--ddx,10px);z-index:80;min-width:250px;max-width:min(330px,94vw);padding:8px;border-radius:16px;border:1px solid var(--line2);background:color-mix(in srgb,var(--bg) 97%,transparent);-webkit-backdrop-filter:blur(14px) saturate(1.4);backdrop-filter:blur(14px) saturate(1.4);box-shadow:0 18px 50px rgba(0,0,0,.35);grid-template-columns:1fr;gap:3px;transform-origin:top left}
+.ng.open>.ndd{display:grid;animation:ddin .18s var(--ease) both}
+@keyframes ddin{from{opacity:0;transform:translateY(-6px) scale(.98)}to{opacity:1;transform:none}}
+.ndh{font-size:12px;color:var(--mut);padding:2px 8px 4px;letter-spacing:.08em}
+.ndd a{display:grid;grid-template-columns:auto 1fr;column-gap:8px;align-items:baseline;padding:7px 10px;border-radius:11px;color:var(--ink);font-size:14px;font-weight:700;text-decoration:none}
+.ndd a small{grid-column:2;font-weight:500;font-size:12px;color:var(--mut)}
+.ndd a .pn,.tocpages .pn{font:800 11.5px/1 var(--sans);color:var(--on);background:var(--gold);border-radius:6px;padding:3px 5px;min-width:26px;text-align:center}
+.ndd a:hover{background:var(--card2)}.ndd a.on{background:color-mix(in srgb,var(--gold) 16%,transparent);box-shadow:inset 3px 0 0 var(--gold)}
+@media(max-width:1000px){.nav{overflow-x:auto;scrollbar-width:none}.ngb{padding:6px 8px;font-size:13px}}
+@media(max-width:560px){.ngb{padding:5px 6px;font-size:12.5px}.ngb .gi{display:none}}
+/* TOC: 全站页面 — always one column, grouped + numbered */
+.tocpages{display:block!important;padding:8px 10px 14px}
+.tocpages>b{display:block;margin:2px 0 6px;font-size:13px}
+.tpg{display:grid;grid-template-columns:1fr;gap:4px;margin:0 0 9px;padding:7px;border-radius:12px;border:1px solid var(--line);background:color-mix(in srgb,var(--card2) 70%,transparent)}
+.tpgh{font-size:12.5px;color:var(--ink);display:flex;gap:6px;align-items:center}.tpgh .gn{color:var(--gold);font-size:14px}
+.tocpages a{display:flex;align-items:center;gap:7px;white-space:normal!important}
+/* breadcrumb + prev/next */
+.crumb{display:flex;flex-wrap:wrap;align-items:center;gap:6px;font-size:12.5px;color:var(--mut);margin:2px 0 8px}
+.crumb a{color:var(--ink2)}.crumb i{font-style:normal;opacity:.6}.crumb b{color:var(--ink);background:color-mix(in srgb,var(--gold) 14%,transparent);padding:1px 8px;border-radius:99px}
+.pnx{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:26px 0 0}
+.pnx a{display:flex;flex-direction:column;gap:2px;padding:12px 14px;border-radius:14px;border:1px solid var(--line2);background:var(--card);text-decoration:none;color:var(--ink);transition:transform .2s var(--ease),border-color .2s}
+.pnx a:hover{transform:translateY(-2px);border-color:var(--gold)}.pnx .nx{text-align:right}.pnx small{color:var(--mut)}
+.modg{margin:10px 0 16px}.modgh{display:inline-flex;gap:6px;align-items:center;font-size:15px;margin:0 0 8px;padding:3px 12px;border-radius:99px;background:color-mix(in srgb,var(--gold) 14%,transparent);border:1px solid color-mix(in srgb,var(--gold) 40%,transparent)}.modgh .gn{color:var(--gold)}
+.pnb{font:800 12px/1 var(--sans);color:var(--on);background:var(--gold);border-radius:6px;padding:3px 6px;vertical-align:2px}

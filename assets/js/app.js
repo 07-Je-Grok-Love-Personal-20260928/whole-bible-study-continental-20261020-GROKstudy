@@ -1,4 +1,4 @@
-/* GROKstudy whole-Bible v5 — shared UI: 5 themes, IO-only scroll-spy, lazy book bodies, paused off-screen loops */
+/* GROKstudy whole-Bible v7 (based on v5) — shared UI: 5 themes, IO-only scroll-spy, lazy book bodies, paused off-screen loops */
 (function(){
 const $=(s,r=document)=>r.querySelector(s),$$=(s,r=document)=>[...r.querySelectorAll(s)];
 const root=document.documentElement,body=document.body,LS={g:k=>{try{return localStorage.getItem(k)}catch(e){return null}},s:(k,v)=>{try{localStorage.setItem(k,v)}catch(e){}}};
@@ -176,4 +176,15 @@ $$('[data-kfilter]').forEach(btn=>btn.addEventListener('click',()=>{const k=$(bt
   $$('.kb',k).forEach(b=>b.classList.toggle('dim',v!=='all'&&!b.classList.contains(v)))}));
 /* ---------- covenant flow ---------- */
 $$('.covflow').forEach(cf=>{const info=$(cf.dataset.info);cf.addEventListener('click',e=>{const n=e.target.closest('.nd');if(n&&info){info.innerHTML=n.dataset.html;$$('.nd',cf).forEach(x=>x.style.opacity=x===n?1:.55)}})});
+
+/* ---------- v7 grouped nav dropdowns ---------- */
+(()=>{const gs=$$('.nav .ng');if(!gs.length)return;let hov=matchMedia('(hover:hover)').matches,ht=0;
+  const place=g=>{const r=g.querySelector('.ngb').getBoundingClientRect(),d=g.querySelector('.ndd');const w=Math.min(330,innerWidth*.94);d.style.setProperty('--ddx',Math.max(6,Math.min(r.left,innerWidth-w-6))+'px')};
+  const close=x=>gs.forEach(g=>{if(g!==x){g.classList.remove('open');g.querySelector('.ngb').setAttribute('aria-expanded','false')}});
+  const open=g=>{close(g);place(g);g.classList.add('open');g.querySelector('.ngb').setAttribute('aria-expanded','true')};
+  gs.forEach(g=>{const b=g.querySelector('.ngb');b.addEventListener('click',e=>{e.stopPropagation();g.classList.contains('open')?close():open(g)});
+    if(hov){g.addEventListener('pointerenter',()=>{clearTimeout(ht);ht=setTimeout(()=>open(g),90)});g.addEventListener('pointerleave',()=>{clearTimeout(ht);ht=setTimeout(()=>{if(!g.matches(':hover'))g.classList.remove('open')},220)})}});
+  document.addEventListener('click',e=>{if(!e.target.closest('.ng'))close()});document.addEventListener('keydown',e=>{if(e.key==='Escape')close()});
+  addEventListener('scroll',()=>close(),{passive:true});
+  const cur=document.querySelector('.nav .ng.on');cur&&cur.scrollIntoView&&innerWidth<=1000&&(document.querySelector('.nav').scrollLeft=cur.offsetLeft-60)})();
 })();

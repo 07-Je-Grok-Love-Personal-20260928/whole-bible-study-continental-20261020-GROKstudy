@@ -14,9 +14,13 @@ def index():
     c.append('<div class="grid g6 reveal">'+''.join(f'<div class="card tile" style="text-align:center"><div class="big">{i}</div><h4 class="shimmer" style="font-size:26px">{n}</h4><p>{t}</p></div>' for n,t,i in stats)+'</div>')
     c.append(legend_box(True))
     c.append(h2('path','🛤️','学习路线：先整体，再局部，最后记牢'))
-    c.append(h3('mods','十五个学习模块'))
-    mods=[('story.html','🧭','① 救赎大故事','四幕剧、十二场景、女人后裔红线、七条圣经神学主题、基督中心解经、海德堡三部曲'),('covenant.html','🤝','② 圣约神学','行为之约·救赎之约·恩典之约；亚当—挪亚—亚伯拉罕—摩西—大卫—新约；记号与律法三用'),('timeline.html','⏳','③ 时间线·诸王','11 时代、8 钉子年份、主时间线、统一王国、南北 39 王全表与年代图、先知、帝国、两约之间'),('geography.html','🗺️','④ 地理文化','古代近东、族长、出埃及、支派、分裂王国、帝国被掳、耶稣事工、保罗旅程'),('ot.html','📜','⑤ 旧约 39 卷','逐卷 13 项解读 + 三项联合信条原文连接'),('nt.html','✝️','⑥ 新约 27 卷','逐卷 13 项解读 + 三项联合信条原文连接'),('creeds.html','🕊️','⑦ 三大信经','干净背诵版、遮盖背诵模式、深度对比、异端对照、为何三份'),('forms.html','📚','⑧ 三项联合信条','比利时信条 37 条、海德堡 129 问、多特信经全文'),('memory.html','🧠','⑨ 记忆·测验','口诀总表、闪卡、选择题、排序游戏'),('sources.html','🔗','⑩ 资料来源','引用来源、核对报告、推荐网站'),('gospels.html','📗','⑪ 四福音对照','横向段落/神迹/比喻对照、交互重叠图、四幅肖像、符类问题'),('life-of-christ.html','🌟','⑫ 基督生平','48 个事件 × 地图联动、受难周逐日、三职二状态'),('kings-chronicles.html','👑','⑬ 列王纪×历代志','两种眼光、逐王对照、双轨时间线、口诀'),('compare.html','⚖️','⑭ 书卷对照','10 组以经解经：创↔启、利↔来、雅↔罗……'),('stats.html','📊','⑮ 圣经统计','章节数、类别、作者、旧约引用（附来源）')]
-    c.append('<div class="grid g3 reveal">'+''.join(f'<a class="card tile" href="{f}"><div class="big">{i}</div><h4>{t}</h4><p>{d}</p></a>' for f,i,t,d in mods)+'</div>')
+    c.append(h3('mods',f'五组 {len(PAGES)} 个学习模块（编号＝全站导航）'))
+    GD={'index.html':'学习路线、66 卷色图、一页纸、标注系统','story.html':'四幕剧、十二场景、女人后裔红线、七条圣经神学主题','covenant.html':'救赎之约·行为之约·恩典之约；六个历史之约；律法三用','timeline.html':'11 时代、8 钉子年份、42 位君王全表与年代图','geography.html':'8 幅交互地图：近东、族长、出埃及、王国、帝国、耶稣、保罗',
+     'ot.html':'旧约 39 卷逐卷 13 项解读 + 认信连接','nt.html':'新约 27 卷逐卷 13 项解读 + 认信连接','pentateuch.html':'五卷故事线、律法与约的递进、会幕与五祭、托勒多、申命记=条约','history.html':'得地→士师循环→王国→被掳→归回；两种史观','poetry.html':'希伯来平行体、诗篇五卷、敬畏耶和华、伯/箴/传三角度','prophets.html':'17 位先知 × 君王 × 帝国时间轴、弥赛亚预言链、耶和华的日子','gospels.html':'四幅肖像、41 段落对照、神迹比喻、符类问题','epistles.html':'21 封书信 × 使徒行传年代、称义/教会/末世、罗↔加↔雅',
+     'life-of-christ.html':'48 事件 × 地图联动、受难周逐日、三职二状态','kings-chronicles.html':'两种眼光、42 王逐王对照、双轨时间线、口诀','compare.html':'10 组以经解经：创↔启、利↔来、雅↔罗……','stats.html':'章节数、类别、作者、旧约引用、文体组统计',
+     'creeds.html':'背诵版、遮盖背诵、三份信经深度对比','forms.html':'比利时信条 37 条、海德堡 52 主日 129 问、多特信经','memory.html':'口诀总表、闪卡、选择题、排序游戏','sources.html':'逐字来源、核对报告、推荐网站'}
+    for g,gn,gi,ps in GROUPS:
+        c.append(f'<div class="modg rv"><b class="modgh"><span class="gn">{GCIRC[int(g)-1]}</span> {gi} {gn}</b><div class="grid g3">'+''.join(f'<a class="card tile" href="{f}"><div class="big">{i}</div><h4><span class="pnb">{PNUM[f]}</span> {t}</h4><p>{GD.get(f,d)}</p></a>' for f,i,t,d in ps)+'</div></div>')
     c.append(h2('canon','🌈','66 卷颜色地图'))
     c.append(h3('canon-grid','色块总图（颜色 = 文体分类，点击进入该卷）'))
     c.append(legend(list(CATS.keys()))+canon_grid())
