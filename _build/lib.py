@@ -117,7 +117,7 @@ for _n,_a in BCA.items(): SRC['BC%d'%_n]=(_strip(_a['text']),_a['url'],'比利�
 SRC['AP']=(CR['apostles']['text'],CR['apostles']['url'],'使徒信经');SRC['NI']=(CR['nicene']['text'],CR['nicene']['url'],'尼西亚信经');SRC['AT']=(CR['athanasian']['text'],CR['athanasian']['url'],'亚他那修信经')
 for _i,_h in enumerate(DT['heads']):
     for _a in _h['articles']:
-        if isinstance(_a.get('number'),int): SRC[f'DT{_i}_{_a["number"]}']=(_strip(_a['text']),_a['url'],'多特信经·'+_h['title'][:6]+'第%d条'%_a['number'])
+        if isinstance(_a.get('number'),int): SRC[f'DT{_i}_{_a["number"]}']=(_strip(_a['text']),_a['url'],'多特信经·'+_h['title'][:6]+('·错谬反驳' if _a['title'].startswith('错谬') else '第%d条'%_a['number']))
 QUOTES=[]
 EMR=[(r'\*\*(.+?)\*\*',r'<b class="k">\1</b>'),(r'==(.+?)==',r'<mark class="hy">\1</mark>'),(r'%%(.+?)%%',r'<mark class="hg">\1</mark>'),
      (r'!!(.+?)!!',r'<span class="uw">\1</span>'),(r'\+\+(.+?)\+\+',r'<span class="ug">\1</span>'),(r'\^\^(.+?)\^\^',r'<span class="ub">\1</span>'),
