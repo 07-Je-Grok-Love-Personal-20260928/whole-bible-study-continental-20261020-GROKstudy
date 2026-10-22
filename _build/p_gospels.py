@@ -34,7 +34,7 @@ def venn(items):
         reg+=f'<g class="vr" data-set="{k}" tabindex="0" role="button" aria-label="{k} {n}"><circle cx="{x}" cy="{y}" r="19" class="vh"/><text x="{x}" y="{y+5}" text-anchor="middle" class="vn">{n}</text>{f"<text x={chr(34)}{x}{chr(34)} y={chr(34)}{y+19}{chr(34)} text-anchor={chr(34)}middle{chr(34)} class={chr(34)}vj{chr(34)}>🦅{j}</text>" if j else ""}</g>'
     only_jn=syn.get('—',0)
     return (f'<figure class="venn rv"><svg viewBox="0 0 400 320" role="img" aria-label="符类福音重叠图">{circ}{labs}{reg}'
-            f'<g class="vr" data-set="—" tabindex="0" role="button"><rect x="318" y="250" width="76" height="52" rx="12" fill="{G["Jn"][1]}" opacity=".35"/><text x="356" y="272" text-anchor="middle" class="vl" fill="{G["Jn"][1]}">🦅 仅约翰</text><text x="356" y="294" text-anchor="middle" class="vn">{only_jn}</text></g></svg>'
+            f'<g class="vr" data-set="—" tabindex="0" role="button"><rect x="322" y="262" width="74" height="50" rx="12" fill="{G["Jn"][1]}" opacity=".35"/><text x="359" y="283" text-anchor="middle" class="vl" fill="{G["Jn"][1]}">🦅 仅约翰</text><text x="359" y="304" text-anchor="middle" class="vn">{only_jn}</text></g></svg>'
             '<figcaption class="srcline">点击任一区域 → 下方清单只显示该组合。数字＝本页所列段落、神迹、比喻合计；🦅n＝其中约翰也记载的条数。</figcaption></figure>')
 def build():
     c=[]
@@ -49,7 +49,7 @@ def build():
       ('💎','一颗钻石四个切面','同一位基督太丰富，一幅肖像容不下：王（太）、仆人（可）、人（路）、神（约）。','var(--sky)'),
       ('🌍','不同读者的需要','犹太人问“他是不是应许的弥赛亚？”；罗马人看“他做了什么？”；外邦人问“他与我有关吗？”；教会问“他到底是谁？”','var(--emer)'),
       ('📜','教会的领受，不是发明','早期教会（如爱任纽，约 AD 180）已明确只承认四卷；把四卷合成一卷的《四福音合参》（他提安，约 AD 170）没有取代正典。','var(--vio)')])+'</div>')
-    c.append(co('conf','<p>'+rich('比利时信条列出新约正典时，首先就是“{{BC4|四福音书，即马太福音、马可福音、路加福音及约翰福音}}”。正典的根据不是教会的投票：“{{BC5|与其说这是因为教会接受并赞同它们，倒不如说这是因为圣灵在我们心中作见证，证明它们都来自神}}”。',False)+'</p>','认信'))
+    c.append(co('conf','<p>'+rich('比利时信条列出新约正典时，首先就是{{BC4|四福音书，即马太福音、马可福音、路加福音及约翰福音}}。正典的根据不是教会的投票：{{BC5|与其说这是因为教会接受并赞同它们，倒不如说这是因为圣灵在我们心中作见证，证明它们都来自神}}。',False)+'</p>','认信'))
     c.append(bc(4)+bc(5))
     c.append(h3('table4','一表看懂四福音（纵向总表）'))
     rows=[]
@@ -112,7 +112,7 @@ def build():
       ['<b>马太优先说</b>','早期教会传统（奥古斯丁等）：马太先写','与教父见证一致；文学论证上有争议'],
       ['<b>独立见证／口传</b>','使徒的口传教导高度固定，各卷独立写成','重视目击见证（路1:1–4；约21:24）'],
       ['<b>激进形式批判</b>','福音书是初期教会“创作”的信仰传说','<span class="uw">与圣经自证和默示教义相冲突，应予拒绝</span>']]))
-    c.append(co('conf','<p>'+rich('改革宗的出发点是 ;;有机默示;;（巴文克、凯波尔）：圣灵使用作者的研究（路1:3）、记忆（约14:26）与写作风格，所写的却完全是神的话。因此**文学来源问题可以讨论，但不能削弱历史可靠性**。比利时信条说：“{{BC5|我们完全相信且毫不怀疑其中所写的一切}}”。',False)+'</p>','认信'))
+    c.append(co('conf','<p>'+rich('改革宗的出发点是 ;;有机默示;;（巴文克、凯波尔）：圣灵使用作者的研究（路1:3）、记忆（约14:26）与写作风格，所写的却完全是神的话。因此**文学来源问题可以讨论，但不能削弱历史可靠性**。比利时信条说：{{BC5|我们完全相信且毫不怀疑其中所写的一切}}。',False)+'</p>','认信'))
     c.append(h3('harmony','和谐原则：读出差异，不制造矛盾'))
     c.append('<div class="steps rv">'+''.join(f'<div style="--c:{col}"><span class="e">{i}</span><b>{t}</b><span>{d}</span></div>' for i,t,d,col in [
       ('🧭','主题排列≠时间排列','马太常按主题集中（如太8–9十个神迹）；路加“按着次序”（1:3）也不一定是严格的日期次序。','var(--gold)'),
