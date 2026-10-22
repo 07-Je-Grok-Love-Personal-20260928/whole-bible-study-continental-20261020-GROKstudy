@@ -16,3 +16,6 @@ for k,v in out.items(): open(S+k,'w').write(v); print(k,len(v))
 print('verified short quotes:',len(QUOTES))
 import merpre
 merpre.run(list(out.keys()))
+import subprocess,sys
+r=subprocess.run([sys.executable,__import__('os').path.join(__import__('os').path.dirname(__file__),'links.py')],capture_output=True,text=True);print(r.stdout.strip().splitlines()[-1] if r.stdout else r.stderr)
+if r.returncode: print(r.stdout); sys.exit(1)
