@@ -621,3 +621,13 @@ html[data-theme=contrast]{--g-mt:#ffd400;--g-mk:#ff6b6b;--g-lk:#5cd0ff;--g-jn:#d
 .tabsvg .tn{font-size:15px;font-weight:800;fill:var(--ink)}.tabsvg .tx{font-size:12.5px;fill:var(--sky);font-weight:700}
 .gcard{border-top:4px solid var(--c)}.gcard h4{margin:0 0 6px;color:var(--c)}
 .confx{margin:8px 0}
+.loop .flow{stroke-dasharray:10 12;animation:flow 1.6s linear infinite;animation-play-state:paused}.loop.run .flow{animation-play-state:running}
+.spanc svg{width:100%;height:auto;display:block}.spanc .spl{font-size:13.5px;font-weight:800;fill:var(--ink)}.spanc .spt{font-size:12px;font-weight:700;fill:#0b1020}.spanc .spt2{font-size:12px;fill:var(--ink2)}
+.spanc .spr{opacity:0;transform:translateX(-10px);transition:opacity .5s var(--ease),transform .5s var(--ease);transition-delay:var(--d)}.spanc.in .spr{opacity:1;transform:none}
+.cycle svg{width:100%;max-width:520px;height:auto;display:block;margin:0 auto}.cycle .cn{font-size:15px;font-weight:800;fill:var(--ink)}.cycle .cs{font-size:12px;fill:var(--ink2)}
+.jbars{display:grid;gap:5px;margin:8px 0}.jbars>div{display:grid;grid-template-columns:7.5em 1fr 1fr;gap:8px;align-items:center;font-size:13px}
+.jbars .o,.jbars .r{height:16px;border-radius:5px;display:flex;align-items:center;font-size:11px;font-weight:800;padding:0 5px;color:#0b1020;min-width:22px;transform-origin:left;transform:scaleX(0);transition:transform .7s var(--ease)}
+.jbars.in .o,.jbars.in .r{transform:none}.jbars .o{background:var(--red);justify-self:end;transform-origin:right}.jbars .r{background:var(--emer)}
+.jbars .hd{font-weight:800;color:var(--mut);font-size:12px}
+.canon2{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(min(100%,380px),1fr));margin:8px 0}.canon2>div{padding:10px 12px;border-radius:14px;border:1px solid var(--line2);background:var(--card)}
+.canon2 p{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0 0}.cb{display:inline-block;padding:3px 9px;border-radius:9px;font-size:13px;font-weight:800;background:color-mix(in srgb,var(--c) 22%,transparent);border:1px solid color-mix(in srgb,var(--c) 60%,transparent)}
