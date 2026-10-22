@@ -539,3 +539,4 @@ html[data-theme=contrast]{--g-mt:#ffd400;--g-mk:#ff6b6b;--g-lk:#5cd0ff;--g-jn:#d
 .g8{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,170px),1fr));gap:8px}.g8>div{border-radius:12px;padding:8px 10px;background:color-mix(in srgb,var(--c) 14%,transparent);border-top:3px solid var(--c);display:flex;flex-direction:column;gap:2px}.g8 small{color:var(--mut)}.g8 span:last-child{font-size:12.5px}
 .dyn{display:flex;flex-wrap:wrap;gap:6px;align-items:stretch}.dyn>div{position:relative;flex:1 1 150px;border-radius:12px;padding:7px 10px;background:var(--card2);border:1px solid var(--line);display:flex;flex-direction:column}
 .dyn>div:not(:last-child)::after{content:"➜";position:absolute;right:-12px;top:40%;color:var(--rose);font-weight:900;z-index:1}.dyn small{color:var(--ink2)}
+.v6c .axs{font-size:15px}

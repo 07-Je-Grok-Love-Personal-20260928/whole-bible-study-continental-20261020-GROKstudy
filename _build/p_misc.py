@@ -14,8 +14,8 @@ def index():
     c.append('<div class="grid g6 reveal">'+''.join(f'<div class="card tile" style="text-align:center"><div class="big">{i}</div><h4 class="shimmer" style="font-size:26px">{n}</h4><p>{t}</p></div>' for n,t,i in stats)+'</div>')
     c.append(legend_box(True))
     c.append(h2('path','🛤️','学习路线：先整体，再局部，最后记牢'))
-    c.append(h3('mods','十个学习模块'))
-    mods=[('story.html','🧭','① 救赎大故事','四幕剧、十二场景、女人后裔红线、七条圣经神学主题、基督中心解经、海德堡三部曲'),('covenant.html','🤝','② 圣约神学','行为之约·救赎之约·恩典之约；亚当—挪亚—亚伯拉罕—摩西—大卫—新约；记号与律法三用'),('timeline.html','⏳','③ 时间线·诸王','11 时代、8 钉子年份、主时间线、统一王国、南北 39 王全表与年代图、先知、帝国、两约之间'),('geography.html','🗺️','④ 地理文化','古代近东、族长、出埃及、支派、分裂王国、帝国被掳、耶稣事工、保罗旅程'),('ot.html','📜','⑤ 旧约 39 卷','逐卷 13 项解读 + 三项联合信条原文连接'),('nt.html','✝️','⑥ 新约 27 卷','逐卷 13 项解读 + 三项联合信条原文连接'),('creeds.html','🕊️','⑦ 三大信经','干净背诵版、遮盖背诵模式、深度对比、异端对照、为何三份'),('forms.html','📚','⑧ 三项联合信条','比利时信条 37 条、海德堡 129 问、多特信经全文'),('memory.html','🧠','⑨ 记忆·测验','口诀总表、闪卡、选择题、排序游戏'),('sources.html','🔗','⑩ 资料来源','引用来源、核对报告、推荐网站')]
+    c.append(h3('mods','十五个学习模块'))
+    mods=[('story.html','🧭','① 救赎大故事','四幕剧、十二场景、女人后裔红线、七条圣经神学主题、基督中心解经、海德堡三部曲'),('covenant.html','🤝','② 圣约神学','行为之约·救赎之约·恩典之约；亚当—挪亚—亚伯拉罕—摩西—大卫—新约；记号与律法三用'),('timeline.html','⏳','③ 时间线·诸王','11 时代、8 钉子年份、主时间线、统一王国、南北 39 王全表与年代图、先知、帝国、两约之间'),('geography.html','🗺️','④ 地理文化','古代近东、族长、出埃及、支派、分裂王国、帝国被掳、耶稣事工、保罗旅程'),('ot.html','📜','⑤ 旧约 39 卷','逐卷 13 项解读 + 三项联合信条原文连接'),('nt.html','✝️','⑥ 新约 27 卷','逐卷 13 项解读 + 三项联合信条原文连接'),('creeds.html','🕊️','⑦ 三大信经','干净背诵版、遮盖背诵模式、深度对比、异端对照、为何三份'),('forms.html','📚','⑧ 三项联合信条','比利时信条 37 条、海德堡 129 问、多特信经全文'),('memory.html','🧠','⑨ 记忆·测验','口诀总表、闪卡、选择题、排序游戏'),('sources.html','🔗','⑩ 资料来源','引用来源、核对报告、推荐网站'),('gospels.html','📗','⑪ 四福音对照','横向段落/神迹/比喻对照、交互重叠图、四幅肖像、符类问题'),('life-of-christ.html','🌟','⑫ 基督生平','48 个事件 × 地图联动、受难周逐日、三职二状态'),('kings-chronicles.html','👑','⑬ 列王纪×历代志','两种眼光、逐王对照、双轨时间线、口诀'),('compare.html','⚖️','⑭ 书卷对照','10 组以经解经：创↔启、利↔来、雅↔罗……'),('stats.html','📊','⑮ 圣经统计','章节数、类别、作者、旧约引用（附来源）')]
     c.append('<div class="grid g3 reveal">'+''.join(f'<a class="card tile" href="{f}"><div class="big">{i}</div><h4>{t}</h4><p>{d}</p></a>' for f,i,t,d in mods)+'</div>')
     c.append(h2('canon','🌈','66 卷颜色地图'))
     c.append(h3('canon-grid','色块总图（颜色 = 文体分类，点击进入该卷）'))
@@ -89,4 +89,9 @@ def sources():
     c.append('<div class="grid g3">'+''.join(f'<a class="card tile" href="{u}" target="_blank" rel="noopener"><div class="big">🔗</div><h4>{n}</h4><p>{d}<br><small>{u}</small></p></a>' for u,n,d in R)+'</div>')
     c.append(h2('method','🧪','年代与资料方法'))
     c.append('<ul><li>旧约诸王年代：Edwin R. Thiele 系统（及 McFall 修订），与保守派研读本（如 ESV/改革宗研读本）一致；个别年份 ±1 年。</li><li>出埃及采“早期说”1446年（王上6:1）。</li><li>耶稣受难年取 AD 30 或 33 两说并列。</li><li>地图：Natural Earth 海岸线（公有领域）+ 手工标注；古代地点坐标为通行考古识别，部分存争议（已标注）。</li><li>经文：和合本。</li><li>书卷解读、口诀、图表为本站作者依改革宗正统立场综述，不属逐字引文；凡逐字引文均以紫色框/“逐字”标签标出并链接原页。</li></ul>')
+    c.append(h3('v6src','v6 统计与学术资料'))
+    c.append(table(['用途','来源','用在'],[['经节数（66 卷，31,102 节）','<a href="https://www.biblesupersearch.com/2019/02/the-number-of-verses-in-the-bible/" target="_blank" rel="noopener">Bible SuperSearch：The Number of Verses in the Bible（2019，KJV 分节）</a>','<a href="stats.html">圣经统计</a>'],
+      ['旧约在新约中的引用（224 / 295 / 352 节 / 278 节）','<a href="https://thirdmill.org/articles/rog_nicole/rog_nicole.NT_OT.html" target="_blank" rel="noopener">Roger Nicole, “New Testament Use of the Old Testament” (1958)</a>','<a href="stats.html">圣经统计</a>'],
+      ['四福音独有材料比例（约值）','B. F. Westcott, <i>An Introduction to the Study of the Gospels</i> (1860)','<a href="gospels.html">四福音对照</a>'],
+      ['基督生平年代（AD 30 / AD 33）','保守派年代学；Harold W. Hoehner, <i>Chronological Aspects of the Life of Christ</i> (1977)','<a href="life-of-christ.html">基督生平</a>']]))
     return page('sources.html','资料来源',''.join(c))

@@ -23,18 +23,20 @@ def vbars(rows,h=220,unit='',cap='',maxv=None,lab_every=1,rot=False,id_=''):
     mx=maxv or max(v for _,v,_,_ in rows) or 1
     bw=(W-L-10)/n
     import math
-    step=10**int(math.log10(mx)) if mx>0 else 1
-    ticks=[t for t in range(0,int(mx)+1,max(1,step if mx/step<=6 else step*2))]
-    g=''.join(f'<line x1="{L}" x2="{W-6}" y1="{B-(t/mx)*(B-T):.1f}" y2="{B-(t/mx)*(B-T):.1f}" class="gl"/><text x="{L-6}" y="{B-(t/mx)*(B-T)+4:.1f}" text-anchor="end" class="ax">{t}</text>' for t in ticks)
+    raw=mx/5; mag=10**int(math.floor(math.log10(raw))) if raw>0 else 1
+    step=next(m*mag for m in (1,2,2.5,5,10) if m*mag>=raw)
+    ticks=[]; t=0
+    while t<=mx+1e-9: ticks.append(round(t,2)); t+=step
+    g=''.join(f'<line x1="{L}" x2="{W-6}" y1="{B-(t/mx)*(B-T):.1f}" y2="{B-(t/mx)*(B-T):.1f}" class="gl"/><text x="{L-6}" y="{B-(t/mx)*(B-T)+4:.1f}" text-anchor="end" class="ax">{t:g}</text>' for t in ticks)
     bars=''
     for i,(lb,v,c,tt) in enumerate(rows):
         x=L+i*bw+bw*.14; hh=(v/mx)*(B-T); y=B-hh
         bars+=f'<g class="bh"><rect x="{x:.1f}" y="{y:.1f}" width="{bw*.72:.1f}" height="{max(hh,0.5):.1f}" rx="3" fill="{c}" style="--d:{i*12}ms"><title>{E(tt or f"{lb}：{v}{unit}")}</title></rect>'
         if i%lab_every==0:
             tx=x+bw*.36
-            bars+=(f'<text x="{tx:.1f}" y="{B+12}" class="ax" text-anchor="end" transform="rotate(-55 {tx:.1f} {B+12})">{E(lb)}</text>' if rot else f'<text x="{tx:.1f}" y="{B+16}" class="ax" text-anchor="middle">{E(lb)}</text>')
+            bars+=(f'<text x="{tx:.1f}" y="{B+12}" class="ax{" axs" if n>40 else ""}" text-anchor="end" transform="rotate(-55 {tx:.1f} {B+12})">{E(lb)}</text>' if rot else f'<text x="{tx:.1f}" y="{B+16}" class="ax" text-anchor="middle">{E(lb)}</text>')
         bars+='</g>'
-    return f'<figure class="v6c rv"{f" id={chr(34)}{id_}{chr(34)}" if id_ else ""}><div class="v6sc"><svg viewBox="0 0 {W} {h}" style="min-width:{min(W,1100)}px" role="img" aria-label="{E(cap)}">{g}{bars}</svg></div>{f"<figcaption class=srcline>{cap}</figcaption>" if cap else ""}</figure>'
+    return f'<figure class="v6c rv"{f" id={chr(34)}{id_}{chr(34)}" if id_ else ""}><div class="v6sc"><svg viewBox="0 0 {W} {h}" style="min-width:{min(W,1100) if n<=40 else int(W*.62)}px" role="img" aria-label="{E(cap)}">{g}{bars}</svg></div>{f"<figcaption class=srcline>{cap}</figcaption>" if cap else ""}</figure>'
 def donut(rows,cap='',size=220):
     """rows: (label,value,color)"""
     import math
