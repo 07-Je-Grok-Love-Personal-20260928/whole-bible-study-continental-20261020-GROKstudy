@@ -670,3 +670,7 @@ html.plain .kbox,html.plain .mni{border-color:var(--line);background:none}html.p
 html.focus .kbox,html.focus .mni,html.focus .uo,html.focus mark.hb{opacity:1}
 html.plain b.k{background:none}html.focus main :is(.uo,.mnf,mark.hb){color:var(--ink)}
 .kbmini{display:inline-block;padding:0 6px;border:2px solid var(--gold);border-radius:6px;background:color-mix(in srgb,var(--gold) 14%,transparent)}.legend-em .mnf{font-size:14px}
+
+/* v7 perf: once a card is pre-laid-out in idle time it stays rendered on its own compositor layer, so fast flings only composite (no cv re-unskip / cull-rect repaint) */
+.bk.pl,section.blk.pl{content-visibility:visible;will-change:transform}
+.toc{will-change:transform}.tocbody{will-change:scroll-position}

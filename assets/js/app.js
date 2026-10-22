@@ -45,8 +45,8 @@ if(cards.length){const ric=window.requestIdleCallback||(f=>setTimeout(()=>f({tim
   const next=()=>{let best=null,bd=1e15;const y=scrollY+innerHeight/2;for(const c of cards){if(c.__pl||c.classList.contains('hidden'))continue;const d=Math.abs(c.offsetTop+c.offsetHeight/2-y);if(d<bd){bd=d;best=c}}return best};
   const step=dl=>{if(performance.now()-lastScroll<300){setTimeout(()=>ric(step,{timeout:2000}),320);return}
     if(dl&&!dl.didTimeout&&dl.timeRemaining()<6){ric(step,{timeout:2000});return}
-    const c=next();if(!c)return;c.__pl=1;const b=c.querySelector(':scope>.body[data-lazy]');if(b)hydrate(b);
-    c.style.contentVisibility='visible';void c.offsetHeight;c.style.contentVisibility='';
+    let k=0;do{const c=next();if(!c)return;c.__pl=1;const b=c.querySelector(':scope>.body[data-lazy]');if(b)hydrate(b);
+    c.classList.add('pl');void c.offsetHeight;k++}while(dl&&!dl.didTimeout&&dl.timeRemaining()>9&&k<4);
     ric(step,{timeout:2000})};
   addEventListener('load',()=>setTimeout(()=>ric(step,{timeout:2000}),400))}
 function goTo(id){let el=document.getElementById(id);if(!el){const lb=findLazy(id);if(lb){hydrate(lb);el=document.getElementById(id)}}if(!el)return;let dd=el.closest('details');while(dd){dd.open=true;dd=dd.parentElement.closest('details')}
@@ -112,9 +112,14 @@ if(tree&&'IntersectionObserver' in window){
   for(let i=0;i<n;i++)bind(i);
   onHyd.push(body=>{const card=body.closest('.bk');for(let i=0;i<n;i++){if(cont[i]!==card)continue;const el=document.getElementById(ids[i]);if(el&&!idx.has(el))bind(i)}sched()});
   function sched(){if(!raf)raf=requestAnimationFrame(spy)}
+  let ancs=[],syncT=0;
   function spy(){raf=0;let ans=0;for(let i=n-1;i>=0;i--){if(hAbove[i]||(cont[i]&&cGone.get(cont[i]))){ans=i;break}}
-    const a=links[ans];if(!a||a===cur)return;cur&&cur.classList.remove('act');$$('a.anc',tree).forEach(x=>x.classList.remove('anc'));cur=a;a.classList.add('act');
-    let li=a.closest('li').parentElement.closest('li');while(li){li.classList.remove('closed');li.querySelector(':scope>.row>a').classList.add('anc');li=li.parentElement.closest('li')}
+    const a=links[ans];if(!a||a===cur)return;cur&&cur.classList.remove('act');cur=a;a.classList.add('act');
+    /* branch expansion + TOC auto-scroll need layout: defer until scrolling pauses so flings stay compositor-only */
+    clearTimeout(syncT);syncT=setTimeout(sync,140)}
+  function sync(){const a=cur;if(!a)return;if(performance.now()-lastScroll<120){syncT=setTimeout(sync,140);return}
+    ancs.forEach(x=>x.classList.remove('anc'));ancs=[];
+    let li=a.closest('li').parentElement.closest('li');while(li){li.classList.remove('closed');const x=li.querySelector(':scope>.row>a');x.classList.add('anc');ancs.push(x);li=li.parentElement.closest('li')}
     if(tb&&(!MOB()||body.classList.contains('tocopen'))){const r=a.getBoundingClientRect(),br=tb.getBoundingClientRect();if(r.top<br.top+30||r.bottom>br.bottom-30)tb.scrollTo({top:tb.scrollTop+r.top-br.top-br.height/3})}}
 }
 /* ---------- reveal + structure bars + charts ---------- */
