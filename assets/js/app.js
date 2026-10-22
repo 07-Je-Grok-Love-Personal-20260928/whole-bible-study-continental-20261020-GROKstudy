@@ -1,4 +1,4 @@
-/* GROKstudy whole-Bible v5 — shared UI: 5 themes, IO-only scroll-spy, lazy book bodies, paused off-screen loops */
+/* GROKstudy whole-Bible v7 (based on v5) — shared UI: 5 themes, IO-only scroll-spy, lazy book bodies, paused off-screen loops */
 (function(){
 const $=(s,r=document)=>r.querySelector(s),$$=(s,r=document)=>[...r.querySelectorAll(s)];
 const root=document.documentElement,body=document.body,LS={g:k=>{try{return localStorage.getItem(k)}catch(e){return null}},s:(k,v)=>{try{localStorage.setItem(k,v)}catch(e){}}};
@@ -45,8 +45,8 @@ if(cards.length){const ric=window.requestIdleCallback||(f=>setTimeout(()=>f({tim
   const next=()=>{let best=null,bd=1e15;const y=scrollY+innerHeight/2;for(const c of cards){if(c.__pl||c.classList.contains('hidden'))continue;const d=Math.abs(c.offsetTop+c.offsetHeight/2-y);if(d<bd){bd=d;best=c}}return best};
   const step=dl=>{if(performance.now()-lastScroll<300){setTimeout(()=>ric(step,{timeout:2000}),320);return}
     if(dl&&!dl.didTimeout&&dl.timeRemaining()<6){ric(step,{timeout:2000});return}
-    const c=next();if(!c)return;c.__pl=1;const b=c.querySelector(':scope>.body[data-lazy]');if(b)hydrate(b);
-    c.style.contentVisibility='visible';void c.offsetHeight;c.style.contentVisibility='';
+    let k=0;do{const c=next();if(!c)return;c.__pl=1;const b=c.querySelector(':scope>.body[data-lazy]');if(b)hydrate(b);
+    c.classList.add('pl');void c.offsetHeight;k++}while(dl&&!dl.didTimeout&&dl.timeRemaining()>9&&k<4);
     ric(step,{timeout:2000})};
   addEventListener('load',()=>setTimeout(()=>ric(step,{timeout:2000}),400))}
 function goTo(id){let el=document.getElementById(id);if(!el){const lb=findLazy(id);if(lb){hydrate(lb);el=document.getElementById(id)}}if(!el)return;let dd=el.closest('details');while(dd){dd.open=true;dd=dd.parentElement.closest('details')}
@@ -112,9 +112,14 @@ if(tree&&'IntersectionObserver' in window){
   for(let i=0;i<n;i++)bind(i);
   onHyd.push(body=>{const card=body.closest('.bk');for(let i=0;i<n;i++){if(cont[i]!==card)continue;const el=document.getElementById(ids[i]);if(el&&!idx.has(el))bind(i)}sched()});
   function sched(){if(!raf)raf=requestAnimationFrame(spy)}
+  let ancs=[],syncT=0;
   function spy(){raf=0;let ans=0;for(let i=n-1;i>=0;i--){if(hAbove[i]||(cont[i]&&cGone.get(cont[i]))){ans=i;break}}
-    const a=links[ans];if(!a||a===cur)return;cur&&cur.classList.remove('act');$$('a.anc',tree).forEach(x=>x.classList.remove('anc'));cur=a;a.classList.add('act');
-    let li=a.closest('li').parentElement.closest('li');while(li){li.classList.remove('closed');li.querySelector(':scope>.row>a').classList.add('anc');li=li.parentElement.closest('li')}
+    const a=links[ans];if(!a||a===cur)return;cur&&cur.classList.remove('act');cur=a;a.classList.add('act');
+    /* branch expansion + TOC auto-scroll need layout: defer until scrolling pauses so flings stay compositor-only */
+    clearTimeout(syncT);syncT=setTimeout(sync,140)}
+  function sync(){const a=cur;if(!a)return;if(performance.now()-lastScroll<120){syncT=setTimeout(sync,140);return}
+    ancs.forEach(x=>x.classList.remove('anc'));ancs=[];
+    let li=a.closest('li').parentElement.closest('li');while(li){li.classList.remove('closed');const x=li.querySelector(':scope>.row>a');x.classList.add('anc');ancs.push(x);li=li.parentElement.closest('li')}
     if(tb&&(!MOB()||body.classList.contains('tocopen'))){const r=a.getBoundingClientRect(),br=tb.getBoundingClientRect();if(r.top<br.top+30||r.bottom>br.bottom-30)tb.scrollTo({top:tb.scrollTop+r.top-br.top-br.height/3})}}
 }
 /* ---------- reveal + structure bars + charts ---------- */
@@ -176,4 +181,15 @@ $$('[data-kfilter]').forEach(btn=>btn.addEventListener('click',()=>{const k=$(bt
   $$('.kb',k).forEach(b=>b.classList.toggle('dim',v!=='all'&&!b.classList.contains(v)))}));
 /* ---------- covenant flow ---------- */
 $$('.covflow').forEach(cf=>{const info=$(cf.dataset.info);cf.addEventListener('click',e=>{const n=e.target.closest('.nd');if(n&&info){info.innerHTML=n.dataset.html;$$('.nd',cf).forEach(x=>x.style.opacity=x===n?1:.55)}})});
+
+/* ---------- v7 grouped nav dropdowns ---------- */
+(()=>{const gs=$$('.nav .ng');if(!gs.length)return;let hov=matchMedia('(hover:hover)').matches,ht=0;
+  const place=g=>{const r=g.querySelector('.ngb').getBoundingClientRect(),d=g.querySelector('.ndd');const w=Math.min(330,innerWidth*.94);d.style.setProperty('--ddx',Math.max(6,Math.min(r.left,innerWidth-w-6))+'px')};
+  const close=x=>gs.forEach(g=>{if(g!==x){g.classList.remove('open');g.querySelector('.ngb').setAttribute('aria-expanded','false')}});
+  const open=g=>{close(g);place(g);g.classList.add('open');g.querySelector('.ngb').setAttribute('aria-expanded','true')};
+  gs.forEach(g=>{const b=g.querySelector('.ngb');b.addEventListener('click',e=>{e.stopPropagation();g.classList.contains('open')?close():open(g)});
+    if(hov){g.addEventListener('pointerenter',()=>{clearTimeout(ht);ht=setTimeout(()=>open(g),90)});g.addEventListener('pointerleave',()=>{clearTimeout(ht);ht=setTimeout(()=>{if(!g.matches(':hover'))g.classList.remove('open')},220)})}});
+  document.addEventListener('click',e=>{if(!e.target.closest('.ng'))close()});document.addEventListener('keydown',e=>{if(e.key==='Escape')close()});
+  addEventListener('scroll',()=>close(),{passive:true});
+  const cur=document.querySelector('.nav .ng.on');cur&&cur.scrollIntoView&&innerWidth<=1000&&(()=>{const nv=document.querySelector('.nav');nv.scrollLeft+=cur.getBoundingClientRect().left-nv.getBoundingClientRect().left-8})()})();
 })();

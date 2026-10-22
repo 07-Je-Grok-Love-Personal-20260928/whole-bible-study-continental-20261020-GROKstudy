@@ -36,8 +36,14 @@ function pt(m,p,color){
   const c=L.circleMarker(p.ll,{radius:p.r||6,color:'#fff',weight:1.5,fillColor:p.c||color||'#ff6b6b',fillOpacity:1}).addTo(m);
   const small=innerWidth<640;c.bindTooltip(p.n,{permanent:p.perm!==false&&(!small||p.k),direction:p.dir||'right',className:'mlabel',offset:[6,0]});
   if(p.d)c.bindPopup('<b>'+p.n+'</b><br>'+p.d);
+  c._prio=p.n==='耶路撒冷'?3:p.k?2:0;(m._pts||(m._pts=[])).push(c);
+  c.on('mouseover',()=>{const e=c.getTooltip()&&c.getTooltip().getElement();e&&e.classList.add('mlpeek')});c.on('mouseout',()=>{const e=c.getTooltip()&&c.getTooltip().getElement();e&&e.classList.remove('mlpeek')});
   return c;
 }
+/* v7: label collision handling — key places (k=1) first, then in order; overlapped labels hide and reappear on hover or zoom-in */
+function declutter(m){const pts=(m._pts||[]).slice().sort((a,b)=>b._prio-a._prio);const kept=[],regs=[...m.getContainer().querySelectorAll('.leaflet-marker-pane .mlabel.reg')].map(e=>e.getBoundingClientRect());
+  const rs=pts.map(c=>{const e=c.getTooltip()&&c.getTooltip().getElement();if(!e)return null;e.classList.remove('mlhide');return [c,e,e.getBoundingClientRect()]}).filter(Boolean);
+  rs.forEach(([c,e,r])=>{if(!r.width)return;const ov=k=>!(r.right<k.left-2||r.left>k.right+2||r.bottom<k.top-1||r.top>k.bottom+1);const hit=(c._prio<2&&regs.some(ov))||kept.some(k=>!(r.right<k.left-2||r.left>k.right+2||r.bottom<k.top-1||r.top>k.bottom+1));if(hit)e.classList.add('mlhide');else kept.push(r)})}
 function build(el){
   const cfg=window.MAPS&&window.MAPS[el.dataset.map];if(!cfg)return;
   if(!window.L){el.innerHTML='<div class="mapfb"><b>地图脚本未加载，以下为地点列表：</b><ul>'+(cfg.points||[]).map(p=>'<li>'+p.n+(p.d?'：'+p.d:'')+'</li>').join('')+'</ul></div>';return}
@@ -51,6 +57,7 @@ function build(el){
   /* add layers in small time-sliced chunks so no single task is long */
   const run=()=>{const now=performance.now();if(now-(window.__mLS||0)<260){setTimeout(run,200);return}const t0=now;while(jobs.length&&performance.now()-t0<8)jobs.shift()();if(jobs.length)setTimeout(run,24)};setTimeout(run,16);
   el._map=m; setTimeout(()=>m.invalidateSize(),300);
+  let dT=0;const dc=()=>{clearTimeout(dT);dT=setTimeout(()=>{if(jobs.length){dc();return}requestAnimationFrame(()=>declutter(m))},120)};m.on('zoomend moveend',dc);dc();
 }
 function safe(el){if(el._built)return;el._built=1;el.innerHTML='';try{build(el)}catch(e){console.warn(e);el.innerHTML='<div class="mapfb">地图加载失败</div>'}}
 function init(){const els=[...document.querySelectorAll('.map[data-map]')];if(!('IntersectionObserver' in window)){els.forEach(safe);return}

@@ -96,4 +96,4 @@ def build():
     c.append(co('trap','<p>'+rich('!!“降在阴间”不是说基督到地狱再受一次苦或给死人第二次机会!!。海德堡第44问把它解释为基督在一切苦难中，{{HC44|尤其是在十字架上所忍受的}}==无法言表的痛苦==，使我确知主{{HC44|已经拯救我脱离了地狱的痛苦和折磨}}。',False)+'</p>','易错'))
     c.append(co('app','<p>'+rich('读福音书的任何一段，都问：这是他**降卑**的哪一步？还是**升高**的预尝？——十字架之后必有冠冕（来12:2）。',False)+'</p>','应用'))
     return page('life-of-christ.html','基督生平',''.join(c),extra_head='<link rel="stylesheet" href="assets/vendor/leaflet.css">',
-      scripts='<script src="assets/vendor/leaflet.js" defer></script><script src="assets/data/land.js" defer></script><script src="assets/data/maps6.js" defer></script><script src="assets/js/maps.js?v=v6" defer></script><script src="assets/js/v6.js?v=v6" defer></script>')
+      scripts='<script src="assets/vendor/leaflet.js" defer></script><script src="assets/data/land.js" defer></script><script src="assets/data/maps6.js" defer></script><script src="assets/js/maps.js?v=v7" defer></script><script src="assets/js/v6.js?v=v7" defer></script>')

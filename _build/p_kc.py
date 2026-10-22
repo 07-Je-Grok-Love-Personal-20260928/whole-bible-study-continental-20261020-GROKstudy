@@ -149,4 +149,4 @@ def build():
     avg=lambda ks: sum(k[4] for k in ks)/len(ks)
     c.append(stats([(f'{span(JUDAH)} 年',f'犹大存续（931–586）','🟦','var(--sky)'),(f'{span(ISRAEL)} 年','以色列存续（931–722）','🟥','var(--rose)'),(f'{avg(JUDAH):.1f}','犹大平均在位年数','⏳','var(--sky)'),(f'{avg(ISRAEL):.1f}','以色列平均在位年数','⏳','var(--rose)'),(f'{len(dd)}','北国王朝数','🔗','var(--gold)'),('1','南国王朝（大卫家）','👑','var(--emer)')]))
     c.append(co('app','<p>'+rich('读列王纪时问：这位王对**神的约**怎样回应？读历代志时问：这位王怎样**寻求耶和华、自卑**？——两卷都把我们推向唯一完全的王：耶稣基督。',False)+'</p>','应用'))
-    return page('kings-chronicles.html','列王纪 × 历代志',''.join(c),scripts='<script src="assets/js/v6.js?v=v6" defer></script>')
+    return page('kings-chronicles.html','列王纪 × 历代志',''.join(c),scripts='<script src="assets/js/v6.js?v=v7" defer></script>')

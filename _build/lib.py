@@ -1,5 +1,5 @@
 import json,re,html
-V='v6'; DATE='2026-10-22'
+V='v7'; DATE='2026-10-22'
 import os
 HERE=os.path.dirname(os.path.abspath(__file__))
 CCI=os.path.join(HERE,'data','cci')+'/'
@@ -32,7 +32,34 @@ def conflabel(s):
     if s.startswith('HC'): return f'海德堡{s[2:]}问'
     if s.startswith('BC'): return f'比利时{s[2:]}条'
     h,n=s[2:].split('.'); return f'多特{["一","二","三四","五"][int(h)]}·{n}'
-PAGES=[('index.html','🏠','首页总览'),('story.html','🧭','救赎大故事'),('covenant.html','🤝','圣约神学'),('timeline.html','⏳','时间线·诸王'),('geography.html','🗺️','地理文化'),('ot.html','📜','旧约39卷'),('nt.html','✝️','新约27卷'),('gospels.html','📗','四福音对照'),('life-of-christ.html','🌟','基督生平'),('kings-chronicles.html','👑','列王纪×历代志'),('compare.html','⚖️','书卷对照'),('stats.html','📊','圣经统计'),('creeds.html','🕊️','三大信经'),('forms.html','📚','三项联合信条'),('memory.html','🧠','记忆·测验'),('sources.html','🔗','资料来源')]
+GROUPS=[('1','总览','🧭',[('index.html','🏠','首页总览','学习路线·66卷色图·一页纸'),('story.html','🧭','救赎大故事','四幕剧·红线·圣经神学'),('covenant.html','🤝','圣约神学','三约·六约·两种施行'),('timeline.html','⏳','时间线·诸王','11时代·8钉子·42王'),('geography.html','🗺️','地理文化','8幅交互地图')]),
+ ('2','书卷','📚',[('ot.html','📜','旧约39卷','逐卷13项解读'),('nt.html','✝️','新约27卷','逐卷13项解读'),('pentateuch.html','⚖️','摩西五经对照','五经横向×纵向'),('history.html','🏛️','历史书对照','得地→被掳→归回'),('poetry.html','🎼','诗歌智慧书对照','五卷三角度看智慧'),('prophets.html','🔥','先知书对照','17先知×君王×帝国'),('gospels.html','📗','四福音对照','四幅肖像·段落对照'),('epistles.html','✉️','新约书信对照','21封书信·年代·主题')]),
+ ('3','专题','🔍',[('life-of-christ.html','🌟','基督生平','48事件×地图'),('kings-chronicles.html','👑','列王纪×历代志','42王逐王对照'),('compare.html','🔗','跨卷对照','10组以经解经'),('stats.html','📊','圣经统计','章节·类别·引用')]),
+ ('4','信条','🕊️',[('creeds.html','🕊️','三大信经','背诵版·深度对比'),('forms.html','📚','三项联合信条','37条·129问·多特')  ,('memory.html','🧠','记忆·测验','口诀·闪卡·测验')]),
+ ('5','资料','🗂️',[('sources.html','🗂️','资料来源','逐字来源·核对')])]
+PAGES=[(f,i,t) for _,_,_,ps in GROUPS for f,i,t,_d in ps]
+PNUM={f:f'{g}.{k+1}' for g,_,_,ps in GROUPS for k,(f,_i,_t,_d) in enumerate(ps)}
+PGRP={f:(g,gn,gi) for g,gn,gi,ps in GROUPS for (f,_i,_t,_d) in ps}
+GCIRC='①②③④⑤'
+def navhtml(fn):
+    o=''
+    for g,gn,gi,ps in GROUPS:
+        on=any(f==fn for f,*_ in ps)
+        links=''.join(f'<a href="{f}" class="{"on" if f==fn else ""}"><span class="pn">{PNUM[f]}</span>{i} {t}<small>{E(d)}</small></a>' for f,i,t,d in ps)
+        o+=f'<div class="ng{" on" if on else ""}"><button class="ngb" aria-haspopup="true" aria-expanded="false"><span class="gn">{GCIRC[int(g)-1]}</span><span class="gi">{gi}</span>{gn}<i>▾</i></button><div class="ndd" role="menu"><b class="ndh">{GCIRC[int(g)-1]} {gn}</b>{links}</div></div>'
+    return o
+def pageshtml(fn):
+    o=''
+    for g,gn,gi,ps in GROUPS:
+        o+=f'<div class="tpg"><b class="tpgh"><span class="gn">{GCIRC[int(g)-1]}</span>{gi} {gn}</b>'+''.join(f'<a href="{f}" class="{"on" if f==fn else ""}"><span class="pn">{PNUM[f]}</span>{i} {t}</a>' for f,i,t,_d in ps)+'</div>'
+    return o
+def crumbs(fn):
+    if fn not in PNUM: return ''
+    g,gn,gi=PGRP[fn]; i=[x for x in PAGES if x[0]==fn][0]
+    k=[x[0] for x in PAGES].index(fn); pv=PAGES[k-1] if k>0 else None; nx=PAGES[k+1] if k+1<len(PAGES) else None
+    top=f'<div class="crumb"><a href="index.html">📖 整本圣经</a><i>›</i><span>{GCIRC[int(g)-1]} {gi} {gn}</span><i>›</i><b>{PNUM[fn]} {i[1]} {i[2]}</b></div>'
+    bot='<nav class="pnx">'+(f'<a href="{pv[0]}" class="pv"><small>← 上一页</small><b>{PNUM[pv[0]]} {pv[1]} {pv[2]}</b></a>' if pv else '<span></span>')+(f'<a href="{nx[0]}" class="nx"><small>下一页 →</small><b>{PNUM[nx[0]]} {nx[1]} {nx[2]}</b></a>' if nx else '<span></span>')+'</nav>'
+    return top,bot
 CN='零一二三四五六七八九十'
 def cnum(n):
     if n<=10: return CN[n]
@@ -90,12 +117,12 @@ for _n,_a in BCA.items(): SRC['BC%d'%_n]=(_strip(_a['text']),_a['url'],'比利�
 SRC['AP']=(CR['apostles']['text'],CR['apostles']['url'],'使徒信经');SRC['NI']=(CR['nicene']['text'],CR['nicene']['url'],'尼西亚信经');SRC['AT']=(CR['athanasian']['text'],CR['athanasian']['url'],'亚他那修信经')
 for _i,_h in enumerate(DT['heads']):
     for _a in _h['articles']:
-        if isinstance(_a.get('number'),int): SRC[f'DT{_i}_{_a["number"]}']=(_strip(_a['text']),_a['url'],'多特信经·'+_h['title'][:6]+'第%d条'%_a['number'])
+        if isinstance(_a.get('number'),int): SRC[f'DT{_i}_{_a["number"]}']=(_strip(_a['text']),_a['url'],'多特信经·'+_h['title'][:6]+('·错谬反驳' if _a['title'].startswith('错谬') else '第%d条'%_a['number']))
 QUOTES=[]
 EMR=[(r'\*\*(.+?)\*\*',r'<b class="k">\1</b>'),(r'==(.+?)==',r'<mark class="hy">\1</mark>'),(r'%%(.+?)%%',r'<mark class="hg">\1</mark>'),
      (r'!!(.+?)!!',r'<span class="uw">\1</span>'),(r'\+\+(.+?)\+\+',r'<span class="ug">\1</span>'),(r'\^\^(.+?)\^\^',r'<span class="ub">\1</span>'),
      (r'\[\[(.+?)\]\]',r'<span class="cx">\1</span>'),(r'~~(.+?)~~',r'<span class="cr">\1</span>'),
-     (r'@@(.+?)@@',r'<span class="must">\1</span>'),(r';;(.+?);;',r'<span class="ud">\1</span>')]
+     (r'@@(.+?)@@',r'<span class="must">\1</span>'),(r';;(.+?);;',r'<span class="ud">\1</span>'),(r'__(.+?)__',r'<span class="uo">\1</span>'),(r'\$\$(.+?)\$\$',r'<mark class="hb">\1</mark>')]
 REFRE=re.compile(r'(?<![\d:新旧立守背盟之圣])((?:撒上|撒下|王上|王下|代上|代下|林前|林后|帖前|帖后|提前|提后|彼前|彼后|约一|约二|约三|[创出利民申书士得拉尼斯伯诗箴传歌赛耶哀结但何珥摩俄拿弥鸿哈番该亚玛太可路约徒罗加弗腓西多门来雅犹启])\d{1,3}:\d{1,3}(?:[–\-]\d{1,3}(?::\d{1,3})?)?)(?![\d])')
 TERMS=['恩典之约','行为之约','救赎之约','亚伯拉罕之约','摩西之约','西奈之约','大卫之约','挪亚之约','新约应许','因信称义','代赎','中保','道成肉身','受苦的仆人','预表','护理','拣选','归算','三位一体','神的主权']
 DATERE=re.compile(r'(?<![\d\^])((?:约|主前|主后|公元前|AD ?)?\d{2,4}(?:[–\-]\d{2,4})?(?: ?BC| ?AD|年代?))(?![\d\^])')
@@ -143,6 +170,11 @@ LEGEND_EM=('<div class="legend-em">'
  '<span class="it"><span class="ud">金双线</span> 定义 · 原则</span>'
  '<span class="it"><span class="rf">罗8:28</span> 经文出处（自动）</span>'
  '<span class="it"><span class="kpb">1</span> 编号要点徽章</span>'
+ '<span class="it"><span class="uo">橙粗线</span> 对比·差异</span>'
+ '<span class="it"><mark class="hb">蓝底点线</mark> 人物·地点</span>'
+ '<span class="it"><span class="mbadge">★ 必背</span> 必背徽章</span>'
+ '<span class="it"><span class="mnf">口诀</span> 记忆口诀</span>'
+ '<span class="it"><span class="kbmini">🔑</span> 钥点框（编号必背）</span>'
  '<span class="pills">'+''.join(f'<span class="pill co {k}">{v[0]}{v[1]}框</span>' for k,v in CO.items())+'</span></div>')
 def legend_box(open_=False):
     return f'<details class="dx legendbox"{" open" if open_ else ""}><summary>🎨 笔记式标注图例（颜色编码说明）</summary><div class="in">{LEGEND_EM}</div></details>'
@@ -188,8 +220,11 @@ def page(fn,title,content,extra_head='',scripts='',cv=True):
     content,toc=number(content)
     content=autoref(content)
     if cv: content=wrap_sections(content)
-    nav=''.join(f'<a href="{f}" class="{"on" if f==fn else ""}">{i} {t}</a>' for f,i,t in PAGES)
-    pages=''.join(f'<a href="{f}" class="{"on" if f==fn else ""}">{i} {t}</a>' for f,i,t in PAGES)
+    nav=navhtml(fn); pages=pageshtml(fn); cb=crumbs(fn) or ('','')
+    GEN=['pentateuch.html','history.html','poetry.html','prophets.html','gospels.html','epistles.html']
+    if fn in GEN:
+        gl=[x for x in GROUPS[1][3] if x[0] in GEN]
+        cb=(cb[0]+'<div class="gsw" role="navigation" aria-label="文体对照页切换"><b>📚 文体对照：</b>'+''.join(f'<a href="{f}" class="{"on" if f==fn else ""}">{i} {t.replace("对照","")}</a>' for f,i,t,d in gl)+'</div>',cb[1])
     return f'''<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>{E(title)} · 整本圣经 欧陆改革宗研读 {V}</title><meta name="description" content="整本圣经解读：救赎历史、圣约神学、时间线、诸王、地理、66卷逐卷、三大信经与三项联合信条（欧陆改革宗）。GROKstudy {V} {DATE}">
 <meta name="theme-color" content="#070b1a"><meta name="wb-version" content="{V}-{DATE}">
@@ -200,9 +235,9 @@ def page(fn,title,content,extra_head='',scripts='',cv=True):
 <body data-mer="assets/vendor/mermaid.min.js"><div class="aurora"></div><div class="prog"></div>
 <header class="top"><button class="ibtn" id="tocBtn" title="目录 显示/隐藏" aria-label="目录">☰</button><a class="brand" href="index.html">📖 <b>整本圣经</b><span class="t">· 欧陆改革宗研读</span><small>GROKstudy {V}</small></a><nav class="nav">{nav}</nav>'''+HDR+f'''</header>
 <div class="wrap"><aside class="toc" id="toc"><div class="toch"><b>📑 本页目录</b><button id="tocL2" title="只展开到二级">二级</button><button id="tocAll" title="全部展开">全开</button><button id="tocNone" title="全部收起">全收</button><button id="tocClose" title="隐藏目录" aria-label="隐藏目录">✕</button></div>
-<input id="tocq" placeholder="🔍 筛选目录…" aria-label="筛选目录"><div class="tocbody" data-lenis-prevent>{toctree(toc)}<div class="tocpages"><b>🧭 全站页面</b>{pages}</div></div><div class="rz" title="拖动调整目录宽度（双击复位）" role="separator" aria-orientation="vertical"><span class="rztip"></span></div><div class="rzhint" hidden>↔ 拖动右边缘调整目录宽度</div></aside><div class="scrim"></div>
-<main id="main">{content}
-<footer class="ft">📖 整本圣经 · 欧陆改革宗研读 — GROKstudy {V}（{DATE}）。信经与信条引文逐字取自 <a href="https://ccifellowship.org" target="_blank" rel="noopener">ccifellowship.org</a>（中国改革宗教会）；经文采用和合本。本站为学习辅助，日期采用保守派（Thiele 式）年代学，个别年份学界有±1–2年差异。<br>页面：{" · ".join(f'<a href="{f}">{t}</a>' for f,i,t in PAGES)}</footer></main></div>
+<input id="tocq" placeholder="🔍 筛选目录…" aria-label="筛选目录"><div class="tocbody" data-lenis-prevent>{toctree(toc)}<div class="tocpages"><b>🧭 全站页面 · 5 组 {len(PAGES)} 页</b>{pages}</div></div><div class="rz" title="拖动调整目录宽度（双击复位）" role="separator" aria-orientation="vertical"><span class="rztip"></span></div><div class="rzhint" hidden>↔ 拖动右边缘调整目录宽度</div></aside><div class="scrim"></div>
+<main id="main">{cb[0]}{content}
+{cb[1]}<footer class="ft">📖 整本圣经 · 欧陆改革宗研读 — GROKstudy {V}（{DATE}）。信经与信条引文逐字取自 <a href="https://ccifellowship.org" target="_blank" rel="noopener">ccifellowship.org</a>（中国改革宗教会）；经文采用和合本。本站为学习辅助，日期采用保守派（Thiele 式）年代学，个别年份学界有±1–2年差异。<br>{"<br>".join(f'<b>{GCIRC[int(g)-1]} {gn}</b>：'+" · ".join(f'<a href="{f}">{PNUM[f]} {t}</a>' for f,i,t,d in ps) for g,gn,gi,ps in GROUPS)}</footer></main></div>
 <button class="ibtn totop" aria-label="回到顶部">↑</button>
 {scripts}<script src="assets/js/app.js?v={V}" defer></script></body></html>'''
 def h4(id,t,num=None): return f'<h4 class="h" id="{id}"{f" data-num={chr(34)}{num}{chr(34)}" if num else ""}>{t}</h4>'
