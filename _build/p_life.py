@@ -62,7 +62,7 @@ def build():
     dn=['六','日','一','二','三','四','五','六','日']
     btn=''.join(f'<button data-day="{i}" class="{"on" if i==6 else ""}" style="--c:{"var(--rose)" if i==6 else ("var(--gold)" if i==8 else "var(--sky)")}"><b>{E(e[1])}</b><small>{E(e[3][:8])}</small></button>' for i,e in enumerate(days))
     pan=''.join(f'<div class="pday card" data-d="{i}"{"" if i==6 else " hidden"}><h4 class="h notoc">{E(e[1])} · {E(e[3])}</h4><p>📍 {E(e[5])} · {rich(e[6],False)}</p><div class="lr">{refs_html(e[4])}</div></div>' for i,e in enumerate(days))
-    c.append(h3('pdays','八天时间带（点击某一天）'))
+    c.append(h3('pdays','九天时间带：前一安息日到复活日（点击某一天）'))
     c.append(f'<div class="pweek rv"><div class="pwb">{btn}</div>{pan}</div>')
     c.append(h3('friday','星期五：钉十字架的时辰'))
     hrs=[('清晨','公会定案，解交彼拉多','可15:1','var(--sky)'),('第三时（约9点）','钉十字架','可15:25','var(--rose)'),('第六时（正午）','遍地黑暗','可15:33','var(--vio)'),('第九时（约3点）','“以利，以利……”，断气','可15:34–37','var(--rose)'),('傍晚','约瑟、尼哥底母安葬','约19:38–42','var(--gold)')]
