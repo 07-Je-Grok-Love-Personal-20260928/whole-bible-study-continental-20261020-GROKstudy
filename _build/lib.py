@@ -216,6 +216,10 @@ def page(fn,title,content,extra_head='',scripts='',cv=True):
     content=autoref(content)
     if cv: content=wrap_sections(content)
     nav=navhtml(fn); pages=pageshtml(fn); cb=crumbs(fn) or ('','')
+    GEN=['pentateuch.html','history.html','poetry.html','prophets.html','gospels.html','epistles.html']
+    if fn in GEN:
+        gl=[x for x in GROUPS[1][3] if x[0] in GEN]
+        cb=(cb[0]+'<div class="gsw" role="navigation" aria-label="文体对照页切换"><b>📚 文体对照：</b>'+''.join(f'<a href="{f}" class="{"on" if f==fn else ""}">{i} {t.replace("对照","")}</a>' for f,i,t,d in gl)+'</div>',cb[1])
     return f'''<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>{E(title)} · 整本圣经 欧陆改革宗研读 {V}</title><meta name="description" content="整本圣经解读：救赎历史、圣约神学、时间线、诸王、地理、66卷逐卷、三大信经与三项联合信条（欧陆改革宗）。GROKstudy {V} {DATE}">
 <meta name="theme-color" content="#070b1a"><meta name="wb-version" content="{V}-{DATE}">

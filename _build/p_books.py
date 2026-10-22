@@ -13,6 +13,7 @@ GI={'law-h':'**摩西五经**是全本圣经的根基：==创造—堕落—应�
 'paul-h':'13 卷按篇幅（非年代）排列：先写给教会（罗—帖后），后写给个人（提前—门）。主线：==因信称义、与基督联合、在圣灵里过感恩的生活==。',
 'gen-h':'希伯来书至犹大书：面对**逼迫、假教师、退后的试探**，呼召信徒持守信心、真道与爱。',
 'rev-h':'以**旧约意象**写成的预言与书信；**七个循环平行**的异象展示从基督升天到再来的整个教会时代，结局是新天新地。'}
+GL={'law-h':' <a class="glink" href="pentateuch.html">⚖️ 五经横向×纵向深度对照 →</a>','hist-h':' <a class="glink" href="history.html">🏛️ 历史书深度对照 →</a>','poet-h':' <a class="glink" href="poetry.html">🎼 诗歌智慧书深度对照 →</a>','majp-h':' <a class="glink" href="prophets.html">🔥 先知书 × 君王时间轴 →</a>','minp-h':' <a class="glink" href="prophets.html#r-tl">🔥 小先知 × 君王时间轴 →</a>','gosp-h':' <a class="glink" href="gospels.html">📗 四福音对照 →</a>','paul-h':' <a class="glink" href="epistles.html">✉️ 书信年代与对照 →</a>','gen-h':' <a class="glink" href="epistles.html#e-h">✉️ 21 封书信横向对照 →</a>'}
 def ot():
     c=['''<section class="hero reveal"><div class="chips"><span class="chip g">📜 旧约 39 卷</span><span class="chip">律法5 · 历史12 · 诗歌5 · 大先知5 · 小先知12</span></div><h1>旧约：<em>应许、预表与等候</em></h1><p class="lead">“这经就是为我作见证的”（约5:39）。每卷包含：作者·日期·真实背景·为什么写·结构大纲·核心信息·基督中心·圣约位置·关键经文·难点辨析·应用·记忆口诀·认信连接（三项联合信条原文）。</p></section>''']
     c.append(h2('ot-ov','🗂️','旧约总览'));c.append(h3('ot-map','书卷总图（点击跳转）'))
@@ -24,7 +25,7 @@ def ot():
     c.append(filters(['law','hist','poet','majp','minp'],'.bk'))
     groups={1:('law-h','⚖️ 律法书'),6:('hist-h','🏛️ 历史书'),18:('poet-h','🎼 诗歌智慧书'),23:('majp-h','🔥 大先知书'),28:('minp-h','📯 小先知书')}
     for b in BOOKS[:39]:
-        if b['n'] in groups: c.append(h2(groups[b['n']][0],groups[b['n']][1].split(' ')[0],groups[b['n']][1].split(' ')[1])+co('info','<p>'+rich(GI[groups[b['n']][0]],False)+'</p>','本组要旨'))
+        if b['n'] in groups: c.append(h2(groups[b['n']][0],groups[b['n']][1].split(' ')[0],groups[b['n']][1].split(' ')[1])+co('info','<p>'+rich(GI[groups[b['n']][0]],False)+GL.get(groups[b['n']][0],'')+'</p>','本组要旨'))
         c.append(card(b))
     return page('ot.html','旧约39卷',''.join(c),cv=False)
 def nt():
@@ -42,6 +43,6 @@ style R fill:#4a1d2a,stroke:#ff6b6b''','新约的四段结构'))
     c.append(filters(['gosp','acts','paul','gen','rev'],'.bk'))
     groups={40:('gosp-h','✝️ 福音书'),44:('acts-h','🕊️ 使徒行传'),45:('paul-h','✉️ 保罗书信'),58:('gen-h','📨 普通书信'),66:('rev-h','👑 启示录')}
     for b in BOOKS[39:]:
-        if b['n'] in groups: c.append(h2(groups[b['n']][0],groups[b['n']][1].split(' ')[0],groups[b['n']][1].split(' ')[1])+co('info','<p>'+rich(GI[groups[b['n']][0]],False)+'</p>','本组要旨'))
+        if b['n'] in groups: c.append(h2(groups[b['n']][0],groups[b['n']][1].split(' ')[0],groups[b['n']][1].split(' ')[1])+co('info','<p>'+rich(GI[groups[b['n']][0]],False)+GL.get(groups[b['n']][0],'')+'</p>','本组要旨'))
         c.append(card(b))
     return page('nt.html','新约27卷',''.join(c),cv=False)

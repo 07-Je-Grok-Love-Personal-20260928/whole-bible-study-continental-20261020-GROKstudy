@@ -48,6 +48,17 @@ def build():
     c.append('<div class="grid g3">'+donut(by(lambda b,v:1),'按卷数',200)+donut(by(lambda b,v:b['ch']),'按章数',200)+donut(by(lambda b,v:v),'按节数（KJV）',200)+'</div>')
     c.append(h4('g-obs','🔎 观察'))
     c.append(co('core','<p>'+rich('按卷数看，**小先知书与保罗书信各 12–13 卷**最多；按篇幅看，==历史书与诗歌智慧书==占全本最大比重——圣经首先是一部**历史**：神在时间中的作为。',False)+'</p>','观察'))
+    c.append(h3('g-groups','v7 · 六个文体对照组：卷 · 章 · 节 · 平均篇幅'))
+    GG=[('⚖️ 摩西五经','pentateuch.html',lambda b:b['cat']=='law','var(--law)'),('🏛️ 历史书','history.html',lambda b:b['cat']=='hist','var(--hist)'),('🎼 诗歌智慧书','poetry.html',lambda b:b['cat']=='poet','var(--poet)'),('🔥 先知书','prophets.html',lambda b:b['cat'] in('majp','minp'),'var(--majp)'),('📗 四福音','gospels.html',lambda b:b['cat']=='gosp','var(--gosp)'),('✉️ 书信','epistles.html',lambda b:b['cat'] in('paul','gen'),'var(--paul)')]
+    rows=[];bars=[]
+    for n,f,sel,col in GG:
+        bs=[(b,v) for b,v in zip(BOOKS,VERSES) if sel(b)]; nb=len(bs); ch=sum(b['ch'] for b,_ in bs); vv=sum(v for _,v in bs)
+        big=max(bs,key=lambda x:x[1]); sm=min(bs,key=lambda x:x[1])
+        rows.append([f'<a href="{f}"><b>{n}</b></a>',str(nb),f'{ch:,}',f'{vv:,}',f'{vv/tot*100:.1f}%',f'{vv/nb:,.0f}',f'{big[0]["name"]}（{big[1]:,}）',f'{sm[0]["name"]}（{sm[1]:,}）'])
+        bars.append((n.split(' ')[1],vv,col,f'{n}：{vv:,} 节'))
+    c.append(table(['文体组（点击进入对照页）','卷','章','节（KJV）','占全本','平均每卷节数','最长','最短'],rows))
+    c.append(vbars(bars,h=210,cap='六个文体组的节数（另有使徒行传 1,007 节、启示录 404 节不在这六组中）。'))
+    c.append(co('core','<p>'+rich('三个数字：**历史书**节数最多（叙事是圣经的主体）；**先知书**卷数最多（17 卷）；**书信**平均每卷最短——是写给具体教会的“信”。',False)+'</p>','观察'))
     # authors
     c.append(h2('auth','✍️','作者与成书年代'))
     c.append(h3('a-who','谁写了几卷？（传统归属）'))
