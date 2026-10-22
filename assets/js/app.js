@@ -191,5 +191,5 @@ $$('.covflow').forEach(cf=>{const info=$(cf.dataset.info);cf.addEventListener('c
     if(hov){g.addEventListener('pointerenter',()=>{clearTimeout(ht);ht=setTimeout(()=>open(g),90)});g.addEventListener('pointerleave',()=>{clearTimeout(ht);ht=setTimeout(()=>{if(!g.matches(':hover'))g.classList.remove('open')},220)})}});
   document.addEventListener('click',e=>{if(!e.target.closest('.ng'))close()});document.addEventListener('keydown',e=>{if(e.key==='Escape')close()});
   addEventListener('scroll',()=>close(),{passive:true});
-  const cur=document.querySelector('.nav .ng.on');cur&&cur.scrollIntoView&&innerWidth<=1000&&(document.querySelector('.nav').scrollLeft=cur.offsetLeft-60)})();
+  const cur=document.querySelector('.nav .ng.on');cur&&cur.scrollIntoView&&innerWidth<=1000&&(()=>{const nv=document.querySelector('.nav');nv.scrollLeft+=cur.getBoundingClientRect().left-nv.getBoundingClientRect().left-8})()})();
 })();

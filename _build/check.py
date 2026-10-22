@@ -1,7 +1,7 @@
 import sys,os,json
 from playwright.sync_api import sync_playwright
 SITE=os.path.dirname(os.path.dirname(os.path.abspath(__file__))); pages=sys.argv[1].split(',') if len(sys.argv)>1 and sys.argv[1]!='all' else [f for f in sorted(os.listdir(SITE)) if f.endswith('.html')]
-widths=[390,820,1440]; shots=len(sys.argv)>2; themes=os.environ.get('THEMES','night').split(',')
+widths=[int(x) for x in os.environ.get("WIDTHS","390,820,1440").split(",")]; shots=len(sys.argv)>2; themes=os.environ.get('THEMES','night').split(',')
 res=[]
 with sync_playwright() as p:
     b=p.chromium.launch(executable_path='/usr/bin/google-chrome',args=['--no-sandbox'])
