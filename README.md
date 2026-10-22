@@ -1,20 +1,20 @@
-# 整本圣经研读-20261021-v5-GROKstudy
+# 整本圣经研读-20261022-v6-GROKstudy
 
-> **主题**：整本《圣经》解读（欧陆改革宗 · 正统神学）｜**时间**：2026-10-21｜**版本号**：v5｜GROKstudy
+> **主题**：整本《圣经》解读（欧陆改革宗 · 正统神学）｜**时间**：2026-10-22｜**版本号**：v6｜GROKstudy
 
 时间线 · 故事线 · 地理 · 真实背景 · 文化区域 · 诸王与时代 · 圣经神学 · 圣约神学 · 66 卷逐卷解读 · 三大普世信经背诵版与深度对比 · 三项联合信条全文 · 记忆测验。
 信经与信条引文全部**逐字**取自 [ccifellowship.org](https://ccifellowship.org)（中国改革宗教会），构建时自动校验；经文采用和合本。
 
-## 🔗 在线访问（当前版本 v5）
+## 🔗 在线访问（当前版本 v6）
 
 | 平台 | 链接 |
 |---|---|
 | GitHub Pages | https://07-je-grok-love-personal-20260928.github.io/whole-bible-study-continental-20261020-GROKstudy/ |
-| Surge | https://whole-bible-study-20261021-v5-grokstudy.surge.sh/ |
-| Netlify | https://whole-bible-study-20261021-v5-grokstudy.netlify.app/ |
+| Surge | https://whole-bible-study-20261022-v6-grokstudy.surge.sh/ |
+| Netlify | https://whole-bible-study-20261022-v6-grokstudy.netlify.app/ |
 | 源码仓库 | https://github.com/07-Je-Grok-Love-Personal-20260928/whole-bible-study-continental-20261020-GROKstudy |
 
-## 📑 页面结构（11 页）
+## 📑 页面结构（16 页）
 
 | 文件 | 内容 |
 |---|---|
@@ -24,6 +24,11 @@
 | `timeline.html` | 11 时代、8 钉子年份、主时间线（约 60 个事件）、统一王国 3 王、以色列 19 王、犹大 20 位君王（全表）、南北诸王年代图（SVG）、先知对照、六大帝国、被掳与归回、两约之间、新约年代、信经历史 |
 | `geography.html` | 8 幅交互地图（Leaflet + 离线 Natural Earth 海岸线，可切换在线底图）：古代近东文化区、族长、出埃及、十二支派、分裂王国、帝国与被掳归回、耶稣事工、保罗旅程；文化区域与地形对照 |
 | `ot.html` / `nt.html` | 66 卷逐卷：作者、日期、真实背景、为什么写、结构大纲、核心信息、基督中心、圣约位置、关键经文、难点辨析、应用、记忆口诀、认信连接（三项联合信条原文） |
+| `gospels.html` | 四福音深度对照：41 段落对照表、34 个神迹、34 个比喻（标明出自哪卷）、交互重叠图、十架七言、七个“我是”、四卷纵向肖像、符类问题与和谐原则 |
+| `life-of-christ.html` | 基督生平：48 个事件（四福音出处）× Leaflet 地图联动（点击飞到地点、自动播放）、AD 30 / AD 33 两说、约翰的节期、受难周逐日、复活显现、三职二状态 |
+| `kings-chronicles.html` | 列王纪 × 历代志：目的/读者/日期/史料、增与略、42 位君王逐一对照（两卷经文与评语公式）、双轨同步悬停时间线、口诀、8 位善王、北国 9 朝链、统计图 |
+| `compare.html` | 10 组书卷对照：创↔启、但↔启、利↔来、赛53↔福音书、珥2↔徒2、罗↔加、弗↔西、雅↔罗、撒—王↔代、拉↔尼 |
+| `stats.html` | 圣经统计：66 卷章数/节数图、类别分布、作者、成书世纪、之最、旧约在新约中的引用（Nicole 1958） |
 | `creeds.html` | 三大普世信经干净阅读/背诵版（遮盖背诵模式）、深度对比、异端对照、为什么三份而不是一份、与三项联合信条的关系 |
 | `forms.html` | 比利时信条 37 条、海德堡要理问答 52 主日 129 问、多特信经（4 部分/5 项教义）全文 |
 | `memory.html` | 66 卷口诀总表、24 张闪卡、24 道选择题、8 个排序游戏、信经填空、两周记忆计划 |
@@ -42,8 +47,21 @@ python3 _build/check.py all  # 无头 Chromium 在 390/820/1440 宽度检查溢�
 
 ## 📝 版本历史
 
+### v6 — 2026-10-22（tag `v6-20261022`，[Release](https://github.com/07-Je-Grok-Love-Personal-20260928/whole-bible-study-continental-20261020-GROKstudy/releases/tag/v6-20261022)）
+- 在线：Surge https://whole-bible-study-20261022-v6-grokstudy.surge.sh/ · Netlify https://whole-bible-study-20261022-v6-grokstudy.netlify.app/ · GitHub Pages（main）
+- **新增 5 个页面（共 16 页）**，每页都有三级目录、标注系统、5 套主题、延迟渲染：
+  - 📗 `gospels.html` 四福音对照：41 段落 × 四卷出处、34 个神迹、34 个比喻、交互重叠图（点击区域筛选三张表）、按福音筛选、十架七言、七个“我是”与七个神迹、四卷纵向肖像（结构/读者/钥字/目的经文/旧约使用/结尾/独有材料）、符类问题与五条和谐原则；比利时信条第4、5条逐字引用。
+  - 🌟 `life-of-christ.html` 基督生平：48 个事件、8 个阶段色带、Leaflet 本地地图联动（点击事件飞到地点、阶段筛选、自动播放）、AD 30 vs AD 33、约翰的 6 个节期、受难周 9 天逐日、星期五时辰、11 次复活显现、三职（海德堡第31问逐字）、降卑与升高 V 字线（使徒信经逐字）。
+  - 👑 `kings-chronicles.html`：两卷书 9 项对照、9 条史料、增与略、42 位君王逐王对照（列王纪/历代志经文、评语公式、同期先知）、双轨同步悬停时间线（含帝国与事件轨）、首字口诀、8 位善王、北国 9 个王朝链、在位年数图与善恶分布。
+  - ⚖️ `compare.html`：10 组书卷对照表＋核心洞见；信心与行为的认信答案（海德堡第61、64问，比利时信条第24条逐字）。
+  - 📊 `stats.html`：经节数据来自 Bible SuperSearch（KJV 分节，31,102 节），旧约引用来自 Roger Nicole（1958）；5 张柱状图、4 个环形图、1 组横条图、之最（中间一章＝诗篇117篇；路加节数多于保罗）。
+- 导航、首页模块（15 个）、资料来源页同步更新；逐字引文构建校验 115 → 128 处。
+
+### v5.1 — 2026-10-22（tag `v5.1-20261022`）
+- 即 v5 线上版本（含书卷标签截断修正与滚动水合预算 3 ms 优化）；`v5-20261021` 标签为其前两个提交。
+
 ### v5 — 2026-10-22（tag `v5-20261021`，[Release](https://github.com/07-Je-Grok-Love-Personal-20260928/whole-bible-study-continental-20261020-GROKstudy/releases/tag/v5-20261021)）
-- 在线：Surge https://whole-bible-study-20261021-v5-grokstudy.surge.sh/ · Netlify https://whole-bible-study-20261021-v5-grokstudy.netlify.app/ · GitHub Pages（main）
+- 在线（保留）：Surge https://whole-bible-study-20261021-v5-grokstudy.surge.sh/ · Netlify https://whole-bible-study-20261021-v5-grokstudy.netlify.app/ · GitHub Pages（main）
 - **5 套主题配色（点击 🎨 切换，记忆选择，首屏无闪烁）**：🌌 星空深蓝 · 🌅 晨曦米白 · 🍃 翡翠清新 · 👑 红宝石宫廷 · 🔆 高对比护眼；流程图/图表随主题换色，所有标注在 5 套主题下对比度 ≥ 4.5:1。
 - **阅读模式**：🖍️ 笔记模式（一键显示/隐藏全部彩色标注）、🎯 专注模式（淡化非重点文字，只亮关键句）、🌊 惯性滚动（可选）。
 - **丝滑优化**：66 卷书卡正文改为 `<template>` 延迟生成（接近视口或空闲时才生成并预排版），滚动高亮全部改用 IntersectionObserver，滚动层不再用 backdrop-filter，屏幕外动画暂停，地图分片空闲构建。4× CPU 降速实测：滚动长任务 6 次（461 ms）→ 0，>50 ms 卡帧 12 → 0，平均加载 321 → 313 ms。
