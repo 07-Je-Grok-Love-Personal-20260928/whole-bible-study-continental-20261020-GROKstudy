@@ -66,6 +66,15 @@ def confline(b):
         cl=re.split(r'[。；？！]',t)[0].strip()
         if 10<=len(cl)<=80 and '“' not in cl and '\n' not in cl:
             _USED.add(k); return co('conf','<p>'+rich('{{'+k+'|'+cl+'}}',False)+'</p>','认信一句（逐字）')
+    # fallback (v8): any sentence/clause of the linked articles, 10–80 chars, even if the key was already used elsewhere
+    for c in [x.strip() for x in b['cf'].split(',')]:
+        k=c if not c.startswith('DT') else 'DT'+c[2:].replace('.','_')
+        if k not in SRC: continue
+        t=re.sub(r'^答：','',SRC[k][0].strip())
+        for cl in re.split(r'[。；？！\n]',t):
+            cl=cl.strip()
+            if 10<=len(cl)<=80 and '“' not in cl and '”' not in cl and '（' not in cl:
+                return co('conf','<p>'+rich('{{'+k+'|'+cl+'}}',False)+'</p>','认信一句（逐字）')
     return ''
 def v4strip(b):
     x=V4[b['id']]
