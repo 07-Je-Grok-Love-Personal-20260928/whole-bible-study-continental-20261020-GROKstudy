@@ -40,7 +40,7 @@ const ric=window.requestIdleCallback||(f=>setTimeout(()=>f({timeRemaining:()=>8,
    While the page is actively scrolling the budget is tiny, so flings stay compositor-smooth. */
 function units(body,t){const f=t.content.cloneNode(true),u=[];for(const ch of [...f.children]){if(ch.classList.contains('bgrid')&&ch.children.length>1){const g=ch.cloneNode(false);u.push([body,g]);for(const x of [...ch.children])u.push([g,x])}else u.push([body,ch])}return u}
 function finish(body){body.style.minHeight='';delete body.__u;const c=body.closest('.bk');onHyd.forEach(f=>f(body))}
-function hydrate(body,sync){if(!body)return;if(body.hasAttribute('data-lazy')){const t=body.querySelector(':scope>template');body.removeAttribute('data-lazy');if(!t){finish(body);return}
+function hydrate(body,sync){if(!body)return;if(body.hasAttribute('data-lazy')){const t=body.querySelector(':scope>template');if(!sync)body.style.minHeight=body.offsetHeight+'px';body.removeAttribute('data-lazy');if(!t){finish(body);return}
     body.__u=units(body,t);const c=body.closest('.bk');c&&c.classList.add('pl')}
   if(!body.__u)return;if(sync){for(const [p,x] of body.__u)p.appendChild(x);body.__u=[]}
   if(!body.__u.length)finish(body)}
@@ -73,7 +73,7 @@ if(cards.length){
     ric(step,{timeout:2000})};
   addEventListener('load',()=>setTimeout(()=>ric(step,{timeout:2000}),400))}
 function goTo(id){let el=document.getElementById(id);if(!el&&document.getElementById('b-'+id))el=document.getElementById(id='b-'+id);if(!el){const lb=findLazy(id);if(lb){hydrate(lb,1);el=document.getElementById(id)}}if(!el)return;{const c=el.closest('.bk');if(c){c.__pin=1;const b=c.querySelector(':scope>.body');b&&hydrate(b,1)}}let dd=el.closest('details');while(dd){dd.open=true;dd=dd.parentElement.closest('details')}
-  const off=()=>(parseInt(getComputedStyle(root).getPropertyValue('--top'))||56)+10+(el.closest('.bk')&&$('.filters')&&innerWidth>1000?58:0);
+  const off=()=>(parseInt(getComputedStyle(root).getPropertyValue('--top'))||56)+10+(el.closest('.bk')&&$('.filters')&&innerWidth>1000?$('.filters').offsetHeight+10:0);
   const far=Math.abs(el.getBoundingClientRect().top)>innerHeight*2.5;
   const tgt=()=>Math.max(0,scrollY+el.getBoundingClientRect().top-off());const jump=y=>lenis?lenis.scrollTo(y,{immediate:true,force:true}):scrollTo({top:y,behavior:'instant'});
   if(far)jump(tgt());else if(lenis)lenis.scrollTo(tgt(),{duration:.9});else el.scrollIntoView({behavior:RM?'auto':'smooth',block:'start'});
