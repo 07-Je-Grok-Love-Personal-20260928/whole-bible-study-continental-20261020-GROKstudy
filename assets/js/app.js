@@ -137,7 +137,10 @@ const measure=()=>{maxY=Math.max(1,root.scrollHeight-innerHeight)};
 const measureSoon=()=>{if(!mT)mT=setTimeout(()=>{mT=0;measure()},200)};measure();
 addEventListener('resize',measureSoon,{passive:true});if(!CSSPROG&&'ResizeObserver' in window)new ResizeObserver(measureSoon).observe(body);
 function onS(){tick=false;const y=scrollY;if(prog&&!CSSPROG)prog.style.transform='scaleX('+Math.min(1,y/maxY)+')';const on=y>600;if(on!==lastOn){tt&&tt.classList.toggle('on',on);lastOn=on}}
-addEventListener('scroll',()=>{if(!tick){tick=true;requestAnimationFrame(onS)}},{passive:true});onS();
+/* v10: no scroll-linked JS when CSS scroll-timeline drives the progress bar — the back-to-top toggle uses an IO sentinel */
+if(CSSPROG&&'IntersectionObserver' in window){const sn=document.createElement('div');sn.style.cssText='position:absolute;top:600px;left:0;width:1px;height:1px;pointer-events:none';body.appendChild(sn);
+  new IntersectionObserver(es=>{const en=es[0],on=!en.isIntersecting&&en.boundingClientRect.top<0;if(on!==lastOn){tt&&tt.classList.toggle('on',on);lastOn=on}}).observe(sn)}
+else{addEventListener('scroll',()=>{if(!tick){tick=true;requestAnimationFrame(onS)}},{passive:true});onS()}
 tt&&tt.addEventListener('click',()=>lenis?lenis.scrollTo(0):scrollTo({top:0,behavior:'smooth'}));
 /* ---------- v9 floating nav cluster (.fab): expands on hover/tap/focus, fades while scrolling ---------- */
 const fab=$('.fab');if(fab){const t=fab.querySelector('.fabt');let sT=0,sc=false;

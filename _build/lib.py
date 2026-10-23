@@ -166,7 +166,7 @@ _LG=[('🔴','必背层','先背这些：背诵模式下会被遮住',[('<span c
  ('🟢','恩典层','落到生活：应许与应用',[('<span class="ug">绿实线</span>','恩典·应许'),('<mark class="hg">绿底</mark>','应用·正统答案')])]
 LEGEND_EM=('<div class="legend-em">'+''.join(f'<div class="lgrp"><b class="lgh">{ic} {t}<small>{d}</small></b><div class="lgi">'+''.join(f'<span class="it">{a} {b}</span>' for a,b in items)+'</div></div>' for ic,t,d,items in _LG)
  +'<div class="lgrp lgco"><b class="lgh">🗂️ 框<small>整段的性质</small></b><div class="lgi pills">'+''.join(f'<span class="pill co {k}">{v[0]}{v[1]}框</span>' for k,v in CO.items())+'</div></div>'
- +'<p class="lgtip">🙈 <b>背诵模式</b>（顶栏 🙈 或 🎨 面板）：遮住「必背层」与关键词，点一下揭开、再点遮回；右下角显示本页已揭开进度。先遮着自测，再揭开核对。</p></div>')
+ +'<p class="lgtip">🙈 <b>背诵模式</b>（顶栏 🙈 或 🎨 面板）：遮住「必背层」与关键词，点一下揭开、再点遮回；左下角显示本页已揭开进度。先遮着自测，再揭开核对。</p></div>')
 def legend_box(open_=False):
     return f'<details class="dx legendbox"{" open" if open_ else ""}><summary>🎨 笔记式标注图例（颜色编码说明）</summary><div class="in">{LEGEND_EM}</div></details>'
 def wrap_sections(c):

@@ -24,6 +24,7 @@ def _fix(v):
     return v.replace('href="ot.html"','href="index.html#ot"').replace('href="nt.html"','href="index.html#nt"')
 for k,v in out.items():
     if k not in ('ot.html','nt.html'): v=_fix(v)
+    v=_re.sub(r'style="color:(#[0-9a-fA-F]{3,8})',r'style="--ic:\1;color:var(--ic)',v)  # v10: light themes clamp inline colours
     open(S+k,'w').write(v); print(k,len(v))
 print('verified short quotes:',len(QUOTES))
 import merpre
