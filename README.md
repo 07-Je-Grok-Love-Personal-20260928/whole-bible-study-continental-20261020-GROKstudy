@@ -9,10 +9,10 @@
 
 | 平台 | 链接 |
 |---|---|
-| GitHub Pages | https://07-je-grok-love-personal-20260928.github.io/whole-bible-study-continental-20261020-GROKstudy/ |
+| GitHub Pages | https://07-je-grok-love-personal-20260928.github.io/whole-bible-study-continental-GROKstudy/ |
 | Surge | https://whole-bible-study-20261023-v9-grokstudy.surge.sh/ |
 | Netlify | https://whole-bible-study-20261023-v9-grokstudy.netlify.app/ |
-| 源码仓库 | https://github.com/07-Je-Grok-Love-Personal-20260928/whole-bible-study-continental-20261020-GROKstudy |
+| 源码仓库 | https://github.com/07-Je-Grok-Love-Personal-20260928/whole-bible-study-continental-GROKstudy |
 
 ## 📑 页面结构（23 页 · 7 组）
 
@@ -90,7 +90,10 @@ THEMES=night,dawn,jade,ruby,contrast python3 _build/check.py all   # 无头 Chro
 
 ## 📝 版本历史
 
-### v9 — 2026-10-23（tag `v9-20261023`，[Release](https://github.com/07-Je-Grok-Love-Personal-20260928/whole-bible-study-continental-20261020-GROKstudy/releases/tag/v9-20261023)）
+### 仓库改名 — 2026-10-23
+- 仓库由 `whole-bible-study-continental-20261020-GROKstudy` 改名为 **`whole-bible-study-continental-GROKstudy`**（主题-GROKstudy）。GitHub Pages 地址随之变为 https://07-je-grok-love-personal-20260928.github.io/whole-bible-study-continental-GROKstudy/ ；Surge / Netlify 各版本链接不变。
+
+### v9 — 2026-10-23（tag `v9-20261023`，[Release](https://github.com/07-Je-Grok-Love-Personal-20260928/whole-bible-study-continental-GROKstudy/releases/tag/v9-20261023)）
 - 在线：Surge https://whole-bible-study-20261023-v9-grokstudy.surge.sh/ · Netlify https://whole-bible-study-20261023-v9-grokstudy.netlify.app/ · GitHub Pages（main）
 - **🗺️ 地图（重点：稳定可用）**
   - 离线底图：Natural Earth 1:10m 陆地、湖泊、河流（公有领域，`assets/data/ne.js`，裁剪简化），始终可显示——所有在线底图都被拦截时地图仍然完整。
@@ -117,7 +120,7 @@ THEMES=night,dawn,jade,ruby,contrast python3 _build/check.py all   # 无头 Chro
 
 28 组（7 页 × 2 宽度 × 手势/脚本）p95 最大 **16.8 ms**，>50 ms 长任务 **0**，卡顿帧 **0**。默认视图为概念图；另测实景全开（地理 / 行传 / 基督生平 @390/1440）均 p95 ≤ 16.8 ms、0 长任务。
 
-### v8.1 — 2026-10-23（tag `v8.1-20261023`，[Release](https://github.com/07-Je-Grok-Love-Personal-20260928/whole-bible-study-continental-20261020-GROKstudy/releases/tag/v8.1-20261023)）
+### v8.1 — 2026-10-23（tag `v8.1-20261023`，[Release](https://github.com/07-Je-Grok-Love-Personal-20260928/whole-bible-study-continental-GROKstudy/releases/tag/v8.1-20261023)）
 - 在线（沿用 v8 站点）：Surge https://whole-bible-study-20261023-v8-grokstudy.surge.sh/ · Netlify https://whole-bible-study-20261023-v8-grokstudy.netlify.app/ · GitHub Pages（main）
 - **首页 66 卷书架滚动卡顿修复（结构性）**：
   - 卡片“外壳”（标题、💡 一句话、标签芯片）首屏即渲染，正文 12 项放在 `<template>` 中，按实测高度占位；卡片进入视口约 1 屏范围才实例化正文，离开 3 屏以外且停止滚动后回收为模板（保持高度，不跳动）。
@@ -138,7 +141,7 @@ THEMES=night,dawn,jade,ruby,contrast python3 _build/check.py all   # 无头 Chro
 
 滚动中 DOM 峰值约 5.5k，一般稳定在 3–5k；“全部展开”会实例化全部 66 卷（约 1.6 万节点），属用户主动操作。
 
-### v8 — 2026-10-23（tag `v8-20261023`，[Release](https://github.com/07-Je-Grok-Love-Personal-20260928/whole-bible-study-continental-20261020-GROKstudy/releases/tag/v8-20261023)）
+### v8 — 2026-10-23（tag `v8-20261023`，[Release](https://github.com/07-Je-Grok-Love-Personal-20260928/whole-bible-study-continental-GROKstudy/releases/tag/v8-20261023)）
 - 在线：Surge https://whole-bible-study-20261023-v8-grokstudy.surge.sh/ · Netlify https://whole-bible-study-20261023-v8-grokstudy.netlify.app/ · GitHub Pages（main）
 - **1 首页＝66 卷书**：`index.html` 改为书架总图（按 7 组 / 12 类着色、旧约/新约/类别筛选、按章数比例的书脊）＋66 卷逐卷卡片；原首页内容移到 `overview.html`；`ot.html`/`nt.html` 变为跳转页。全站重排为 7 组 22 页。
 - **2 逐卷导读**：每卷一句话、背景、为什么写、结构色条、核心与关键经文、难点/易错、基督在本卷、圣约位置、认信一句（逐字，66/66）、应用、相关书卷链接、口诀；卡片正文仍为延迟生成。
@@ -166,7 +169,7 @@ THEMES=night,dawn,jade,ruby,contrast python3 _build/check.py all   # 无头 Chro
 主线程脚本滚动（每帧 70px）8 页 × 2 宽度：p95 最大 16.8 ms。7 个页面达到 p95 ≤ 17 ms、无 >50 ms 长任务；**index.html（66 卷合并为一页，DOM 约 1.4–1.9 万节点，v7 的 ot 页约 1.0 万）快速甩动时仍有 2 帧级卡顿与少量长任务，为已知待优化项**（v9 计划按需拆分/窗口化卡片层）。→ **已在 v8.1 修复，见上。**
 
 
-### v7 — 2026-10-22（tag `v7-20261022`，[Release](https://github.com/07-Je-Grok-Love-Personal-20260928/whole-bible-study-continental-20261020-GROKstudy/releases/tag/v7-20261022)）
+### v7 — 2026-10-22（tag `v7-20261022`，[Release](https://github.com/07-Je-Grok-Love-Personal-20260928/whole-bible-study-continental-GROKstudy/releases/tag/v7-20261022)）
 - 在线：Surge https://whole-bible-study-20261022-v7-grokstudy.surge.sh/ · Netlify https://whole-bible-study-20261022-v7-grokstudy.netlify.app/ · GitHub Pages（main）
 - **0 结构**：21 页重组为 ① 总览 · ② 书卷（旧约、新约 → 五经、历史书、诗歌智慧书、先知书、四福音、书信）· ③ 专题 · ④ 信条 · ⑤ 资料；导航改为分组下拉菜单，目录“全站页面”按组编号（单列），面包屑＋上一页/下一页，文体页之间有切换条。
 - **1 顺滑**：空闲时预排版的卡片常驻独立合成层（快速滑动只做合成，不再重新解除 content-visibility / 重绘）；目录放到独立合成层；滚动跟随把展开与自动滚动推迟到停止滚动后。4× CPU 降速下 ot/nt @1440 手势滚动 p95 帧从 33.3/25.0 ms 降到约 16.8 ms，无 >50 ms 长任务。
@@ -177,7 +180,7 @@ THEMES=night,dawn,jade,ruby,contrast python3 _build/check.py all   # 无头 Chro
 - **6 检查**：5 套主题 × 390/820/1440 无溢出、无控制台错误；内部链接与锚点全部可解析；逐字引文校验 128 → 162 处。
 
 
-### v6 — 2026-10-22（tag `v6-20261022`，[Release](https://github.com/07-Je-Grok-Love-Personal-20260928/whole-bible-study-continental-20261020-GROKstudy/releases/tag/v6-20261022)）
+### v6 — 2026-10-22（tag `v6-20261022`，[Release](https://github.com/07-Je-Grok-Love-Personal-20260928/whole-bible-study-continental-GROKstudy/releases/tag/v6-20261022)）
 - 在线：Surge https://whole-bible-study-20261022-v6-grokstudy.surge.sh/ · Netlify https://whole-bible-study-20261022-v6-grokstudy.netlify.app/ · GitHub Pages（main）
 - **新增 5 个页面（共 16 页）**，每页都有三级目录、标注系统、5 套主题、延迟渲染：
   - 📗 `gospels.html` 四福音对照：41 段落 × 四卷出处、34 个神迹、34 个比喻、交互重叠图（点击区域筛选三张表）、按福音筛选、十架七言、七个“我是”与七个神迹、四卷纵向肖像（结构/读者/钥字/目的经文/旧约使用/结尾/独有材料）、符类问题与五条和谐原则；比利时信条第4、5条逐字引用。
@@ -190,7 +193,7 @@ THEMES=night,dawn,jade,ruby,contrast python3 _build/check.py all   # 无头 Chro
 ### v5.1 — 2026-10-22（tag `v5.1-20261022`）
 - 即 v5 线上版本（含书卷标签截断修正与滚动水合预算 3 ms 优化）；`v5-20261021` 标签为其前两个提交。
 
-### v5 — 2026-10-22（tag `v5-20261021`，[Release](https://github.com/07-Je-Grok-Love-Personal-20260928/whole-bible-study-continental-20261020-GROKstudy/releases/tag/v5-20261021)）
+### v5 — 2026-10-22（tag `v5-20261021`，[Release](https://github.com/07-Je-Grok-Love-Personal-20260928/whole-bible-study-continental-GROKstudy/releases/tag/v5-20261021)）
 - 在线（保留）：Surge https://whole-bible-study-20261021-v5-grokstudy.surge.sh/ · Netlify https://whole-bible-study-20261021-v5-grokstudy.netlify.app/ · GitHub Pages（main）
 - **5 套主题配色（点击 🎨 切换，记忆选择，首屏无闪烁）**：🌌 星空深蓝 · 🌅 晨曦米白 · 🍃 翡翠清新 · 👑 红宝石宫廷 · 🔆 高对比护眼；流程图/图表随主题换色，所有标注在 5 套主题下对比度 ≥ 4.5:1。
 - **阅读模式**：🖍️ 笔记模式（一键显示/隐藏全部彩色标注）、🎯 专注模式（淡化非重点文字，只亮关键句）、🌊 惯性滚动（可选）。
@@ -200,7 +203,7 @@ THEMES=night,dawn,jade,ruby,contrast python3 _build/check.py all   # 无头 Chro
 - **笔记标注升级**：关键词、术语、罪/审判、日期、经文出处、易错、恩典、黄底、绿底、必背、定义等标注统一配色并更新图例；手机端表格首列不再被挤成一字一行。
 - 已有功能（三级可拉宽目录、逐字校验 115 处引文等）全部保留；11 页 × 390/820/1440 × 5 主题检查无横向溢出、无控制台错误。
 
-### v4 — 2026-10-21（tag `v4-20261021`，[Release](https://github.com/07-Je-Grok-Love-Personal-20260928/whole-bible-study-continental-20261020-GROKstudy/releases/tag/v4-20261021)）
+### v4 — 2026-10-21（tag `v4-20261021`，[Release](https://github.com/07-Je-Grok-Love-Personal-20260928/whole-bible-study-continental-GROKstudy/releases/tag/v4-20261021)）
 - 在线（保留）：Surge https://whole-bible-study-20261021-v4-grokstudy.surge.sh/ · Netlify https://whole-bible-study-20261021-v4-grokstudy.netlify.app/
 - **66 卷 × 前因后果**：每卷新增「⏮️ 前因 ➜ 📍 本卷 ➜ ⏭️ 后果」因果条（66 条），并新增「📐 文学视角 · 写了什么」（66 条：文体、结构手法、阅读钥匙）。
 - **认信一句（逐字）**：56 卷自动配上一句三项联合信条原文（构建时校验）；全站逐字校验短引文 20 → 115 处。
@@ -210,14 +213,14 @@ THEMES=night,dawn,jade,ruby,contrast python3 _build/check.py all   # 无头 Chro
 - **真实背景与文化**（地理页）：以色列的一年（7 个节期 × 农事 × 基督中的成全）；日常生活 8 项读经背景（度量衡、时间、婚姻、城门、饮食与洁净、丧葬、赋税与政治、语言）。
 - 保留 v3 的全部目录功能；性能与 v3 持平（如 forms@1440 长任务 0 ms，创世—玛拉基页平均帧 18 ms）。
 
-### v3 — 2026-10-21（tag `v3-20261021`，[Release](https://github.com/07-Je-Grok-Love-Personal-20260928/whole-bible-study-continental-20261020-GROKstudy/releases/tag/v3-20261021)）
+### v3 — 2026-10-21（tag `v3-20261021`，[Release](https://github.com/07-Je-Grok-Love-Personal-20260928/whole-bible-study-continental-GROKstudy/releases/tag/v3-20261021)）
 - 在线（保留）：Surge https://whole-bible-study-20261021-v3-grokser.surge.sh/ · Netlify https://whole-bible-study-20261021-v3-grokser.netlify.app/
 - 三项联合信条页目录：海德堡 52 个主日全部显示「图标 + 主日N（Q范围）+ 主题」（如 🤐 主日36（Q99–100）第三诫：不可妄称神名；主题为本站概括，非引文）；比利时信条 37 条、多特信经各部分/各条（含错谬反驳）各配一个不重复的贴切图标，原标题逐字保留；三份信条的一、二级标题与三大信经页各节也配上不同图标；所有页面的一级目录现显示章节图标。
 - 目录底部「全站页面」固定为单列。
 - 拖动目录边缘时的彩色动画提示：渐变流动发光把手、悬停放大、实时宽度气泡（px）；首次访问显示一次“拖动右边缘调整目录宽度”提示（之后不再打扰）。
 - 性能保持 v2 水平（如 forms@1440 长任务 0 ms、平均帧 16.8 ms）。
 
-### v2 — 2026-10-20（tag `v2-20261020`，[Release](https://github.com/07-Je-Grok-Love-Personal-20260928/whole-bible-study-continental-20261020-GROKstudy/releases/tag/v2-20261020)）
+### v2 — 2026-10-20（tag `v2-20261020`，[Release](https://github.com/07-Je-Grok-Love-Personal-20260928/whole-bible-study-continental-GROKstudy/releases/tag/v2-20261020)）
 - 在线（保留）：Surge https://whole-bible-study-20261020-v2-grokser.surge.sh/ · Netlify https://whole-bible-study-20261020-v2-grokser.netlify.app/
 - **性能 / 丝滑**：Mermaid 改为构建时预渲染成内联 SVG（明/暗两套），浏览器端不再加载 3.5 MB 运行时；Leaflet 地图进入视口才构建；`content-visibility:auto` 用于章节与 66 卷卡片；只在顶栏保留 backdrop-filter；滚动处理全部 passive + rAF；进度条用 `transform:scaleX`；动画只用 transform/opacity；支持 `prefers-reduced-motion`；本地 Lenis 1.3.27 作可选惯性滚动（🌊 按钮，默认关闭 → 原生合成器滚动最顺）。
 - **三级目录**：由正文 h2/h3/h4 静态生成；一级编号 一、二、…，二/三级嵌套编号；每个节点可折叠，有“二级/全开/全收”、筛选、二分查找式滚动高亮（自动展开祖先节点）；桌面可隐藏，手机为抽屉；**拖动右边缘调整宽度**（220–680px，双击复位，localStorage 记忆）。
@@ -244,7 +247,7 @@ THEMES=night,dawn,jade,ruby,contrast python3 _build/check.py all   # 无头 Chro
 | geography.html@390 | 16.7 → **17.6** | 0 → **2** | 1257 → **187** | 1208 → **225** | 1747 → **311** | 992 → 1055 |
 | creeds.html@390 | 17 → **16.7** | 0 → **0** | 1541 → **0** | 1171 → **40** | 2203 → **301** | 801 → 1058 |
 
-### v1 — 2026-10-20（tag `v1-20261020`，[Release](https://github.com/07-Je-Grok-Love-Personal-20260928/whole-bible-study-continental-20261020-GROKstudy/releases/tag/v1-20261020)）
+### v1 — 2026-10-20（tag `v1-20261020`，[Release](https://github.com/07-Je-Grok-Love-Personal-20260928/whole-bible-study-continental-GROKstudy/releases/tag/v1-20261020)）
 - 在线（保留）：Surge https://whole-bible-study-20261020-v1-grokser.surge.sh/ · Netlify https://whole-bible-study-20261020-v1-grokser.netlify.app/（GitHub Pages 现已指向最新版本）
 - 全新多页面架构（11 页），毛玻璃 + 极光背景、明/暗主题、可隐藏目录（桌面折叠/手机抽屉）、阅读进度条、滚动高亮、渐显动画。
 - 66 卷全部完成，每卷 13 个维度；42 位君王全表（3+19+20）与 SVG 年代图；8 幅离线可用交互地图；10+ Mermaid 流程图/思维导图。
