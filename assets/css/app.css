@@ -1009,3 +1009,6 @@ h2.h .ic{display:inline-block;transition:transform .35s var(--ease)}
 h2.h:hover .ic{transform:rotate(-10deg) scale(1.18)}
 @media(prefers-reduced-motion:reduce){.srs.rv svg{opacity:1;transform:none;transition:none}h2.h:hover .ic{transform:none}}
 .mbadge .rf{color:inherit;border-bottom-color:currentColor}html.dawn sup,html[data-theme=dawn] sup{color:var(--ink2)}
+
+/* v10 final: inline key-term marks inside card-title rows stay inline */
+:is(.tldr,.fstep,.tolc,.indimp)>div>b.k{display:inline;font-size:inherit;margin:0;font-family:inherit;color:var(--k)}
