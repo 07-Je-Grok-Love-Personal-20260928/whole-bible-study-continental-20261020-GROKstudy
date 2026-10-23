@@ -29,27 +29,50 @@ function lenisOn(){if(lenis||RM)return;const go=()=>{lenis=new Lenis({lerp:.11,w
 function lenisOff(){if(lenis){lenis.destroy();lenis=null;root.classList.remove('wb-smooth')}}
 const lc=$('#lenisChk');if(LS.g('wb-lenis')==='1'&&matchMedia('(pointer:fine)').matches&&!RM)lenisOn();
 lc&&(lc.checked=LS.g('wb-lenis')==='1',lc.addEventListener('change',()=>{if(lc.checked){lenisOn();LS.s('wb-lenis','1')}else{lenisOff();LS.s('wb-lenis','0')}}));
-/* ---------- lazy book bodies (template hydration) ---------- */
-const lazyQ=[];let lazyT=0;const onHyd=[];
-function hydrate(body){if(!body||!body.hasAttribute('data-lazy'))return;const t=body.querySelector(':scope>template');body.removeAttribute('data-lazy');if(t)body.replaceChildren(t.content);onHyd.forEach(f=>f(body))}
-function pump(){lazyT=0;const t0=performance.now();do{hydrate(lazyQ.shift())}while(lazyQ.length&&performance.now()-t0<3)if(lazyQ.length)lazyT=requestAnimationFrame(pump)}
+/* ---------- v8.1 windowed book bodies: shells up front, full body only near the viewport ----------
+   A card body is cloned from its <template> when the card comes within ~1 screen (IO), and dropped back to the
+   template (height kept) when it is > 3 screens away and the user is idle. Deep-linked / expanded cards are pinned. */
+const lazyQ=[];let lazyT=0;const onHyd=[],onDehyd=[];let keepAll=false;
+let lastScroll=0,lastY=scrollY,vel=0;addEventListener('scroll',()=>{const t=performance.now(),dt=Math.max(8,t-lastScroll);vel=dt>200?Math.abs(scrollY-lastY)/16:vel*.5+.5*Math.abs(scrollY-lastY)/dt;lastY=scrollY;lastScroll=t},{passive:true});
+const ric=window.requestIdleCallback||(f=>setTimeout(()=>f({timeRemaining:()=>8,didTimeout:false}),50));
+/* hydration is chunked: a card body is split into units (top-level blocks; .bgrid boxes one by one) and units are
+   appended per frame within a small layout budget (CJK layout of one box ~5ms at 4x throttle), so no task gets long.
+   While the page is actively scrolling the budget is tiny, so flings stay compositor-smooth. */
+function units(body,t){const f=t.content.cloneNode(true),u=[];for(const ch of [...f.children]){if(ch.classList.contains('bgrid')&&ch.children.length>1){const g=ch.cloneNode(false);u.push([body,g]);for(const x of [...ch.children])u.push([g,x])}else u.push([body,ch])}return u}
+function finish(body){body.style.minHeight='';delete body.__u;const c=body.closest('.bk');onHyd.forEach(f=>f(body))}
+function hydrate(body,sync){if(!body)return;if(body.hasAttribute('data-lazy')){const t=body.querySelector(':scope>template');body.removeAttribute('data-lazy');if(!t){finish(body);return}
+    body.__u=units(body,t);const c=body.closest('.bk');c&&c.classList.add('pl')}
+  if(!body.__u)return;if(sync){for(const [p,x] of body.__u)p.appendChild(x);body.__u=[]}
+  if(!body.__u.length)finish(body)}
+function step(body,budget){const u=body.__u,t0=performance.now();let k=0;while(u&&u.length){const [p,x]=u.shift();p.appendChild(x);body.offsetHeight;k++;if(performance.now()-t0>budget)break}window.__hlog&&__hlog.push([t0|0,body.parentElement.id,k,(performance.now()-t0)|0]);if(u&&!u.length)finish(body)}
+function dehydrate(body){if(!body||body.hasAttribute('data-lazy'))return;const c=body.closest('.bk');if(keepAll||(c&&c.__pin)||body.contains(document.activeElement))return;
+  const t=body.querySelector(':scope>template');if(!t)return;const h=body.__u?parseFloat(body.style.minHeight)||body.offsetHeight:body.offsetHeight;if(!body.__u)onDehyd.forEach(f=>f(body));delete body.__u;
+  body.replaceChildren(t);body.style.minHeight=h+'px';body.setAttribute('data-lazy','');c&&c.classList.remove('pl')}
+function pump(){lazyT=0;const now=performance.now(),idle=now-lastScroll>HB_W,B=idle?HB_I:vel<HB_V?HB_S:0;if(!B){lazyT=requestAnimationFrame(pump);return}const t0=performance.now();
+  while(lazyQ.length&&performance.now()-t0<B){const b=lazyQ[0];if(!b.__near){lazyQ.shift();continue}if(b.hasAttribute('data-lazy'))hydrate(b);if(b.__u&&b.__u.length)step(b,B-(performance.now()-t0));if(!b.__u||!b.__u.length)lazyQ.shift()}
+  if(lazyQ.length)lazyT=requestAnimationFrame(pump)}
+const HB_S=+(window.__HB_S??3),HB_I=+(window.__HB_I??6),HB_V=+(window.__HB_V??1),HB_W=+(window.__HB_W??300);
 const lazies=$$('.bk>.body[data-lazy]');
-if(lazies.length){if('IntersectionObserver' in window){const lo=new IntersectionObserver(es=>es.forEach(en=>{if(en.isIntersecting){lo.unobserve(en.target);const b=en.target.querySelector(':scope>.body[data-lazy]');if(b){lazyQ.push(b);if(!lazyT)lazyT=requestAnimationFrame(pump)}}}),{rootMargin:'1800px 0px 1800px 0px'});lazies.forEach(b=>lo.observe(b.parentElement))}else lazies.forEach(hydrate)}
-function findLazy(id){for(const b of $$('.bk>.body[data-lazy]')){const t=b.querySelector(':scope>template');if(t&&t.content.getElementById(id))return b}return null}
-window.__hydrateAll=()=>$$('.bk>.body[data-lazy]').forEach(hydrate);
-/* idle pre-layout: hydrate + lay out one card per idle slot (nearest first) while the user is NOT scrolling,
-   so later scrolling only paints already-laid-out cards (content-visibility keeps their layout). */
-let lastScroll=0;addEventListener('scroll',()=>{lastScroll=performance.now()},{passive:true});
-const cards=$$('.bk,section.blk');
-if(cards.length){const ric=window.requestIdleCallback||(f=>setTimeout(()=>f({timeRemaining:()=>8,didTimeout:false}),50));
+if(lazies.length){if('IntersectionObserver' in window){
+  const near=new IntersectionObserver(es=>es.forEach(en=>{const b=en.target.querySelector(':scope>.body');if(!b)return;b.__near=en.isIntersecting;if(!en.isIntersecting){const i=lazyQ.indexOf(b);i>=0&&lazyQ.splice(i,1);return}if(b&&(b.hasAttribute('data-lazy')||b.__u)&&!lazyQ.includes(b)){lazyQ.push(b);if(!lazyT)lazyT=requestAnimationFrame(pump)}}),{rootMargin:'100% 0px 100% 0px'});
+  const farQ=new Set();let farT=0;
+  const drain=dl=>{farT=0;if(performance.now()-lastScroll<400){farT=1;setTimeout(()=>ric(drain,{timeout:3000}),450);return}
+    for(const b of farQ){if(dl&&!dl.didTimeout&&dl.timeRemaining()<4)break;farQ.delete(b);dehydrate(b)}if(farQ.size){farT=1;ric(drain,{timeout:3000})}};
+  const far=new IntersectionObserver(es=>es.forEach(en=>{const b=en.target.querySelector(':scope>.body');if(!b)return;if(en.isIntersecting)farQ.delete(b);else if(!b.hasAttribute('data-lazy')){farQ.add(b);if(!farT){farT=1;ric(drain,{timeout:3000})}}}),{rootMargin:'300% 0px 300% 0px'});
+  lazies.forEach(b=>{near.observe(b.parentElement);far.observe(b.parentElement)})}else lazies.forEach(hydrate)}
+function findLazy(id){for(const b of $$('.bk>.body')){if(!b.hasAttribute('data-lazy')&&!b.__u)continue;const t=b.querySelector(':scope>template');if(t&&t.content.getElementById(id))return b}return null}
+window.__hydrateAll=()=>{keepAll=true;$$('.bk>.body').forEach(b=>hydrate(b,1))};
+window.__onDehyd=onDehyd;
+/* idle pre-layout for page sections (book cards are windowed above and excluded here) */
+const cards=$$('section.blk');
+if(cards.length){
   const next=()=>{let best=null,bd=1e15;const y=scrollY+innerHeight/2;for(const c of cards){if(c.__pl||c.classList.contains('hidden'))continue;const d=Math.abs(c.offsetTop+c.offsetHeight/2-y);if(d<bd){bd=d;best=c}}return best};
   const step=dl=>{if(performance.now()-lastScroll<300){setTimeout(()=>ric(step,{timeout:2000}),320);return}
     if(dl&&!dl.didTimeout&&dl.timeRemaining()<6){ric(step,{timeout:2000});return}
-    let k=0;do{const c=next();if(!c)return;c.__pl=1;const b=c.querySelector(':scope>.body[data-lazy]');if(b)hydrate(b);
-    c.classList.add('pl');void c.offsetHeight;k++}while(dl&&!dl.didTimeout&&dl.timeRemaining()>9&&k<4);
+    let k=0;do{const c=next();if(!c)return;c.__pl=1;c.classList.add('pl');void c.offsetHeight;k++}while(dl&&!dl.didTimeout&&dl.timeRemaining()>9&&k<4);
     ric(step,{timeout:2000})};
   addEventListener('load',()=>setTimeout(()=>ric(step,{timeout:2000}),400))}
-function goTo(id){let el=document.getElementById(id);if(!el){const lb=findLazy(id);if(lb){hydrate(lb);el=document.getElementById(id)}}if(!el)return;let dd=el.closest('details');while(dd){dd.open=true;dd=dd.parentElement.closest('details')}
+function goTo(id){let el=document.getElementById(id);if(!el&&document.getElementById('b-'+id))el=document.getElementById(id='b-'+id);if(!el){const lb=findLazy(id);if(lb){hydrate(lb,1);el=document.getElementById(id)}}if(!el)return;{const c=el.closest('.bk');if(c){c.__pin=1;const b=c.querySelector(':scope>.body');b&&hydrate(b,1)}}let dd=el.closest('details');while(dd){dd.open=true;dd=dd.parentElement.closest('details')}
   const off=()=>(parseInt(getComputedStyle(root).getPropertyValue('--top'))||56)+10+(el.closest('.bk')&&$('.filters')&&innerWidth>1000?58:0);
   const far=Math.abs(el.getBoundingClientRect().top)>innerHeight*2.5;
   const tgt=()=>Math.max(0,scrollY+el.getBoundingClientRect().top-off());const jump=y=>lenis?lenis.scrollTo(y,{immediate:true,force:true}):scrollTo({top:y,behavior:'instant'});
@@ -59,13 +82,18 @@ function goTo(id){let el=document.getElementById(id);if(!el){const lb=findLazy(i
 if(location.hash.length>1)addEventListener('load',()=>setTimeout(()=>goTo(decodeURIComponent(location.hash.slice(1))),60));
 /* ---------- TOC tree ---------- */
 const toc=$('#toc'),tree=$('#toc .tree'),tb=$('.tocbody');
+/* v8.1: closed TOC branches ship as <template>; nodes are moved (identity kept) into the tree on demand */
+const mat=li=>{const t=li&&li.querySelector(':scope>template.tl');if(t)li.replaceChild(t.content,t)};
+const matAll=()=>{let t;while((t=tree&&tree.querySelector('template.tl')))t.parentElement.replaceChild(t.content,t)};
+const tocLinks=()=>{const out=[];const walk=n=>{for(const c of n.children){if(c.tagName==='TEMPLATE')walk(c.content);else{if(c.tagName==='A')out.push(c);walk(c)}}};tree&&walk(tree);return out};
+const ensure=a=>{if(a.isConnected)return;const ts=[...tree.querySelectorAll('template.tl')];for(const t of ts){if(t.content.contains(a)){t.parentElement.replaceChild(t.content,t);break}}if(!a.isConnected)ensure(a)};
 if(tree){
-  tree.addEventListener('click',e=>{const t=e.target.closest('.tg');if(t){t.closest('li').classList.toggle('closed');return}
+  tree.addEventListener('click',e=>{const t=e.target.closest('.tg');if(t){const li=t.closest('li');mat(li);li.classList.toggle('closed');return}
     const a=e.target.closest('a');if(a){e.preventDefault();if(MOB())body.classList.remove('tocopen');requestAnimationFrame(()=>goTo(a.getAttribute('href').slice(1)))}});
-  $('#tocAll')&&$('#tocAll').addEventListener('click',()=>$$('li',tree).forEach(l=>l.classList.remove('closed')));
-  $('#tocNone')&&$('#tocNone').addEventListener('click',()=>$$('li',tree).forEach(l=>{if(l.querySelector('ul'))l.classList.add('closed')}));
-  $('#tocL2')&&$('#tocL2').addEventListener('click',()=>$$('li',tree).forEach(l=>{if(l.querySelector('ul'))l.classList.toggle('closed',!l.classList.contains('l1'))}));
-  const q=$('#tocq');q&&q.addEventListener('input',()=>{const v=q.value.trim().toLowerCase();
+  $('#tocAll')&&$('#tocAll').addEventListener('click',()=>(matAll(),$$('li',tree)).forEach(l=>l.classList.remove('closed')));
+  $('#tocNone')&&$('#tocNone').addEventListener('click',()=>$$('li',tree).forEach(l=>{if(l.querySelector(':scope>ul,:scope>template'))l.classList.add('closed')}));
+  $('#tocL2')&&$('#tocL2').addEventListener('click',()=>$$('li',tree).forEach(l=>{if(l.querySelector(':scope>ul,:scope>template'))l.classList.toggle('closed',!l.classList.contains('l1'))}));
+  const q=$('#tocq');q&&q.addEventListener('input',()=>{const v=q.value.trim().toLowerCase();if(v)matAll();
     $$('li',tree).forEach(li=>{li.classList.remove('hidden')});if(!v)return;
     $$('li',tree).forEach(li=>{const own=li.querySelector(':scope>.row>a').textContent.toLowerCase().includes(v);const sub=[...li.querySelectorAll('a')].some(a=>a.textContent.toLowerCase().includes(v));li.classList.toggle('hidden',!sub);if(sub&&!own)li.classList.remove('closed');if(own)li.classList.remove('closed')})});
 }
@@ -99,7 +127,7 @@ tt&&tt.addEventListener('click',()=>lenis?lenis.scrollTo(0):scrollTo({top:0,beha
    Band = everything above 28% of the viewport. A heading is "passed" when it is in the band.
    Headings inside skipped content (content-visibility / lazy template) fall back to their container being fully passed. */
 if(tree&&'IntersectionObserver' in window){
-  const links=$$('a',tree),n=links.length,ids=links.map(a=>a.getAttribute('href').slice(1));
+  const links=tocLinks(),n=links.length,ids=links.map(a=>a.getAttribute('href').slice(1));
   const hAbove=new Uint8Array(n),cGone=new Map();let cur=null,raf=0;const idx=new Map(),cont=new Array(n);
   const TOPM=-(parseInt(getComputedStyle(root).getPropertyValue('--top'))||56);
   const hio=new IntersectionObserver(es=>{es.forEach(e=>{const i=idx.get(e.target);if(i!==undefined)hAbove[i]=e.isIntersecting?1:0});sched()},{rootMargin:'100000px 0px -72% 0px'});
@@ -110,11 +138,12 @@ if(tree&&'IntersectionObserver' in window){
     let pc=c;if(!el){const lb=findLazy(ids[i]);pc=lb?lb.closest('.bk'):null}
     cont[i]=pc;if(pc&&!cGone.has(pc)){cGone.set(pc,false);cio2.observe(pc)}}
   for(let i=0;i<n;i++)bind(i);
+  onDehyd.push(body=>{for(const [el,i] of [...idx]){if(body.contains(el)){hio.unobserve(el);idx.delete(el);hAbove[i]=0}}});
   onHyd.push(body=>{const card=body.closest('.bk');for(let i=0;i<n;i++){if(cont[i]!==card)continue;const el=document.getElementById(ids[i]);if(el&&!idx.has(el))bind(i)}sched()});
   function sched(){if(!raf)raf=requestAnimationFrame(spy)}
   let ancs=[],syncT=0;
   function spy(){raf=0;let ans=0;for(let i=n-1;i>=0;i--){if(hAbove[i]||(cont[i]&&cGone.get(cont[i]))){ans=i;break}}
-    const a=links[ans];if(!a||a===cur)return;cur&&cur.classList.remove('act');cur=a;a.classList.add('act');
+    const a=links[ans];if(!a||a===cur)return;ensure(a);cur&&cur.classList.remove('act');cur=a;a.classList.add('act');
     /* branch expansion + TOC auto-scroll need layout: defer until scrolling pauses so flings stay compositor-only */
     clearTimeout(syncT);syncT=setTimeout(sync,140)}
   function sync(){const a=cur;if(!a)return;if(performance.now()-lastScroll<120){syncT=setTimeout(sync,140);return}
@@ -185,11 +214,11 @@ $$('.covflow').forEach(cf=>{const info=$(cf.dataset.info);cf.addEventListener('c
 /* ---------- v7 grouped nav dropdowns ---------- */
 (()=>{const gs=$$('.nav .ng');if(!gs.length)return;let hov=matchMedia('(hover:hover)').matches,ht=0;
   const place=g=>{const r=g.querySelector('.ngb').getBoundingClientRect(),d=g.querySelector('.ndd');const w=Math.min(330,innerWidth*.94);d.style.setProperty('--ddx',Math.max(6,Math.min(r.left,innerWidth-w-6))+'px')};
-  const close=x=>gs.forEach(g=>{if(g!==x){g.classList.remove('open');g.querySelector('.ngb').setAttribute('aria-expanded','false')}});
+  const close=x=>gs.forEach(g=>{if(g!==x&&g.classList.contains('open')){g.classList.remove('open');g.querySelector('.ngb').setAttribute('aria-expanded','false')}});
   const open=g=>{close(g);place(g);g.classList.add('open');g.querySelector('.ngb').setAttribute('aria-expanded','true')};
   gs.forEach(g=>{const b=g.querySelector('.ngb');b.addEventListener('click',e=>{e.stopPropagation();g.classList.contains('open')?close():open(g)});
     if(hov){g.addEventListener('pointerenter',()=>{clearTimeout(ht);ht=setTimeout(()=>open(g),90)});g.addEventListener('pointerleave',()=>{clearTimeout(ht);ht=setTimeout(()=>{if(!g.matches(':hover'))g.classList.remove('open')},220)})}});
   document.addEventListener('click',e=>{if(!e.target.closest('.ng'))close()});document.addEventListener('keydown',e=>{if(e.key==='Escape')close()});
-  addEventListener('scroll',()=>close(),{passive:true});
+  addEventListener('scroll',()=>{if(document.querySelector('.nav .ng.open'))close()},{passive:true});
   const cur=document.querySelector('.nav .ng.on');cur&&cur.scrollIntoView&&innerWidth<=1000&&(()=>{const nv=document.querySelector('.nav');nv.scrollLeft+=cur.getBoundingClientRect().left-nv.getBoundingClientRect().left-8})()})();
 })();

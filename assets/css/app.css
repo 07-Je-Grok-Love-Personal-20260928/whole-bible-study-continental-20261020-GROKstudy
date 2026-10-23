@@ -1,7 +1,7 @@
 /* 整本圣经 · 欧陆改革宗研读  v5 (GROKstudy) — 5 themes, compositor-friendly */
 :root{
   --bg:#060a1c;--bg2:#0c1232;--ink:#edf0fb;--ink2:#c0c7e4;--mut:#8f97bb;
-  --card:linear-gradient(160deg,rgba(32,42,92,.62),rgba(18,24,58,.72));--card2:rgba(255,255,255,.07);--line:rgba(160,175,255,.16);--line2:rgba(160,175,255,.28);
+  --card:linear-gradient(160deg,rgba(32,42,92,.62),rgba(18,24,58,.72));--cardG:linear-gradient(160deg,rgba(32,42,92,.62),rgba(18,24,58,.72));--cardE:rgba(25,33,75,0.67);--card2:rgba(255,255,255,.07);--line:rgba(160,175,255,.16);--line2:rgba(160,175,255,.28);
   --gold:#ffcb5c;--gold2:#ffe2a0;--sky:#4fc3ff;--vio:#b78cff;--emer:#2fe6a6;--rose:#ff6fa5;--amb:#ffae3d;--red:#ff5f6d;--teal:#2ad9d3;--ind:#8ea2ff;--pink:#ff97e0;--lime:#b9f45c;--orange:#ff8a3d;
   --law:#ffae3d;--hist:#2fe6a6;--poet:#b78cff;--majp:#ff6fa5;--minp:#ff8a3d;--gosp:#4fc3ff;--acts:#2ad9d3;--paul:#8ea2ff;--gen:#ff97e0;--rev:#ff5f6d;
   --r:16px;--sh:0 6px 20px rgba(0,0,0,.28);--toc:320px;--top:56px;
@@ -12,13 +12,13 @@
   --ease:cubic-bezier(.22,.8,.24,1);
 }
 /* ===== v5 themes ===== */
-html[data-theme=dawn]{--bg:#f6f3ec;--bg2:#ece6da;--ink:#1a1f36;--ink2:#353d60;--mut:#535a7a;--card:linear-gradient(160deg,rgba(255,255,255,.93),rgba(250,247,240,.92));--card2:rgba(20,30,80,.05);--line:rgba(30,40,90,.14);--line2:rgba(30,40,90,.26);--gold:#9a6200;--gold2:#7a4c00;--sky:#08588c;--vio:#6237c6;--emer:#067a54;--rose:#bf2d68;--red:#c62828;--amb:#a15c00;--teal:#04807b;--orange:#b84f06;--pink:#a82c86;--ind:#3d51c9;--law:#954c00;--hist:#036b48;--poet:#5f37bd;--majp:#a82658;--minp:#9e4303;--gosp:#08588c;--acts:#036b67;--paul:#3446b0;--gen:#932575;--rev:#b02020;--on:#fff;
+html[data-theme=dawn]{--bg:#f6f3ec;--bg2:#ece6da;--ink:#1a1f36;--ink2:#353d60;--mut:#535a7a;--card:linear-gradient(160deg,rgba(255,255,255,.93),rgba(250,247,240,.92));--cardG:linear-gradient(160deg,rgba(255,255,255,.93),rgba(250,247,240,.92));--cardE:rgba(252,251,248,0.925);--card2:rgba(20,30,80,.05);--line:rgba(30,40,90,.14);--line2:rgba(30,40,90,.26);--gold:#9a6200;--gold2:#7a4c00;--sky:#08588c;--vio:#6237c6;--emer:#067a54;--rose:#bf2d68;--red:#c62828;--amb:#a15c00;--teal:#04807b;--orange:#b84f06;--pink:#a82c86;--ind:#3d51c9;--law:#954c00;--hist:#036b48;--poet:#5f37bd;--majp:#a82658;--minp:#9e4303;--gosp:#08588c;--acts:#036b67;--paul:#3446b0;--gen:#932575;--rev:#b02020;--on:#fff;
  --sh:0 5px 16px rgba(40,40,80,.09);--topbg:rgba(252,250,245,.96);--tocbg:rgba(250,248,243,.98);--panel:rgba(255,255,255,.97);--a1:rgba(255,210,140,.5);--a2:rgba(170,190,255,.42);--a3:rgba(255,190,160,.2);--k:#8a4b00;--h3c:#7a4300;--thc:#6a3c00;--hyb:rgba(255,196,30,.42);--hgb:rgba(6,122,84,.15);--rfc:#0a5f98;--hero:linear-gradient(125deg,rgba(255,200,120,.45),rgba(190,170,255,.32) 55%,rgba(255,170,190,.3))}
-html[data-theme=jade]{--bg:#edf8f2;--bg2:#d9efe4;--ink:#0d2a21;--ink2:#21463a;--mut:#3f5f54;--card:linear-gradient(160deg,rgba(255,255,255,.94),rgba(242,252,247,.93));--card2:rgba(6,90,64,.06);--line:rgba(6,90,64,.16);--line2:rgba(6,90,64,.28);--gold:#946000;--gold2:#734a00;--sky:#075a8f;--vio:#5c33ba;--emer:#047650;--rose:#b82a63;--red:#c22323;--amb:#9a5800;--teal:#03776f;--orange:#b04c06;--pink:#a12a80;--ind:#3a4fc2;--law:#954c00;--hist:#036b48;--poet:#5f37bd;--majp:#a82658;--minp:#9e4303;--gosp:#08588c;--acts:#036b67;--paul:#3446b0;--gen:#932575;--rev:#b02020;--on:#fff;
+html[data-theme=jade]{--bg:#edf8f2;--bg2:#d9efe4;--ink:#0d2a21;--ink2:#21463a;--mut:#3f5f54;--card:linear-gradient(160deg,rgba(255,255,255,.94),rgba(242,252,247,.93));--cardG:linear-gradient(160deg,rgba(255,255,255,.94),rgba(242,252,247,.93));--cardE:rgba(248,254,251,0.935);--card2:rgba(6,90,64,.06);--line:rgba(6,90,64,.16);--line2:rgba(6,90,64,.28);--gold:#946000;--gold2:#734a00;--sky:#075a8f;--vio:#5c33ba;--emer:#047650;--rose:#b82a63;--red:#c22323;--amb:#9a5800;--teal:#03776f;--orange:#b04c06;--pink:#a12a80;--ind:#3a4fc2;--law:#954c00;--hist:#036b48;--poet:#5f37bd;--majp:#a82658;--minp:#9e4303;--gosp:#08588c;--acts:#036b67;--paul:#3446b0;--gen:#932575;--rev:#b02020;--on:#fff;
  --sh:0 5px 16px rgba(6,60,40,.09);--topbg:rgba(240,250,245,.96);--tocbg:rgba(237,248,242,.98);--panel:rgba(255,255,255,.97);--a1:rgba(70,220,165,.34);--a2:rgba(110,195,255,.3);--a3:rgba(255,222,120,.26);--k:#035e40;--h3c:#05573c;--thc:#05573c;--hyb:rgba(255,205,50,.45);--hgb:rgba(4,118,80,.16);--rfc:#0a5d93;--hero:linear-gradient(125deg,rgba(70,220,165,.38),rgba(110,195,255,.3) 55%,rgba(255,222,120,.34))}
-html[data-theme=ruby]{--bg:#16060f;--bg2:#2a0a1a;--ink:#fbeef2;--ink2:#ebcbd6;--mut:#c09aa8;--card:linear-gradient(160deg,rgba(100,22,50,.55),rgba(46,10,27,.76));--card2:rgba(255,220,232,.07);--line:rgba(255,170,200,.18);--line2:rgba(255,170,200,.3);--gold:#ffd27a;--gold2:#ffe6b0;--sky:#8fd0ff;--vio:#dcaeff;--emer:#5ee8b5;--rose:#ff86b0;--red:#ff7a8a;--amb:#ffb550;--teal:#4fe0d6;
+html[data-theme=ruby]{--bg:#16060f;--bg2:#2a0a1a;--ink:#fbeef2;--ink2:#ebcbd6;--mut:#c09aa8;--card:linear-gradient(160deg,rgba(100,22,50,.55),rgba(46,10,27,.76));--cardG:linear-gradient(160deg,rgba(100,22,50,.55),rgba(46,10,27,.76));--cardE:rgba(73,16,38,0.655);--card2:rgba(255,220,232,.07);--line:rgba(255,170,200,.18);--line2:rgba(255,170,200,.3);--gold:#ffd27a;--gold2:#ffe6b0;--sky:#8fd0ff;--vio:#dcaeff;--emer:#5ee8b5;--rose:#ff86b0;--red:#ff7a8a;--amb:#ffb550;--teal:#4fe0d6;
  --topbg:rgba(28,7,17,.96);--tocbg:rgba(25,7,16,.97);--panel:rgba(32,8,19,.96);--a1:rgba(205,30,85,.4);--a2:rgba(255,180,60,.2);--a3:rgba(150,60,200,.22);--k:#ffd98c;--h3c:#ffe2a6;--thc:#ffe2a6;--hyb:rgba(255,196,90,.38);--hgb:rgba(94,232,181,.2);--rfc:#ffc4d8;--hero:linear-gradient(125deg,rgba(200,30,80,.45),rgba(255,180,60,.22) 55%,rgba(150,60,200,.3))}
-html[data-theme=contrast]{--bg:#0b0a08;--bg2:#100e0b;--ink:#fffaf0;--ink2:#f4eddf;--mut:#d6ccb8;--card:#15130f;--card2:rgba(255,250,235,.08);--line:rgba(255,245,220,.34);--line2:rgba(255,245,220,.52);--gold:#ffd400;--gold2:#ffe36e;--sky:#74dbff;--vio:#d8b6ff;--emer:#4dffad;--rose:#ff94c4;--red:#ff7a7a;--amb:#ffbd55;
+html[data-theme=contrast]{--bg:#0b0a08;--bg2:#100e0b;--ink:#fffaf0;--ink2:#f4eddf;--mut:#d6ccb8;--card:#15130f;--cardG:linear-gradient(#15130f,#15130f);--cardE:#15130f;--card2:rgba(255,250,235,.08);--line:rgba(255,245,220,.34);--line2:rgba(255,245,220,.52);--gold:#ffd400;--gold2:#ffe36e;--sky:#74dbff;--vio:#d8b6ff;--emer:#4dffad;--rose:#ff94c4;--red:#ff7a7a;--amb:#ffbd55;
  --sh:none;--topbg:#0b0a08;--tocbg:#0e0c09;--panel:#0e0c09;--a1:transparent;--a2:transparent;--a3:transparent;--k:#ffe36e;--h3c:#ffe36e;--thc:#ffe36e;--hyb:rgba(255,212,0,.36);--hgb:rgba(77,255,173,.24);--rfc:#a6ebff;--hero:linear-gradient(125deg,#1d1a12,#14120d)}
 html[data-theme=contrast] body{font-size:16.5px;line-height:1.85}
 html.light{color-scheme:light}
@@ -172,7 +172,7 @@ details.dx>summary::after{content:"＋";margin-left:auto;color:var(--gold);trans
 details.dx[open]>summary::after{transform:rotate(45deg)}
 details.dx>.in{padding:0 13px 11px}
 /* books */
-.bk{border-radius:18px;border:1px solid var(--line);background:var(--card);margin:0 0 16px;overflow:hidden;box-shadow:var(--sh);--c:var(--gold);content-visibility:auto;contain-intrinsic-size:auto var(--pfd)}
+.bk{border-radius:18px;border:1px solid var(--line);background:var(--cardE);margin:0 0 16px;overflow:hidden;box-shadow:var(--sh);--c:var(--gold);content-visibility:auto;contain-intrinsic-size:auto var(--pfd)}
 .bk>header{padding:12px 14px;background:linear-gradient(110deg,color-mix(in srgb,var(--c) 34%,transparent),color-mix(in srgb,var(--c) 6%,transparent) 70%);border-bottom:1px solid var(--line);display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center}
 .bk .no{width:44px;height:44px;border-radius:13px;display:grid;place-items:center;font-weight:800;font-size:17px;background:color-mix(in srgb,var(--c) 40%,transparent);border:1px solid var(--c);flex:none}
 .bk h3.h{margin:0;color:var(--ink);font-size:clamp(19px,2.2vw,24px)}
@@ -394,7 +394,8 @@ body.rzing .rz::after{opacity:1;width:6px;left:3px;height:100%;top:0;margin-top:
 .bk>.body[data-lazy]{min-height:var(--phd)}
 @media(max-width:1000px){.bk{contain-intrinsic-size:auto var(--pft)}.bk>.body[data-lazy]{min-height:var(--pht)}}
 @media(max-width:760px){.bk{contain-intrinsic-size:auto var(--pfm)}.bk>.body[data-lazy]{min-height:var(--phm)}}
-.bk>.body[data-lazy]{background:repeating-linear-gradient(180deg,transparent 0 22px,var(--card2) 22px 30px) 14px 14px/calc(100% - 28px) 100% no-repeat}
+/* v8.1: skeleton only in a short top strip; a full-height repeating gradient on ~66 tall placeholders was the main raster cost during flings */
+.bk>.body[data-lazy]{background:repeating-linear-gradient(180deg,transparent 0 22px,var(--card2) 22px 30px) 14px 14px/calc(100% - 28px) 96px no-repeat}
 /* ===== v5: theme panel ===== */
 .tpanel{position:fixed;top:calc(var(--top) + 6px);right:8px;z-index:80;width:min(300px,94vw);padding:10px;border-radius:16px;border:1px solid var(--line2);background:var(--panel);box-shadow:0 14px 40px rgba(0,0,0,.45);display:grid;gap:6px}
 .tpanel[hidden]{display:none}

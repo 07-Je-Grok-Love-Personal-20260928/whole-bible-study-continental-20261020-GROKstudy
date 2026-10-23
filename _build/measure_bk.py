@@ -6,8 +6,8 @@ out={}
 with sync_playwright() as p:
     b=p.chromium.launch(executable_path='/usr/bin/google-chrome',args=['--no-sandbox'])
     for key,w in (('d',1440),('t',820),('m',390)):
-        for pg in ('ot.html','nt.html'):
-            page=b.new_page(viewport={'width':w,'height':900}); page.goto('file://'+SITE+'/'+pg); page.wait_for_timeout(300)
+        for pg in ('index.html',):
+            page=b.new_page(viewport={'width':w,'height':900}); page.goto('file://'+SITE+'/'+pg); page.wait_for_timeout(1500)
             page.add_style_tag(content='.bk{content-visibility:visible!important}')
             page.evaluate("window.__hydrateAll()"); page.wait_for_timeout(300)
             r=page.evaluate("Object.fromEntries([...document.querySelectorAll('.bk')].map(c=>[c.id.slice(3),[c.offsetHeight,c.querySelector('.body').offsetHeight]]))")

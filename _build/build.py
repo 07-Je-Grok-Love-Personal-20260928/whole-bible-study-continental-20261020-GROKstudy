@@ -11,11 +11,11 @@ out['history.html']=p_hist.build()
 out['poetry.html']=p_poet.build()
 out['prophets.html']=p_proph.build()
 out['epistles.html']=p_epis.build()
-out['sources.html']=p_misc.sources()
 import p_harmony
 out['harmony.html']=p_harmony.build()
 import p_acts
 out['acts.html']=p_acts.build()
+out['sources.html']=p_misc.sources()  # last: counts every verified quote (harmony/acts add some)
 import re as _re
 def _fix(v):
     v=_re.sub(r'href="(?:ot|nt)\.html#','href="index.html#',v)

@@ -1,5 +1,5 @@
 import json,re,html
-V='v8'; DATE='2026-10-23'
+V='v8.1'; DATE='2026-10-23'
 import os
 HERE=os.path.dirname(os.path.abspath(__file__))
 CCI=os.path.join(HERE,'data','cci')+'/'
@@ -108,7 +108,7 @@ def toctree(toc):
         for n in nodes:
             has=bool(n['ch']); closed=' closed' if has and d>=2 and big else ''
             o+=f'<li class="l{min(d,3)}{closed}"><div class="row"><button class="tg{"" if has else " leaf"}" aria-label="展开/收起" tabindex="-1">▾</button><a href="#{n["id"]}"><span class="n">{E(n["num"])}</span>{E(n["txt"])}</a></div>'
-            if has: o+='<ul>'+r(n['ch'],d+1)+'</ul>'
+            if has: o+=('<template class="tl"><ul>'+r(n['ch'],d+1)+'</ul></template>') if closed else ('<ul>'+r(n['ch'],d+1)+'</ul>')
             o+='</li>'
         return o
     return '<ul class="tree">'+r(roots,1)+'</ul>'
