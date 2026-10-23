@@ -73,6 +73,7 @@ def v4strip(b):
             f'<div class="cz now" style="--c:{CATS[b["cat"]][1]}"><b>📍 {E(b["name"])}</b>{rich(b["one"].split("：")[0],False)}</div><div class="cz arr" aria-hidden="true">➜</div>'
             f'<div class="cz post"><b>⏭️ 后果</b>{rich(x["post"])}</div></div>')
 def card(b):
+    import xref as _XF
     cl,col,ic=CATS[b['cat']]; x=V2[b['id']]; i=b['id']
     ol=''.join(f'<li>{qmark(re.sub(r"^(\S+)",r"**\1**",x_.strip(),count=1),False)}</li>' for x_ in b['ol'].split('|'))
     app=''.join(f'<li>{qmark(x_.strip())}</li>' for x_ in b['app'].split('|'))
@@ -103,6 +104,7 @@ def card(b):
 <div class="box">{H('lit','📐 文学视角 · 写了什么')}<p>{qmark(V4[b['id']]['lit'])}</p>{confline(b)}</div>
 <div class="box">{H('kv','📖 关键经文')}{kv}</div>
 <div class="box">{H('hard','⚠️ 难点 · 易错')}{co('hardc','<p>'+qmark(b['hard'])+'</p>','难点辨析')}{co('trap','<p>'+qmark(x['trap'],False)+'</p>','易错点')}</div>
+<div class="box span2">{H('rel','🔗 相关书卷 · 跨卷连接')}{_XF.chips(i) or '<p class="srcline">（本数据集暂无）</p>'}<p class="srcline">全部 {len(_XF.XR)} 条精选连接与弧线图 → <a href="compare.html#xref">跨卷连接网络</a></p></div>
 <div class="box">{H('app','🌱 应用')}{co('app','<ul>'+app+'</ul>','教牧应用')}</div>
 </div>
 <details class="dx" style="margin-top:10px"><summary>📚 认信连接（三项联合信条原文，逐字引自 ccifellowship.org）{chips}</summary><div class="in">{confref(b['cf'])}</div></details>

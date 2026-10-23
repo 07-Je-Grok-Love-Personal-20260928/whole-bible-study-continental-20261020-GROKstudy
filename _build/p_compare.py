@@ -111,6 +111,8 @@ def build():
             c.append(cmp2(ha,hb,rows))
             c.append(h4(pid+'-k','💎 核心洞见'))
             c.append(f'<div class="insight rv"><p>{ins if "<a " in ins else rich(ins,False)}</p></div>')
+    import xref as XF
+    c.extend(XF.section())
     c.append(h2('conf','📚','认信：信心与行为（雅各↔罗马的认信答案）'))
     c.append(h3('conf-q','海德堡与比利时信条怎样说'))
     c.append(co('conf','<p>'+rich('称义的根据：“{{HC61|不是因为我的信心有什么价值，而是唯独因着基督的顺服、义和圣洁}}”。信心的果子：“{{HC64|凡凭真信心连于基督的人，不可能不结出感恩的果子}}”。比利时信条：“{{BC24|这些善行并不是我们称义的资本，因为在我们还未行任何善事之前，我们就因信基督而得称为义了}}”。',False)+'</p>','认信'))

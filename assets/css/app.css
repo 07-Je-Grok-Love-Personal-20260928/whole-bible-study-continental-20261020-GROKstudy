@@ -729,3 +729,12 @@ html.light .hu b{filter:brightness(.6)}
 .jyb .btn.on{background:color-mix(in srgb,var(--c) 30%,transparent);border-color:var(--c)}
 .jycap{flex:1 1 280px;min-width:0;font-size:13px;color:var(--ink2);padding:4px 10px;border-radius:10px;background:var(--card2);border:1px solid var(--line)}
 .jyl{margin:4px 0 0;padding-left:20px;font-size:13px;line-height:1.6}.jyl b{color:var(--k)}
+/* v8 xref */
+.xfil{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0}.xfil button{border:1px solid color-mix(in srgb,var(--c,var(--ink2)) 55%,transparent);background:color-mix(in srgb,var(--c,var(--ink2)) 10%,transparent);color:var(--ink);border-radius:999px;padding:4px 11px;font:inherit;font-size:13px;cursor:pointer}.xfil button.on{background:color-mix(in srgb,var(--c,var(--gold)) 30%,transparent);font-weight:700}
+.xarc svg{display:block;color:var(--ink2)}.xarc .xa{fill:none;stroke-width:1.6;opacity:.6;transition:opacity .25s,stroke-width .25s}.xarc .xa.off{opacity:.05}.xarc .xa.hi{opacity:1;stroke-width:2.6}.xarc svg.sel .xa:not(.hi){opacity:.05}
+.xarc .xb{cursor:pointer}.xarc .xb text{font-size:11px;fill:currentColor}.xarc .xb.on text{fill:var(--ink);font-weight:800}.xarc .xb.on circle{stroke:var(--ink);stroke-width:2}.xarc .xb:focus{outline:none}.xarc .xb:focus circle{stroke:var(--gold);stroke-width:2}
+.xarc .xsep{stroke:currentColor;stroke-dasharray:3 3;opacity:.5}.xarc .xtl{font-size:11px;fill:currentColor;opacity:.8}
+.xarc .xa{stroke-dasharray:2400;stroke-dashoffset:2400;animation:xdraw 1.6s ease-out forwards}@keyframes xdraw{to{stroke-dashoffset:0}}@media (prefers-reduced-motion:reduce){.xarc .xa{animation:none;stroke-dashoffset:0}}
+.xinfo{font-size:13.5px;padding:8px 12px;border-radius:12px;background:color-mix(in srgb,var(--gold) 8%,transparent);margin:6px 0 10px}.xinfo ul{margin:6px 0 0;padding-left:18px;columns:2 320px}
+.xchips{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:6px}.xchip{display:flex;flex-direction:column;gap:2px;padding:6px 10px;border-radius:10px;border-left:3px solid var(--c);background:color-mix(in srgb,var(--c) 9%,transparent);text-decoration:none;color:var(--ink);font-size:12.5px;min-width:0}.xchip b{color:var(--c);font-size:13px}.xchip span{color:var(--ink2);overflow-wrap:anywhere}.xchip:hover{background:color-mix(in srgb,var(--c) 18%,transparent)}
+details.xk>summary{border-left:3px solid var(--c)}
