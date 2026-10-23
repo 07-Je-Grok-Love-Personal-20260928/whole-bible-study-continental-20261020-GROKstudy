@@ -31,15 +31,40 @@ function tiles(m,kind,note){
     t.on('tileerror',()=>{er++;if(er>=3&&ok===0||er>ok*2+8)adv()});
     m._tl=t;t.addTo(m);m._wd=setTimeout(()=>{if(!ok)adv()},4500);note('⏳ 正在连接 '+p[1].replace(/^©\s*/,'')+'…')};
   m._el&&m._el.classList.remove('mtfail');next()}
+/* v10: offline Natural Earth base as a local 256-px tile layer (GridLayer of canvas tiles drawn from the vectors on demand,
+   in idle slices) — behaves like the online tile layers, which scroll smoothly; no single huge raster surface. */
+let NEBB=null;const neBB=()=>NEBB||(NEBB=(()=>{const bb=q=>{let a=1e9,b=1e9,c=-1e9,d=-1e9;q.forEach(p=>{if(p[0]<a)a=p[0];if(p[0]>c)c=p[0];if(p[1]<b)b=p[1];if(p[1]>d)d=p[1]});return [a,b,c,d]};const N=window.NE;
+  return {land:N.land.map(pl=>[pl,bb(pl[0])]),lakes:N.lakes.map(l=>[l.c,bb(l.c[0])]),rivers:N.rivers.map(r=>[r.c,bb(r.c),!!r.n])}})());
+const idle=window.requestIdleCallback?f=>requestIdleCallback(f,{timeout:400}):f=>setTimeout(f,30);
+function neTile(m,cv,co,ts){const g=cv.getContext('2d'),z=co.z,o=co.scaleBy(ts),nw=m.unproject(o,z),se=m.unproject(o.add(ts),z),pad=.3*(nw.lat-se.lat+1e-9);
+  const W=nw.lng-pad,E=se.lng+pad,S=se.lat-pad,N=nw.lat+pad,hit=b=>!(b[2]<W||b[0]>E||b[3]<S||b[1]>N),B=neBB();g.lineJoin='round';
+  const ring=r=>{for(let i=0;i<r.length;i++){const p=m.project([r[i][1],r[i][0]],z);i?g.lineTo(p.x-o.x,p.y-o.y):g.moveTo(p.x-o.x,p.y-o.y)}};
+  g.beginPath();B.land.forEach(([pl,b])=>{if(hit(b))pl.forEach(r=>{ring(r);g.closePath()})});g.fillStyle='#eadcb4';g.fill('evenodd');g.strokeStyle='#b99a5e';g.lineWidth=1;g.stroke();
+  g.beginPath();B.lakes.forEach(([c,b])=>{if(hit(b))c.forEach(r=>{ring(r);g.closePath()})});g.fillStyle='#5d97e3';g.fill('evenodd');g.strokeStyle='#3a7bd5';g.stroke();
+  g.globalAlpha=.9;[false,true].forEach(nm=>{g.beginPath();B.rivers.forEach(([c,b,n])=>{if(n===nm&&hit(b))ring(c)});g.lineWidth=nm?2.2:1.2;g.stroke()})}
+/* tiles are drawn on a scratch canvas, then handed to the layer as blob <img>s (plain decoded images composite far cheaper
+   than hundreds of live 2D-canvas surfaces while scrolling) */
+function neLayer(m){const NEG=L.GridLayer.extend({createTile(co,done){const im=document.createElement('img'),ts=this.getTileSize();im.alt='';
+    im.onload=()=>{URL.revokeObjectURL(im.src);done(null,im)};im.onerror=()=>done(null,im);
+    idle(()=>{const cv=document.createElement('canvas');cv.width=ts.x;cv.height=ts.y;try{neTile(m,cv,co,ts)}catch(e){}
+      cv.toBlob(b=>{if(b)im.src=URL.createObjectURL(b);else done(null,im)})});return im}});
+  return new NEG({pane:'nebase',keepBuffer:1,updateWhenIdle:true,maxZoom:18,className:'netile'}).addTo(m)}
 function base(el,cfg,jobs){
   const m=L.map(el,{scrollWheelZoom:false,zoomSnap:.25,worldCopyJump:false,attributionControl:true,preferCanvas:!!cfg.canvas});m._el=el;
-  m.createPane('nebase').style.zIndex=150;const rd=L.canvas({pane:'nebase',padding:.2});
+  m.createPane('nebase').style.zIndex=150;
   const NE=window.NE;
-  if(NE){const lw=L.layerGroup().addTo(m);
-    for(let i=0;i<NE.land.length;i+=12){const ch=NE.land.slice(i,i+12);jobs.push(()=>ch.forEach(c=>L.polygon(c.map(r=>r.map(p=>[p[1],p[0]])),{renderer:rd,pane:'nebase',color:'#b99a5e',weight:1,fillColor:'#eadcb4',fillOpacity:1,interactive:false}).addTo(lw)))}
-    jobs.push(()=>{NE.lakes.forEach(k=>{const g=L.polygon(k.c.map(r=>r.map(p=>[p[1],p[0]])),{renderer:rd,pane:'nebase',color:'#3a7bd5',weight:1,fillColor:'#5d97e3',fillOpacity:1,interactive:!!k.n}).addTo(lw);if(k.n)g.bindTooltip(k.n,{sticky:true})});
-      NE.rivers.forEach(r=>{const g=L.polyline(r.c.map(p=>[p[1],p[0]]),{renderer:rd,pane:'nebase',color:'#3a7bd5',weight:r.n?2.2:1.2,opacity:.9,interactive:!!r.n}).addTo(lw);if(r.n)g.bindTooltip(r.n,{sticky:true})});
-      const B=L.latLngBounds(cfg.bounds).pad(.1);SEAS.forEach(s=>{if(B.contains(s[1]))L.marker(s[1],{pane:'nebase',interactive:false,icon:L.divIcon({className:'',html:'<span class="mlabel sea">'+s[0]+'</span>',iconSize:null})}).addTo(lw)})})}
+  /* v10: offline base = local tile layer (see neLayer); named lakes/rivers keep hover tooltips via invisible hit shapes */
+  if(NE){jobs.push(()=>{m._ne=neLayer(m)});
+    jobs.push(()=>{const B=L.latLngBounds(cfg.bounds).pad(.6);
+      /* hover names for lakes/rivers via a pure-JS hit test (no invisible SVG shapes: they made a huge vector layer that cost ~2x paint while scrolling) */
+      const lk=NE.lakes.filter(k=>k.n&&B.intersects(L.latLngBounds(k.c[0].map(p=>[p[1],p[0]])))),rv=NE.rivers.filter(r=>r.n&&B.intersects(L.latLngBounds(r.c.map(p=>[p[1],p[0]]))));
+      if(lk.length||rv.length){let tt=null,raf=0,ev=null;const inR=(x,y,r)=>{let c=false;for(let i=0,j=r.length-1;i<r.length;j=i++){const a=r[i],b=r[j];if((a[1]>y)!==(b[1]>y)&&x<(b[0]-a[0])*(y-a[1])/(b[1]-a[1])+a[0])c=!c}return c};
+        const sd=(p,a,b)=>{const dx=b.x-a.x,dy=b.y-a.y,l=dx*dx+dy*dy;let t=l?((p.x-a.x)*dx+(p.y-a.y)*dy)/l:0;t=t<0?0:t>1?1:t;const ex=a.x+t*dx-p.x,ey=a.y+t*dy-p.y;return ex*ex+ey*ey};
+        const find=e=>{const x=e.latlng.lng,y=e.latlng.lat;for(const k of lk)if(inR(x,y,k.c[0]))return k.n;const p=e.layerPoint;let best=null,bd=64;
+          for(const r of rv){let a=m.latLngToLayerPoint([r.c[0][1],r.c[0][0]]);for(let i=1;i<r.c.length;i++){const b=m.latLngToLayerPoint([r.c[i][1],r.c[i][0]]),d=sd(p,a,b);if(d<bd){bd=d;best=r.n}a=b}}return best};
+        m.on('mousemove',e=>{ev=e;if(!raf)raf=requestAnimationFrame(()=>{raf=0;const n=find(ev);if(n){if(!tt)tt=L.tooltip({direction:'top',offset:[0,-6]});tt.setLatLng(ev.latlng).setContent(n);if(!m.hasLayer(tt))tt.addTo(m)}else if(tt&&m.hasLayer(tt))m.removeLayer(tt)})});
+        m.on('mouseout',()=>{if(tt&&m.hasLayer(tt))m.removeLayer(tt)})}
+      SEAS.forEach(s=>{if(B.contains(s[1]))L.marker(s[1],{pane:'nebase',interactive:false,icon:L.divIcon({className:'',html:'<span class="mlabel sea">'+s[0]+'</span>',iconSize:null})}).addTo(m)})})}
   /* status chip + switcher 示意/地形/卫星/街道 */
   const st=L.control({position:'bottomright'});let stEl;st.onAdd=()=>{stEl=L.DomUtil.create('div','mlnote');return stEl};st.addTo(m);
   const note=(t,bad)=>{if(stEl){stEl.textContent=t;stEl.classList.toggle('bad',!!bad)}};
