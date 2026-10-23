@@ -1,20 +1,20 @@
-# 整本圣经研读-20261023-v8-GROKstudy
+# 整本圣经研读-20261023-v9-GROKstudy
 
-> **主题**：整本《圣经》解读（欧陆改革宗 · 正统神学）｜**时间**：2026-10-23｜**版本号**：v8.1｜GROKstudy
+> **主题**：整本《圣经》解读（欧陆改革宗 · 正统神学）｜**时间**：2026-10-23｜**版本号**：v9｜GROKstudy
 
-66 卷书架与逐卷解读 · 全景总览 · 救赎故事 · 圣约神学 · 时间线 · 地理 · **基督生平 · 四福音对照 · 四福音合参（202 段，和合本）· 使徒行传与初代教会** · 五组文体对照 · 列王纪×历代志 · 跨卷连接网络 · 统计 · 三大信经与三项联合信条全文 · 记忆测验。
+66 卷书架与逐卷解读 · 全景总览 · 救赎故事 · 圣约神学 · 时间线 · **地理（13 幅地图：概念图＋实景）· 历史文化** · 基督生平 · 四福音对照 · 四福音合参（202 段，和合本）· 使徒行传与初代教会 · 五组文体对照 · 列王纪×历代志 · 跨卷连接网络 · 统计 · 三大信经与三项联合信条全文 · 记忆测验。
 信经与信条引文全部**逐字**取自 [ccifellowship.org](https://ccifellowship.org)（中国改革宗教会），构建时自动校验（174 处）；经文采用和合本；威斯敏斯特标准仅作补充参照。
 
-## 🔗 在线访问（当前版本 v8.1，沿用 v8 域名）
+## 🔗 在线访问（当前版本 v9）
 
 | 平台 | 链接 |
 |---|---|
 | GitHub Pages | https://07-je-grok-love-personal-20260928.github.io/whole-bible-study-continental-20261020-GROKstudy/ |
-| Surge | https://whole-bible-study-20261023-v8-grokstudy.surge.sh/ |
-| Netlify | https://whole-bible-study-20261023-v8-grokstudy.netlify.app/ |
+| Surge | https://whole-bible-study-20261023-v9-grokstudy.surge.sh/ |
+| Netlify | https://whole-bible-study-20261023-v9-grokstudy.netlify.app/ |
 | 源码仓库 | https://github.com/07-Je-Grok-Love-Personal-20260928/whole-bible-study-continental-20261020-GROKstudy |
 
-## 📑 页面结构（22 页 · 7 组）
+## 📑 页面结构（23 页 · 7 组）
 
 导航栏与目录“全站页面”区按同一套编号分组（①–⑦）；`ot.html` / `nt.html` 保留为跳转页（→ `index.html#ot` / `#nt`），旧链接继续可用。
 
@@ -32,7 +32,8 @@
 | 2.2 | `story.html` | 🧭 救赎大故事 | 四幕剧·红线·圣经神学 |
 | 2.3 | `covenant.html` | 🤝 圣约神学 | 三约·六约·两种施行 |
 | 2.4 | `timeline.html` | ⏳ 时间线·诸王 | 11时代·8钉子·42王 |
-| 2.5 | `geography.html` | 🗺️ 地理文化 | 8幅交互地图 |
+| 2.5 | `geography.html` | 🗺️ 地理文化 | 13 幅地图 · 概念图/实景 · 历史与文化札记 |
+| 2.6 | `culture.html` | 🏺 文化与生活 | 历法转盘·会幕/圣殿·派别·罗马统治·度量衡·婚俗·帝国×以色列 |
 
 ### ③ ✝️ 基督与福音
 
@@ -88,6 +89,33 @@ THEMES=night,dawn,jade,ruby,contrast python3 _build/check.py all   # 无头 Chro
 - 信条数据：`_build/data/cci/*.json`。正文短引用以 `{{HC27|…}}` 标记，构建时必须是原文子串，否则构建失败。
 
 ## 📝 版本历史
+
+### v9 — 2026-10-23（tag `v9-20261023`，[Release](https://github.com/07-Je-Grok-Love-Personal-20260928/whole-bible-study-continental-20261020-GROKstudy/releases/tag/v9-20261023)）
+- 在线：Surge https://whole-bible-study-20261023-v9-grokstudy.surge.sh/ · Netlify https://whole-bible-study-20261023-v9-grokstudy.netlify.app/ · GitHub Pages（main）
+- **🗺️ 地图（重点：稳定可用）**
+  - 离线底图：Natural Earth 1:10m 陆地、湖泊、河流（公有领域，`assets/data/ne.js`，裁剪简化），始终可显示——所有在线底图都被拦截时地图仍然完整。
+  - 在线底图多源自动切换：右上角 示意 / 地形 / 卫星 / 街道；地形 Esri World Topo → OpenTopoMap → Esri Shaded Relief → CARTO Voyager；卫星 Esri World Imagery（两个主机）；街道 CARTO Voyager → OpenStreetMap → OSM France HOT。瓦片出错或 4.5 秒无响应即换下一源，全部失败自动退回离线底图并提示；所选底图记忆。
+  - 🎨 概念图（构建时生成的手绘风内联 SVG，完全离线）与 🛰️ 实景地图两种视图一键切换；Leaflet 改为点开实景时才加载。
+  - 13 幅地图：古代近东与文化区、族长之路、出埃及与旷野（多种路线观点）、十二支派分地、联合王国、南北国、亚述/巴比伦/波斯帝国、两约之间（希腊化）、希律家族疆域、耶路撒冷城、耶稣生平、保罗旅程、启示录七教会；每幅配“历史背景＋文化札记”与地图索引。
+- **🧭 导航**：每页右下角不显眼的 ✦ 悬浮按钮，展开为 后退 / 前进 / 上一页 / 下一页 / 首页 / 到页底 / 回顶部；滚动时自动淡出，Esc 关闭，支持键盘与读屏。
+- **🏺 文化**：新页 `culture.html`（② 全景总览组）：节期与农事历法转盘、会幕平面图、犹太教派别对照、罗马统治层级、度量衡对数图、婚俗、帝国 × 以色列时间线。
+- **🖍️ 标注**：地图注释统一使用全站标注体系；行传页、记忆页补上标注图例框。
+- **⚡ 性能**：实景地图在线底图铺满后不再绘制下方的离线底图（它是滚动光栅化的主要开销），实景地图面板 `content-visibility:auto`——地理页 13 幅实景全开时 1440 手势滚动 p95 **50 ms（8 卡顿帧）→ 16.7 ms（0）**，390 → 16.7 ms。
+- **✅ 检查**：25 个 HTML × 5 套主题 × 390/820/1440 无溢出、无控制台错误；4,461 个站内链接全部有效；拦截全部在线瓦片主机时，地理/行传/基督生平页 15 幅实景地图全部显示离线底图、概念图全部显示、无脚本错误。
+
+#### v9 性能（无头 Chrome，CPU 4× 降速，单独运行、3 次取中位数；p95 帧 · >50ms 卡顿帧 · 长任务数）
+
+| 页面 | 手机 390 手势滚动 v8.1 → v9 | 桌面 1440 手势滚动 v8.1 → v9 | v9 脚本滚动 390 / 1440 |
+|---|---|---|---|
+| index | 16.7 ms · 0 · 0 → **16.8 ms · 0 · 0** | 16.8 ms · 0 · 0 → **16.8 ms · 0 · 0** | 16.7 ms · 0 / 16.7 ms · 0 |
+| geography | 16.7 ms · 0 · 0 → **16.7 ms · 0 · 0** | 16.75 ms · 0 · 0 → **16.7 ms · 0 · 0** | 16.7 ms · 0 / 16.7 ms · 0 |
+| acts | 16.75 ms · 0 · 0 → **16.7 ms · 0 · 0** | 16.8 ms · 0 · 0 → **16.8 ms · 0 · 0** | 16.7 ms · 0 / 16.8 ms · 0 |
+| life-of-christ | 16.8 ms · 0 · 0 → **16.8 ms · 0 · 0** | 25 ms · 0 · 0 → **16.8 ms · 0 · 0** | 16.7 ms · 0 / 16.7 ms · 0 |
+| culture | —（新页） → **16.7 ms · 0 · 0** | —（新页） → **16.7 ms · 0 · 0** | 16.8 ms · 0 / 16.8 ms · 0 |
+| harmony | 16.7 ms · 0 · 0 → **16.7 ms · 0 · 0** | 16.8 ms · 0 · 0 → **16.7 ms · 0 · 0** | 16.8 ms · 0 / 16.7 ms · 0 |
+| compare | 16.7 ms · 0 · 0 → **16.8 ms · 0 · 0** | 16.7 ms · 0 · 0 → **16.8 ms · 0 · 0** | 16.7 ms · 0 / 16.7 ms · 0 |
+
+28 组（7 页 × 2 宽度 × 手势/脚本）p95 最大 **16.8 ms**，>50 ms 长任务 **0**，卡顿帧 **0**。默认视图为概念图；另测实景全开（地理 / 行传 / 基督生平 @390/1440）均 p95 ≤ 16.8 ms、0 长任务。
 
 ### v8.1 — 2026-10-23（tag `v8.1-20261023`，[Release](https://github.com/07-Je-Grok-Love-Personal-20260928/whole-bible-study-continental-20261020-GROKstudy/releases/tag/v8.1-20261023)）
 - 在线（沿用 v8 站点）：Surge https://whole-bible-study-20261023-v8-grokstudy.surge.sh/ · Netlify https://whole-bible-study-20261023-v8-grokstudy.netlify.app/ · GitHub Pages（main）
