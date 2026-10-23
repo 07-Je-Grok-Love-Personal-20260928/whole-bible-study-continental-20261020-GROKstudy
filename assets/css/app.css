@@ -738,3 +738,4 @@ html.light .hu b{filter:brightness(.6)}
 .xinfo{font-size:13.5px;padding:8px 12px;border-radius:12px;background:color-mix(in srgb,var(--gold) 8%,transparent);margin:6px 0 10px}.xinfo ul{margin:6px 0 0;padding-left:18px;columns:2 320px}
 .xchips{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:6px}.xchip{display:flex;flex-direction:column;gap:2px;padding:6px 10px;border-radius:10px;border-left:3px solid var(--c);background:color-mix(in srgb,var(--c) 9%,transparent);text-decoration:none;color:var(--ink);font-size:12.5px;min-width:0}.xchip b{color:var(--c);font-size:13px}.xchip span{color:var(--ink2);overflow-wrap:anywhere}.xchip:hover{background:color-mix(in srgb,var(--c) 18%,transparent)}
 details.xk>summary{border-left:3px solid var(--c)}
+.lev.key>button{box-shadow:inset 3px 0 0 var(--gold)}.lev.key>button b{color:var(--gold)}.lev .star{font-size:.85em}

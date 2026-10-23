@@ -45,11 +45,12 @@ def build():
     c.append(h4('tl-how','🖱️ 用法：筛选阶段 · 点击事件 · 自动播放'))
     c.append('<div class="lifeph" role="toolbar" aria-label="按阶段筛选"><button data-ph="all" class="on">全部</button>'+''.join(f'<button data-ph="{k}" style="--c:{col}">{t}</button>' for k,t,d,col in PH)+'<button id="lifePlay" class="play">▶️ 自动播放</button></div>')
     evs=''
+    KEY_EV={'耶稣降生','耶稣受洗','彼得认信','登山变像','审讯、钉十字架、受死、埋葬','复活：空坟墓','升天','五旬节：圣灵降临','最后晚餐；楼上讲论；客西马尼'}
     for i,(ph,d30,d33,t,r,pl,nt) in enumerate(EV):
         col=[x[3] for x in PH if x[0]==ph][0]; ll=PL[pl]
         z=13 if pl in ('圣殿','客西马尼','各各他','橄榄山','伯大尼') else 10
-        evs+=(f'<div class="lev" data-ph="{ph}" style="--c:{col}"><button data-ll="{ll[0]},{ll[1]}" data-z="{z}" data-place="{E(pl)}"><span class="ln">{i+1}</span><span class="ld">{E(d30)}{f" <small>／{E(d33)}</small>" if d33!=d30 else ""}</span>'
-              f'<b>{E(t)}</b><span class="lp">📍 {E(pl)}</span></button><div class="lr">{refs_html(r)}</div><div class="lnote">{rich(nt,False)}</div></div>')
+        evs+=(f'<div class="lev{" key" if t in KEY_EV else ""}" data-ph="{ph}" style="--c:{col}"><button data-ll="{ll[0]},{ll[1]}" data-z="{z}" data-place="{E(pl)}"><span class="ln">{i+1}</span><span class="ld">{E(d30)}{f" <small>／{E(d33)}</small>" if d33!=d30 else ""}</span>'
+              f'<b>{"<span class=star>★</span> " if t in KEY_EV else ""}{E(t)}</b><span class="lp">📍 {E(pl)}</span></button><div class="lr">{refs_html(r)}</div><div class="lnote">{rich(nt)}</div></div>')
     c.append(f'<div class="lifegrid"><div class="lifetl">{evs}</div><div class="lifemap"><div class="map" data-map="life" role="region" aria-label="基督生平地图"><div class="lazyph" style="height:100%">🗺️ 地图加载中…</div></div><p class="srcline">年代：前为 AD 30 说，／后为 AD 33 说。地点为传统或约略位置（如以马忤斯、登山变像之山有争议）。</p></div></div>')
     # ----- feasts
     c.append(h2('feasts','🐑','约翰福音的节期：事工长度的钥匙'))
