@@ -15,6 +15,8 @@ import p_harmony
 out['harmony.html']=p_harmony.build()
 import p_acts
 out['acts.html']=p_acts.build()
+import p_culture
+out['culture.html']=p_culture.build()
 out['sources.html']=p_misc.sources()  # last: counts every verified quote (harmony/acts add some)
 import re as _re
 def _fix(v):
