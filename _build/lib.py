@@ -211,6 +211,19 @@ def autoref(html_):
         else:
             out.append(part if skip or ':' not in part else REFRE.sub(r'<span class="rf">\1</span>',part))
     return ''.join(out)
+def fab(fn):
+    """v9 floating nav cluster: history back/forward, top/bottom, home, prev/next page in site order"""
+    fs=[f for f,_i,_t in PAGES];k=fs.index(fn) if fn in fs else -1
+    pv=PAGES[k-1] if k>0 else None;nx=PAGES[k+1] if 0<=k<len(PAGES)-1 else None
+    a=lambda x,cls,ic,lab:(f'<a class="fb {cls}" href="{x[0]}" title="{lab}：{x[1]} {x[2]}" aria-label="{lab}：{x[2]}">{ic}</a>' if x else '')
+    return ('<nav class="fab" aria-label="快捷导航"><div class="fabm" id="fabm">'
+      '<button type="button" class="fb" data-a="back" title="后退（浏览记录）" aria-label="后退">←</button>'
+      '<button type="button" class="fb" data-a="fwd" title="前进（浏览记录）" aria-label="前进">→</button>'
+      +a(pv,'pv','‹','上一页')+a(nx,'nx','›','下一页')+
+      '<a class="fb" href="index.html" title="首页 · 66卷书" aria-label="首页">⌂</a>'
+      '<button type="button" class="fb" data-a="bot" title="到页底" aria-label="到页底">⤓</button>'
+      '<button type="button" class="fb" data-a="top" title="回到顶部" aria-label="回到顶部">⤒</button></div>'
+      '<button type="button" class="fabt" aria-expanded="false" aria-controls="fabm" title="快捷导航（后退/前进/顶部/底部/首页/上下页）" aria-label="快捷导航"><span>✦</span></button></nav>')
 def page(fn,title,content,extra_head='',scripts='',cv=True):
     content=content.replace(' reveal"',' rv"').replace('"reveal ','"rv ').replace('class="reveal"','class="rv"')
     from v5extra import tldr
@@ -240,7 +253,7 @@ def page(fn,title,content,extra_head='',scripts='',cv=True):
 <input id="tocq" placeholder="🔍 筛选目录…" aria-label="筛选目录"><div class="tocbody" data-lenis-prevent>{toctree(toc)}<div class="tocpages"><b>🧭 全站页面 · {len(GROUPS)} 组 {len(PAGES)} 页</b>{pages}</div></div><div class="rz" title="拖动调整目录宽度（双击复位）" role="separator" aria-orientation="vertical"><span class="rztip"></span></div><div class="rzhint" hidden>↔ 拖动右边缘调整目录宽度</div></aside><div class="scrim"></div>
 <main id="main">{cb[0]}{content}
 {cb[1]}<footer class="ft">📖 整本圣经 · 欧陆改革宗研读 — GROKstudy {V}（{DATE}）。信经与信条引文逐字取自 <a href="https://ccifellowship.org" target="_blank" rel="noopener">ccifellowship.org</a>（中国改革宗教会）；经文采用和合本。本站为学习辅助，日期采用保守派（Thiele 式）年代学，个别年份学界有±1–2年差异。<br>{"<br>".join(f'<b>{GCIRC[int(g)-1]} {gn}</b>：'+" · ".join(f'<a href="{f}">{PNUM[f]} {t}</a>' for f,i,t,d in ps) for g,gn,gi,ps in GROUPS)}</footer></main></div>
-<button class="ibtn totop" aria-label="回到顶部">↑</button>
+{fab(fn)}
 {scripts}<script src="assets/js/app.js?v={V}" defer></script></body></html>'''
 def h4(id,t,num=None): return f'<h4 class="h" id="{id}"{f" data-num={chr(34)}{num}{chr(34)}" if num else ""}>{t}</h4>'
 def h2(id,ic,t,toc=None): return f'<h2 class="h reveal" id="{id}"{f" data-toc={chr(34)}{E(toc)}{chr(34)}" if toc else ""}><span class="ic">{ic}</span>{t}</h2>'

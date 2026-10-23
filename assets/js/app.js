@@ -123,6 +123,16 @@ addEventListener('resize',measureSoon,{passive:true});if(!CSSPROG&&'ResizeObserv
 function onS(){tick=false;const y=scrollY;if(prog&&!CSSPROG)prog.style.transform='scaleX('+Math.min(1,y/maxY)+')';const on=y>600;if(on!==lastOn){tt&&tt.classList.toggle('on',on);lastOn=on}}
 addEventListener('scroll',()=>{if(!tick){tick=true;requestAnimationFrame(onS)}},{passive:true});onS();
 tt&&tt.addEventListener('click',()=>lenis?lenis.scrollTo(0):scrollTo({top:0,behavior:'smooth'}));
+/* ---------- v9 floating nav cluster (.fab): expands on hover/tap/focus, fades while scrolling ---------- */
+const fab=$('.fab');if(fab){const t=fab.querySelector('.fabt');let sT=0,sc=false;
+  const set=o=>{fab.classList.toggle('open',o);t.setAttribute('aria-expanded',o)};
+  t.addEventListener('click',e=>{e.stopPropagation();set(!fab.classList.contains('open'))});
+  document.addEventListener('click',e=>{if(fab.classList.contains('open')&&!fab.contains(e.target))set(false)});
+  fab.addEventListener('keydown',e=>{if(e.key==='Escape'){set(false);t.focus()}});
+  const go=y=>lenis?lenis.scrollTo(y):scrollTo({top:y,behavior:'smooth'});
+  fab.addEventListener('click',e=>{const b=e.target.closest('[data-a]');if(!b)return;const a=b.dataset.a;
+    if(a==='back')history.back();else if(a==='fwd')history.forward();else if(a==='top')go(0);else if(a==='bot'){measure();go(root.scrollHeight)}});
+  addEventListener('scroll',()=>{if(!sc){sc=true;fab.classList.add('sc')}clearTimeout(sT);sT=setTimeout(()=>{sc=false;fab.classList.remove('sc')},700)},{passive:true})}
 /* ---------- scroll-spy: IntersectionObserver only (no layout reads while scrolling) ----------
    Band = everything above 28% of the viewport. A heading is "passed" when it is in the band.
    Headings inside skipped content (content-visibility / lazy template) fall back to their container being fully passed. */
