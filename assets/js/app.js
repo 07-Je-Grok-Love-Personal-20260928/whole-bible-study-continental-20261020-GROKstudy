@@ -55,7 +55,7 @@ function goTo(id){let el=document.getElementById(id);if(!el){const lb=findLazy(i
   const tgt=()=>Math.max(0,scrollY+el.getBoundingClientRect().top-off());const jump=y=>lenis?lenis.scrollTo(y,{immediate:true,force:true}):scrollTo({top:y,behavior:'instant'});
   if(far)jump(tgt());else if(lenis)lenis.scrollTo(tgt(),{duration:.9});else el.scrollIntoView({behavior:RM?'auto':'smooth',block:'start'});
   history.replaceState(null,'','#'+id);
-  let n=0,ly=-1,stop=false;const cancel=()=>{stop=true};['wheel','touchstart','keydown','pointerdown'].forEach(ev=>addEventListener(ev,cancel,{once:true,passive:true}));const fix=()=>{if(stop)return;n++;const y=scrollY,d=el.getBoundingClientRect().top-off();if(y===ly&&Math.abs(d)>8)jump(tgt());ly=y;if(n<14)setTimeout(fix,200)};setTimeout(fix,far?60:400)}
+  let n=0,ly=-1,stop=false;const cancel=()=>{stop=true};['wheel','touchstart','keydown','pointerdown'].forEach(ev=>addEventListener(ev,cancel,{once:true,passive:true}));let jy=scrollY;const fix=()=>{if(stop)return;if(Math.abs(scrollY-jy)>innerHeight){stop=true;return}n++;const y=scrollY,d=el.getBoundingClientRect().top-off();if(y===ly&&Math.abs(d)>8){jump(tgt());jy=scrollY}ly=y;if(n<14)setTimeout(fix,200)};setTimeout(fix,far?60:400)}
 if(location.hash.length>1)addEventListener('load',()=>setTimeout(()=>goTo(decodeURIComponent(location.hash.slice(1))),60));
 /* ---------- TOC tree ---------- */
 const toc=$('#toc'),tree=$('#toc .tree'),tb=$('.tocbody');
