@@ -158,26 +158,15 @@ CO={'core':('💎','核心'),'xc':('✝️','基督'),'hardc':('⚠️','难点'
 def co(typ,body,label=None,cls=''):
     ic,lb=CO[typ]
     return f'<div class="co {typ} {cls}"><span class="lb">{ic} {label or lb}</span>{body}</div>'
-LEGEND_EM=('<div class="legend-em">'
- '<span class="it"><b class="k">粗体金</b> 关键词</span>'
- '<span class="it"><mark class="hy">黄底</mark> 核心句/必背</span>'
- '<span class="it"><mark class="hg">绿底</mark> 正面应用·正统答案</span>'
- '<span class="it"><span class="ub">蓝虚线</span> 日期·年代</span>'
- '<span class="it"><span class="cx">紫粗体</span> 神学术语</span>'
- '<span class="it"><span class="ug">绿实线</span> 恩典·应许</span>'
- '<span class="it"><span class="uw">红波浪</span> 易错·异端·常见误解</span>'
- '<span class="it"><span class="cr">红字</span> 罪·审判</span>'
- '<span class="it"><span class="key">“金底引文”</span> 信条逐字引文</span>'
- '<span class="it"><span class="must">必背</span> 必须背诵</span>'
- '<span class="it"><span class="ud">金双线</span> 定义 · 原则</span>'
- '<span class="it"><span class="rf">罗8:28</span> 经文出处（自动）</span>'
- '<span class="it"><span class="kpb">1</span> 编号要点徽章</span>'
- '<span class="it"><span class="uo">橙粗线</span> 对比·差异</span>'
- '<span class="it"><mark class="hb">蓝底点线</mark> 人物·地点</span>'
- '<span class="it"><span class="mbadge">★ 必背</span> 必背徽章</span>'
- '<span class="it"><span class="mnf">口诀</span> 记忆口诀</span>'
- '<span class="it"><span class="kbmini">🔑</span> 钥点框（编号必背）</span>'
- '<span class="pills">'+''.join(f'<span class="pill co {k}">{v[0]}{v[1]}框</span>' for k,v in CO.items())+'</span></div>')
+# v10: legend grouped by memorization tier (what to memorize → understand → anchor → contrast → grace), plus how to use 背诵模式
+_LG=[('🔴','必背层','先背这些：背诵模式下会被遮住',[('<span class="must">必背</span>','必须逐字背诵'),('<mark class="hy">黄底</mark>','核心句'),('<span class="mbadge">★ 必背</span>','必背徽章'),('<span class="kbmini">🔑</span>','钥点框·编号必背'),('<span class="mnf">口诀</span>','记忆口诀')]),
+ ('🟡','理解层','读懂这些：概念与定义',[('<b class="k">粗体金</b>','关键词'),('<span class="cx">紫粗体</span>','神学术语'),('<span class="ud">金双线</span>','定义·原则'),('<span class="key">“金底引文”</span>','信条逐字引文')]),
+ ('🔵','线索层','挂钩记忆：时间·人地·出处',[('<span class="ub">蓝虚线</span>','日期·年代'),('<mark class="hb">蓝底点线</mark>','人物·地点'),('<span class="rf">罗8:28</span>','经文出处'),('<span class="kpb">1</span>','编号要点')]),
+ ('🟠','辨析层','分清对错：对比与警示',[('<span class="uo">橙粗线</span>','对比·差异'),('<span class="uw">红波浪</span>','易错·异端'),('<span class="cr">红字</span>','罪·审判')]),
+ ('🟢','恩典层','落到生活：应许与应用',[('<span class="ug">绿实线</span>','恩典·应许'),('<mark class="hg">绿底</mark>','应用·正统答案')])]
+LEGEND_EM=('<div class="legend-em">'+''.join(f'<div class="lgrp"><b class="lgh">{ic} {t}<small>{d}</small></b><div class="lgi">'+''.join(f'<span class="it">{a} {b}</span>' for a,b in items)+'</div></div>' for ic,t,d,items in _LG)
+ +'<div class="lgrp lgco"><b class="lgh">🗂️ 框<small>整段的性质</small></b><div class="lgi pills">'+''.join(f'<span class="pill co {k}">{v[0]}{v[1]}框</span>' for k,v in CO.items())+'</div></div>'
+ +'<p class="lgtip">🙈 <b>背诵模式</b>（顶栏 🙈 或 🎨 面板）：遮住「必背层」与关键词，点一下揭开、再点遮回；右下角显示本页已揭开进度。先遮着自测，再揭开核对。</p></div>')
 def legend_box(open_=False):
     return f'<details class="dx legendbox"{" open" if open_ else ""}><summary>🎨 笔记式标注图例（颜色编码说明）</summary><div class="in">{LEGEND_EM}</div></details>'
 def wrap_sections(c):
@@ -194,7 +183,7 @@ THEMES=[('night','🌌','星空深蓝','#060a1c','#ffcb5c','#edf0fb',0,'经典�
 THEME_RE='|'.join(t[0] for t in THEMES); THEME_LIGHT=','.join(f'{t[0]}:1' for t in THEMES if t[6])
 def _tsw(k,ic,n,bg,ac,ink,lt,tag): return (f'<button data-theme="{k}" data-bg="{bg}"'+(' data-light="1"' if lt else '')+f' style="--sw:{bg};--sa:{ac};--si:{ink}" aria-label="{n}">'
     f'<span class="pv" aria-hidden="true"><i></i><i></i><i></i><em></em></span><b>{ic} {n}</b><small>{tag}</small></button>')
-HDR='<button class="ibtn hdx" id="plainBtn" title="笔记模式：显示/隐藏彩色标注" aria-label="笔记模式">🖍️</button><button class="ibtn hdx" id="focusBtn" title="专注模式：淡化非重点文字" aria-label="专注模式">🎯</button><button class="ibtn" id="tpBtn" title="主题配色 · 阅读模式" aria-label="主题与阅读模式" aria-expanded="false">🎨</button><div class="tpanel" id="tpanel" hidden><b class="tpt">🎨 主题配色</b><div class="tsw">{tsw}</div><b class="tpt">📖 阅读模式</b><label class="tgl"><input type="checkbox" id="plainChk"> 🖍️ 笔记模式 <small>关闭 = 隐藏全部彩色标注</small></label><label class="tgl"><input type="checkbox" id="focusChk"> 🎯 专注模式 <small>淡化非重点，只亮关键句</small></label><label class="tgl"><input type="checkbox" id="lenisChk"> 🌊 惯性滚动 <small>默认关闭：原生滚动最顺</small></label></div>'.format(tsw=''.join(_tsw(*t) for t in THEMES))
+HDR='<button class="ibtn hdx" id="plainBtn" title="笔记模式：显示/隐藏彩色标注" aria-label="笔记模式">🖍️</button><button class="ibtn hdx" id="recallBtn" title="背诵模式：遮住必背内容，点击揭开自测" aria-label="背诵模式" aria-pressed="false">🙈</button><button class="ibtn hdx" id="focusBtn" title="专注模式：淡化非重点文字" aria-label="专注模式">🎯</button><button class="ibtn" id="tpBtn" title="主题配色 · 阅读模式" aria-label="主题与阅读模式" aria-expanded="false">🎨</button><div class="tpanel" id="tpanel" hidden><b class="tpt">🎨 主题配色</b><div class="tsw">{tsw}</div><b class="tpt">📖 阅读模式</b><label class="tgl"><input type="checkbox" id="plainChk"> 🖍️ 笔记模式 <small>关闭 = 隐藏全部彩色标注</small></label><label class="tgl"><input type="checkbox" id="recallChk"> 🙈 背诵模式 <small>遮住必背与关键词，点开自测</small></label><label class="tgl"><input type="checkbox" id="focusChk"> 🎯 专注模式 <small>淡化非重点，只亮关键句</small></label><label class="tgl"><input type="checkbox" id="lenisChk"> 🌊 惯性滚动 <small>默认关闭：原生滚动最顺</small></label></div>'.format(tsw=''.join(_tsw(*t) for t in THEMES))
 TAGRE=re.compile(r'(<[^>]+>)')
 VOID={'br','img','input','meta','link','hr','wbr','source','col','area'}
 SKIPT={'a','cite','svg','script','style','textarea','button','code','pre','title','h2','h3','h4','h5','summary','th'}
@@ -252,7 +241,7 @@ def page(fn,title,content,extra_head='',scripts='',cv=True):
 <title>{E(title)} · 整本圣经 欧陆改革宗研读 {V}</title><meta name="description" content="整本圣经解读：救赎历史、圣约神学、时间线、诸王、地理、66卷逐卷、三大信经与三项联合信条（欧陆改革宗）。GROKstudy {V} {DATE}">
 <meta name="theme-color" content="#070b1a"><meta name="wb-version" content="{V}-{DATE}">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📖</text></svg>">
-<script>(function(){{try{{var d=document.documentElement,L=localStorage,t=L.getItem('wb-theme');if(t==='light')t='dawn';if(!t||t==='dark'||!/^({THEME_RE})$/.test(t))t='night';d.dataset.theme=t;if({{{THEME_LIGHT}}}[t])d.classList.add('light');if(L.getItem('wb-plain')==='1')d.classList.add('plain');if(L.getItem('wb-focus')==='1')d.classList.add('focus');var w=L.getItem('wb-tocw');if(w)d.style.setProperty('--toc',w+'px')}}catch(e){{}}}})()</script>
+<script>(function(){{try{{var d=document.documentElement,L=localStorage,t=L.getItem('wb-theme');if(t==='light')t='dawn';if(!t||t==='dark'||!/^({THEME_RE})$/.test(t))t='night';d.dataset.theme=t;if({{{THEME_LIGHT}}}[t])d.classList.add('light');if(L.getItem('wb-plain')==='1')d.classList.add('plain');if(L.getItem('wb-focus')==='1')d.classList.add('focus');if(L.getItem('wb-recall')==='1')d.classList.add('recall');var w=L.getItem('wb-tocw');if(w)d.style.setProperty('--toc',w+'px')}}catch(e){{}}}})()</script>
 <script type="speculationrules">{{"prerender":[{{"where":{{"href_matches":"*.html"}},"eagerness":"moderate"}}]}}</script>
 <link rel="stylesheet" href="assets/css/app.css?v={V}">{extra_head}</head>
 <body data-mer="assets/vendor/mermaid.min.js"><div class="aurora"></div><div class="prog"></div>

@@ -21,6 +21,22 @@ $('#focusBtn')&&$('#focusBtn').addEventListener('click',()=>mode('focus','wb-foc
 $('#plainChk')&&$('#plainChk').addEventListener('change',e=>mode('plain','wb-plain',!e.target.checked));
 $('#focusChk')&&$('#focusChk').addEventListener('change',e=>mode('focus','wb-focus',e.target.checked));
 window.__setTheme=setTheme;
+/* ---------- v10 背诵模式 (recall):必背层 + 关键词 are masked; tap to reveal / re-mask; progress chip ---------- */
+const RSEL=':is(.must,mark.hy,b.k,.mnf,span.key)';
+const rq=()=>$$('main '+RSEL).filter(e=>!e.closest('.legend-em,h1,h2,h3,h4,summary,.hero,.top,nav'));
+let rchip=null;
+function rcount(){if(!rchip)return;const all=rq(),n=all.filter(e=>e.classList.contains('shown')).length;rchip.querySelector('b').textContent=n+' / '+all.length}
+function recall(on){root.classList.toggle('recall',on);LS.s('wb-recall',on?'1':'0');$('#recallChk')&&($('#recallChk').checked=on);
+  const rb=$('#recallBtn');rb&&(rb.classList.toggle('on',on),rb.setAttribute('aria-pressed',String(on)));
+  if(on&&!rchip){rchip=document.createElement('div');rchip.className='rchip';rchip.innerHTML='🙈 已揭开 <b></b> <button type="button" data-a="hide">全部遮住</button><button type="button" data-a="show">全部揭开</button>';
+    rchip.addEventListener('click',e=>{const a=e.target.dataset&&e.target.dataset.a;if(!a)return;rq().forEach(x=>x.classList.toggle('shown',a==='show'));rcount()});body.appendChild(rchip)}
+  if(rchip)rchip.hidden=!on;if(on)rcount()}
+document.addEventListener('click',e=>{if(!root.classList.contains('recall'))return;const t=e.target.closest&&e.target.closest('main '+RSEL);
+  if(!t||t.closest('.legend-em,h1,h2,h3,h4,summary,.hero'))return;if(!t.classList.contains('shown')||!e.target.closest('a')){e.preventDefault();e.stopPropagation()}t.classList.toggle('shown');rcount()},true);
+$('#recallBtn')&&$('#recallBtn').addEventListener('click',()=>recall(!root.classList.contains('recall')));
+$('#recallChk')&&$('#recallChk').addEventListener('change',e=>recall(e.target.checked));
+if(root.classList.contains('recall'))recall(true);
+
 /* ---------- Lenis (opt-in, loaded on demand) ---------- */
 let lenis=null;
 function lenisOn(){if(lenis||RM)return;const go=()=>{lenis=new Lenis({lerp:.11,wheelMultiplier:1,smoothWheel:true,anchors:{offset:-(parseInt(getComputedStyle(root).getPropertyValue('--top'))||56)-10},prevent:n=>n.closest&&n.closest('.tocbody,.leaflet-container,.tpanel')});
