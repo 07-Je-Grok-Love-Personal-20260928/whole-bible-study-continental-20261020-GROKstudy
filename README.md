@@ -1,68 +1,79 @@
-# 整本圣经研读-20261022-v7-GROKstudy
+# 整本圣经研读-20261023-v8-GROKstudy
 
-> **主题**：整本《圣经》解读（欧陆改革宗 · 正统神学）｜**时间**：2026-10-22｜**版本号**：v7｜GROKstudy
+> **主题**：整本《圣经》解读（欧陆改革宗 · 正统神学）｜**时间**：2026-10-23｜**版本号**：v8｜GROKstudy
 
-时间线 · 故事线 · 地理 · 诸王与时代 · 圣经神学 · 圣约神学 · 66 卷逐卷解读 · **五经／历史书／诗歌智慧书／先知书／四福音／新约书信 六组文体横向 × 纵向对照** · 基督生平 · 列王纪×历代志 · 统计 · 三大普世信经与三项联合信条全文 · 记忆测验。
-信经与信条引文全部**逐字**取自 [ccifellowship.org](https://ccifellowship.org)（中国改革宗教会），构建时自动校验；经文采用和合本；威斯敏斯特标准仅作补充参照。
+66 卷书架与逐卷解读 · 全景总览 · 救赎故事 · 圣约神学 · 时间线 · 地理 · **基督生平 · 四福音对照 · 四福音合参（202 段，和合本）· 使徒行传与初代教会** · 五组文体对照 · 列王纪×历代志 · 跨卷连接网络 · 统计 · 三大信经与三项联合信条全文 · 记忆测验。
+信经与信条引文全部**逐字**取自 [ccifellowship.org](https://ccifellowship.org)（中国改革宗教会），构建时自动校验（174 处）；经文采用和合本；威斯敏斯特标准仅作补充参照。
 
-## 🔗 在线访问（当前版本 v7）
+## 🔗 在线访问（当前版本 v8）
 
 | 平台 | 链接 |
 |---|---|
 | GitHub Pages | https://07-je-grok-love-personal-20260928.github.io/whole-bible-study-continental-20261020-GROKstudy/ |
-| Surge | https://whole-bible-study-20261022-v7-grokstudy.surge.sh/ |
-| Netlify | https://whole-bible-study-20261022-v7-grokstudy.netlify.app/ |
+| Surge | https://whole-bible-study-20261023-v8-grokstudy.surge.sh/ |
+| Netlify | https://whole-bible-study-20261023-v8-grokstudy.netlify.app/ |
 | 源码仓库 | https://github.com/07-Je-Grok-Love-Personal-20260928/whole-bible-study-continental-20261020-GROKstudy |
 
-## 📑 页面结构（21 页 · 5 组）
+## 📑 页面结构（22 页 · 7 组）
 
-导航栏与目录“全站页面”区按同一套编号分组（①–⑤，页面编号如 2.3）；每页顶部有面包屑，底部有上一页／下一页。
+导航栏与目录“全站页面”区按同一套编号分组（①–⑦）；`ot.html` / `nt.html` 保留为跳转页（→ `index.html#ot` / `#nt`），旧链接继续可用。
 
-### ① 🧭 总览
-
-| # | 文件 | 页面 | 要点 |
-|---|---|---|---|
-| 1.1 | `index.html` | 🏠 首页总览 | 学习路线·66卷色图·一页纸 |
-| 1.2 | `story.html` | 🧭 救赎大故事 | 四幕剧·红线·圣经神学 |
-| 1.3 | `covenant.html` | 🤝 圣约神学 | 三约·六约·两种施行 |
-| 1.4 | `timeline.html` | ⏳ 时间线·诸王 | 11时代·8钉子·42王 |
-| 1.5 | `geography.html` | 🗺️ 地理文化 | 8幅交互地图 |
-
-### ② 📚 书卷
+### ① 📚 66卷书
 
 | # | 文件 | 页面 | 要点 |
 |---|---|---|---|
-| 2.1 | `ot.html` | 📜 旧约39卷 | 逐卷13项解读 |
-| 2.2 | `nt.html` | ✝️ 新约27卷 | 逐卷13项解读 |
-| 2.3 | `pentateuch.html` | ⚖️ 摩西五经对照 | 五经横向×纵向 |
-| 2.4 | `history.html` | 🏛️ 历史书对照 | 得地→被掳→归回 |
-| 2.5 | `poetry.html` | 🎼 诗歌智慧书对照 | 五卷三角度看智慧 |
-| 2.6 | `prophets.html` | 🔥 先知书对照 | 17先知×君王×帝国 |
-| 2.7 | `gospels.html` | 📗 四福音对照 | 四幅肖像·段落对照 |
-| 2.8 | `epistles.html` | ✉️ 新约书信对照 | 21封书信·年代·主题 |
+| 1.1 | `index.html` | 📚 66卷书 | 书架总图（7 组 · 12 类）· 66 卷逐卷 13 项 · 相关书卷链接 |
 
-### ③ 🔍 专题
+### ② 🧭 全景总览
 
 | # | 文件 | 页面 | 要点 |
 |---|---|---|---|
-| 3.1 | `life-of-christ.html` | 🌟 基督生平 | 48事件×地图 |
-| 3.2 | `kings-chronicles.html` | 👑 列王纪×历代志 | 42王逐王对照 |
-| 3.3 | `compare.html` | 🔗 跨卷对照 | 10组以经解经 |
-| 3.4 | `stats.html` | 📊 圣经统计 | 章节·类别·引用 |
+| 2.1 | `overview.html` | 🏠 全景总览 | 学习路线·66卷色图·一页纸 |
+| 2.2 | `story.html` | 🧭 救赎大故事 | 四幕剧·红线·圣经神学 |
+| 2.3 | `covenant.html` | 🤝 圣约神学 | 三约·六约·两种施行 |
+| 2.4 | `timeline.html` | ⏳ 时间线·诸王 | 11时代·8钉子·42王 |
+| 2.5 | `geography.html` | 🗺️ 地理文化 | 8幅交互地图 |
 
-### ④ 🕊️ 信条
-
-| # | 文件 | 页面 | 要点 |
-|---|---|---|---|
-| 4.1 | `creeds.html` | 🕊️ 三大信经 | 背诵版·深度对比 |
-| 4.2 | `forms.html` | 📚 三项联合信条 | 37条·129问·多特 |
-| 4.3 | `memory.html` | 🧠 记忆·测验 | 口诀·闪卡·测验 |
-
-### ⑤ 🗂️ 资料
+### ③ ✝️ 基督与福音
 
 | # | 文件 | 页面 | 要点 |
 |---|---|---|---|
-| 5.1 | `sources.html` | 🗂️ 资料来源 | 逐字来源·核对 |
+| 3.1 | `life-of-christ.html` | 🌟 基督生平 | 64事件×地图 |
+| 3.2 | `gospels.html` | 📗 四福音对照 | 四幅肖像·合参覆盖图 |
+| 3.3 | `harmony.html` | 📖 四福音合参 | 202段·和合本经文 |
+| 3.4 | `acts.html` | 🕊️ 使徒行传·初代教会 | AD30–95·旅程动画地图·彼得×保罗 |
+
+### ④ 🧩 文体对比
+
+| # | 文件 | 页面 | 要点 |
+|---|---|---|---|
+| 4.1 | `pentateuch.html` | ⚖️ 摩西五经对照 | 五经横向×纵向 |
+| 4.2 | `history.html` | 🏛️ 历史书对照 | 得地→被掳→归回 |
+| 4.3 | `poetry.html` | 🎼 诗歌智慧书对照 | 五卷三角度看智慧 |
+| 4.4 | `prophets.html` | 🔥 先知书对照 | 17先知×君王×帝国 |
+| 4.5 | `epistles.html` | ✉️ 新约书信对照 | 21封书信·年代·主题 |
+
+### ⑤ 🔍 专题
+
+| # | 文件 | 页面 | 要点 |
+|---|---|---|---|
+| 5.1 | `kings-chronicles.html` | 👑 列王纪×历代志 | 42王逐王对照 |
+| 5.2 | `compare.html` | 🔗 跨卷对照 | 134条跨卷连接弧线网络·10组对照 |
+| 5.3 | `stats.html` | 📊 圣经统计 | 章节·类别·引用 |
+
+### ⑥ 🕊️ 信条
+
+| # | 文件 | 页面 | 要点 |
+|---|---|---|---|
+| 6.1 | `creeds.html` | 🕊️ 三大信经 | 背诵版·深度对比 |
+| 6.2 | `forms.html` | 📜 三项联合信条 | 37条·129问·多特 |
+| 6.3 | `memory.html` | 🧠 记忆·测验 | 口诀·闪卡·测验 |
+
+### ⑦ 🗂️ 资料
+
+| # | 文件 | 页面 | 要点 |
+|---|---|---|---|
+| 7.1 | `sources.html` | 🗂️ 资料来源 | 逐字来源·经文版本·核对 |
 
 ## 🛠️ 开发
 
@@ -73,9 +84,25 @@ THEMES=night,dawn,jade,ruby,contrast python3 _build/check.py all   # 无头 Chro
 
 - 纯静态站点；第三方库已本地化：`assets/vendor/`（Leaflet 1.9.4、Mermaid 11 仅构建期使用、Lenis 1.3.27）。
 - 书卷内容：`_build/books_*.txt`；文体对照页：`_build/p_pent.py`、`p_hist.py`、`p_poet.py`、`p_proph.py`、`p_gospels.py`、`p_epis.py`（公共组件 `_build/genre.py`）。
+- 合参与经文：`_build/p_harmony.py`、`_build/data/cuv_gospels_acts.json`（eBible cmn-cu89s，PD）；使徒行传：`_build/p_acts.py`；跨卷连接：`_build/xref.py` + `_build/data/xref.txt`。
 - 信条数据：`_build/data/cci/*.json`。正文短引用以 `{{HC27|…}}` 标记，构建时必须是原文子串，否则构建失败。
 
 ## 📝 版本历史
+
+### v8 — 2026-10-23（tag `v8-20261023`，[Release](https://github.com/07-Je-Grok-Love-Personal-20260928/whole-bible-study-continental-20261020-GROKstudy/releases/tag/v8-20261023)）
+- 在线：Surge https://whole-bible-study-20261023-v8-grokstudy.surge.sh/ · Netlify https://whole-bible-study-20261023-v8-grokstudy.netlify.app/ · GitHub Pages（main）
+- **1 首页＝66 卷书**：`index.html` 改为书架总图（按 7 组 / 12 类着色、旧约/新约/类别筛选、按章数比例的书脊）＋66 卷逐卷卡片；原首页内容移到 `overview.html`；`ot.html`/`nt.html` 变为跳转页。全站重排为 7 组 22 页。
+- **2 逐卷导读**：每卷一句话、背景、为什么写、结构色条、核心与关键经文、难点/易错、基督在本卷、圣约位置、认信一句（逐字，66/66）、应用、相关书卷链接、口诀；卡片正文仍为延迟生成。
+- **3 跨卷分析**：`_build/data/xref.txt` 134 条精选连接（引用 / 应许→应验 / 预表 / 平行 / 主题呼应 5 类，66 卷全覆盖），跨卷对照页新增可筛选的动画弧线网络、连接最多的 12 卷、分类明细；每卷卡片新增“🔗 相关书卷”芯片。数据为精选、非穷尽（标注于页内）。
+- **4 基督与初代教会**：新页 `harmony.html` 四福音合参 202 段（Robertson 1922 / Aland 编排，13 个阶段，和合本经文按段延迟展开、按福音/阶段筛选、覆盖图）；新页 `acts.html`（AD 30–95 里程碑带、罗马与犹太统治者×保罗、新约书卷写作跨度、4 次旅程动画地图、1:8 结构、路加的“进展报告”、彼得×保罗对照、讲章、认信）；基督生平 48 → 64 事件、关键事件★；四福音页新增合参覆盖条与重叠统计。
+- **5 内容补强**：上述各页与资料来源页（和合本版本与核对、合参依据、跨卷依据、使徒行传年代依据）；经文引用逐条对照和合本修正措辞。
+- **6 动画/图标/图表**：弧线描绘动画、旅程路线动画、里程碑带、统治者跨度图、合参覆盖图；所有动画遵守 `prefers-reduced-motion`。
+- **7 标注**：基督生平关键事件★与自动标注；行传旅程注释重点标注；新页面全部纳入统一图例。
+- **8 性能**（4× CPU 降速，见下表）：目录宽度提示气泡改为只做合成层动画（原渐变背景动画迫使每帧整页重绘）；合参页去掉段落 `content-visibility`；深链接落点后的校正循环在页面被滚走时自动停止。
+- **9 保留并打磨**：五组文体对照、列王纪×历代志、统计页。
+
+PERF_TABLE
+
 
 ### v7 — 2026-10-22（tag `v7-20261022`，[Release](https://github.com/07-Je-Grok-Love-Personal-20260928/whole-bible-study-continental-20261020-GROKstudy/releases/tag/v7-20261022)）
 - 在线：Surge https://whole-bible-study-20261022-v7-grokstudy.surge.sh/ · Netlify https://whole-bible-study-20261022-v7-grokstudy.netlify.app/ · GitHub Pages（main）
