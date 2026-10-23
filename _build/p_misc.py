@@ -45,6 +45,7 @@ def index():
     return page('overview.html','全景总览',''.join(c))
 def memory():
     c=['''<section class="hero reveal"><div class="chips"><span class="chip g">🧠 记忆·测验</span><span class="chip">口诀 · 闪卡 · 选择题 · 排序游戏</span></div><h1>把学到的<em>钉牢在心里</em></h1><p class="lead">记忆科学：<span class="key">提取练习</span>（自测）比重复阅读有效得多；<span class="key">间隔重复</span>（1-3-7-14 天）；<span class="key">颜色与图像编码</span>；<span class="key">串联故事</span>。</p></section>''']
+    c.append(legend_box())
     c.append(h2('mn','🪝','口诀：先挂钩'))
     c.append(h3('quick66','📋 66 卷一句话 + 必背经文'))
     c.append(bookquick())

@@ -47,6 +47,7 @@ BANDS=[('耶路撒冷 1–7',30,34,'var(--gold)'),('犹太·撒玛利亚 8–12'
 def build():
     open(SITE+'assets/data/maps8.js','w').write('window.MAPS=Object.assign(window.MAPS||{},'+json.dumps({'acts':mapcfg()},ensure_ascii=False,separators=(',',':'))+');window.ACTSJ='+json.dumps([{'n':n,'c':c,'s':[[s,list(P[s]),d] for s,d in st]} for n,c,st in J],ensure_ascii=False,separators=(',',':'))+';')
     c=[hero(['🕊️ 使徒行传与初代教会','AD 30–95+','动画时间线 · 旅程动画地图','书信定位'],'从耶路撒冷到罗马：','升天的基督藉圣灵建立教会',rich('路加写的是“耶稣**开头**一切所行所教训的”（徒1:1）的续篇：==同一位基督，如今从天上藉圣灵继续工作==。主题经文：“但圣灵降临在你们身上，你们就必得着能力，并要在耶路撒冷、犹太全地，和撒马利亚，直到地极，作我的见证。”（徒1:8）',False))]
+    c.append(legend_box())
     c.append(h2('a18','🎯','徒1:8 结构：三个同心圆'))
     seg=[('耶路撒冷','1–7',7,'var(--gold)'),('犹太与撒玛利亚','8–12',5,'var(--emer)'),('直到地极','13–28',16,'var(--sky)')]
     c.append('<div class="obar rv" style="display:flex;height:40px;border-radius:10px;overflow:hidden;margin:8px 0">'+''.join(f'<span style="flex:{n} 1 0;background:color-mix(in srgb,{col} 55%,transparent);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;min-width:0;overflow:hidden;white-space:nowrap">{t} {r}</span>' for t,r,n,col in seg)+'</div>')
