@@ -65,6 +65,11 @@ def build():
     dn=['六','日','一','二','三','四','五','六','日']
     btn=''.join(f'<button data-day="{i}" class="{"on" if i==6 else ""}" style="--c:{"var(--rose)" if i==6 else ("var(--gold)" if i==8 else "var(--sky)")}"><b>{E(e[1])}</b><small>{E(e[3][:8])}</small></button>' for i,e in enumerate(days))
     pan=''.join(f'<div class="pday card" data-d="{i}"{"" if i==6 else " hidden"}><h4 class="h notoc">{E(e[1])} · {E(e[3])}</h4><p>📍 {E(e[5])} · {rich(e[6],False)}</p><div class="lr">{refs_html(e[4])}</div></div>' for i,e in enumerate(days))
+    # v10: how much of each Gospel is the last week
+    pw=[('👑 马太','太21–28',8,28,'var(--g-mt)'),('🦁 马可','可11–16',6,16,'var(--g-mk)'),('🩺 路加','路19:28–24',6,24,'var(--g-lk)'),('🕊️ 约翰','约12–21',10,21,'var(--g-jn)')]
+    c.append(h3('pshare','📊 四福音用多少篇幅写最后一周？'))
+    c.append('<div class="hbar rv">'+''.join(f'<div><span>{a}（{r}）</span><div class="t"><span style="--v:{n/t:.3f};--c:{col}"></span></div><b>{n}/{t} 章 · {round(100*n/t)}%</b></div>' for a,r,n,t,col in pw)+'<div><span>合计</span><div class="t"><span style="--v:0.337;--c:var(--rose)"></span></div><b>30/89 章 · 34%</b></div></div>')
+    c.append(co('core','<p>'+rich('按章粗算（路加从19:28入城算起，取整为6章），四福音约==三分之一==的篇幅集中在受难周。福音书不是“传记”而是**受难记附长序言**：重心在十字架与复活（林前15:3–4）。',False)+'</p>','🎯 读法'))
     c.append(h3('pdays','九天时间带：前一安息日到复活日（点击某一天）'))
     c.append(f'<div class="pweek rv"><div class="pwb">{btn}</div>{pan}</div>')
     c.append(h3('friday','星期五：钉十字架的时辰'))

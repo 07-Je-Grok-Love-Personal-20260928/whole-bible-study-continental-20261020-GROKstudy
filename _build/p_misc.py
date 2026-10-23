@@ -72,8 +72,25 @@ def memory():
     fills=[('使徒信经','我信神，全能的父，____的主。','创造天地'),('使徒信经','因圣灵感孕，从____所生','童贞女马利亚'),('尼西亚信经','受生却非被造，与父____','同质'),('尼西亚信经','我们信圣灵，____的主','赐生命'),('亚他那修信经','其位格不紊，其本质____','不分'),('亚他那修信经','他是一位，并非因两质相混，乃是因神人二性合于一个____','位格')]
     c.append('<div class="grid g3">'+''.join(f'<details class="dx"><summary>🕊️ {t}：{E(q)}</summary><div class="in"><p class="key">{E(a)}</p></div></details>' for t,q,a in fills)+'</div>')
     for t,q,a in fills: assert q.replace('____',a).replace('……','') in {'使徒信经':CR['apostles']['text'],'尼西亚信经':CR['nicene']['text'],'亚他那修信经':CR['athanasian']['text']}[t], q
+    # v10: spaced-repetition curve (illustrative) — why the plan reviews on days 1·3·7·14·30
+    import math
+    X=lambda t:44+t*19.3; Y=lambda r:16+(100-r)*1.7
+    def pth(f): return 'M'+' L'.join(f'{X(t/4):.1f},{Y(f(t/4)):.1f}' for t in range(0,121))
+    RV=[0,1,3,7,14,30]; SS=[1.2,2.5,5,10,20,40]
+    def sp(t):
+        i=max(k for k,r in enumerate(RV) if r<=t); return 100*math.exp(-(t-RV[i])/SS[i])
+    grid=''.join(f'<line x1="44" x2="623" y1="{Y(v):.0f}" y2="{Y(v):.0f}" class="sg"/><text x="38" y="{Y(v)+4:.0f}" class="sl" text-anchor="end">{v}%</text>' for v in (0,25,50,75,100))
+    xt=''.join(f'<text x="{X(d):.0f}" y="200" class="sl" text-anchor="middle">{d}</text>' for d in (0,1,3,7,14,30))
+    dots=''.join(f'<circle cx="{X(r):.1f}" cy="{Y(100):.1f}" r="5" class="sd"/>' for r in RV[1:])
+    svg=(f'<svg viewBox="0 0 640 210" class="srsvg" role="img" aria-label="遗忘曲线与间隔复习示意">{grid}{xt}'
+         f'<path d="{pth(lambda t:100*math.exp(-t/1.2))}" class="sf"/><path d="{pth(sp)}" class="ss"/>{dots}'
+         f'<text x="{X(2.2):.0f}" y="{Y(12):.0f}" class="sx sfx">不复习：两三天就忘大半</text><text x="{X(16):.0f}" y="{Y(80):.0f}" class="sx ssx">按 1·3·7·14·30 天复习：越忘越慢</text></svg>')
+    c.append(h2('srs','📈','原理：间隔复习（遗忘曲线示意）'))
+    c.append(f'<figure class="srs rv">{svg}<figcaption>示意图（非实测数据）：每次在“快要忘”时主动回忆，记忆的衰减就变慢。下面的两周计划与本站的 🙈 背诵模式、闪卡都是按这个原理安排的。</figcaption></figure>')
     c.append(h2('plan','📅','计划：两周记忆计划'))
     c.append(table(['天','内容','方法'],[['1','整体：四幕剧 + 11 时代','画出来，讲给别人听'],['2','8 个钉子年份','闪卡 + 排序游戏'],['3','统一王国 + 北国 9 朝代','口诀 + 年代图'],['4','犹大 8 善王 + 两大复兴','排序游戏'],['5','六个历史之约','圣约链流程图'],['6','律法书 + 历史书','口诀表'],['7','复习 1–6 天','选择题'],['8','诗歌书 + 大先知','关键经文'],['9','小先知（与诸王对照）','先知—君王表'],['10','福音书 + 使徒行传','四福音对照'],['11','书信 + 启示录','口诀表'],['12','使徒信经背诵','遮盖模式'],['13','尼西亚信经背诵','遮盖模式'],['14','亚他那修信经（前半）+ 总复习','填空 + 测验']]))
+    c.append(h3('track','✅ 打卡：完成一天点一下（保存在本机浏览器）'))
+    c.append('<div class="memtrk rv" data-k="wb-mem14">'+''.join(f'<button type="button" data-d="{i}" aria-pressed="false"><b>{i}</b><small>第{i}天</small></button>' for i in range(1,15))+'<p class="mtp">已完成 <b>0</b> / 14 天 <button type="button" class="btn mtr">重新开始</button></p></div>')
     return page('memory.html','记忆·测验',''.join(c))
 def sources():
     import os

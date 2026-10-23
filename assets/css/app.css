@@ -986,3 +986,25 @@ html.light .kt .ax{color:var(--ink2)}
 html.light .hero.img{background-image:linear-gradient(90deg,rgba(7,11,26,.88),rgba(7,11,26,.6) 60%,rgba(7,11,26,.3)),url(assets/img/hero.svg)!important;--ink:#fff8ec;--ink2:#efe6d6;--mut:#d9cfbd;color:#fff8ec}
 html.light .hero.img :is(h1,.lead,p){color:#fff8ec}
 html.light .hero.img .key{color:#fff;background:linear-gradient(transparent 55%,rgba(255,203,92,.45) 55%)}
+/* v10 Ask2: spaced-repetition chart, memory tracker, lively heading icons */
+.srs{margin:10px 0;padding:12px;border:1px solid var(--line);border-radius:14px;background:var(--card)}
+.srs svg{display:block;width:100%;height:auto;max-height:300px}
+.srs.rv svg{opacity:0;transform:translateY(12px);transition:opacity .7s var(--ease),transform .7s var(--ease)}
+.srs.in svg{opacity:1;transform:none}
+.srs figcaption{font-size:13px;color:var(--mut);margin-top:6px}
+.srsvg .sg{stroke:var(--line2);stroke-width:1}.srsvg .sl{font-size:11px;fill:var(--mut)}
+.srsvg .sf{fill:none;stroke:var(--rose);stroke-width:2.5;stroke-dasharray:6 5}
+.srsvg .ss{fill:none;stroke:var(--emer);stroke-width:3;stroke-linejoin:round}
+.srsvg .sd{fill:var(--emer);stroke:var(--bg);stroke-width:2}
+.srsvg .sx{font-size:13px;font-weight:700}.srsvg .sfx{fill:var(--rose)}.srsvg .ssx{fill:var(--emer)}
+.memtrk{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:8px;margin:10px 0}
+.memtrk>button{display:flex;flex-direction:column;align-items:center;gap:1px;padding:8px 2px;border-radius:12px;border:1px solid var(--line2);background:var(--card);color:var(--ink);cursor:pointer;transition:transform .2s var(--ease)}
+.memtrk>button b{font-size:18px;line-height:1.2}.memtrk>button small{font-size:11px;color:var(--mut)}
+.memtrk>button:active{transform:scale(.94)}
+.memtrk>button[aria-pressed=true]{background:var(--emer);border-color:var(--emer);color:var(--on)}
+.memtrk>button[aria-pressed=true] small{color:var(--on)}
+.memtrk>button[aria-pressed=true] b::after{content:" ✓"}
+.memtrk .mtp{grid-column:1/-1;margin:4px 0 0;font-size:14px;display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+h2.h .ic{display:inline-block;transition:transform .35s var(--ease)}
+h2.h:hover .ic{transform:rotate(-10deg) scale(1.18)}
+@media(prefers-reduced-motion:reduce){.srs.rv svg{opacity:1;transform:none;transition:none}h2.h:hover .ic{transform:none}}

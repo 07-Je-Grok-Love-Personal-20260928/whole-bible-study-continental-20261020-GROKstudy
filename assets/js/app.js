@@ -251,3 +251,7 @@ $$('.covflow').forEach(cf=>{const info=$(cf.dataset.info);cf.addEventListener('c
   addEventListener('scroll',()=>{if(document.querySelector('.nav .ng.open'))close()},{passive:true});
   const cur=document.querySelector('.nav .ng.on');cur&&cur.scrollIntoView&&innerWidth<=1000&&(()=>{const nv=document.querySelector('.nav');nv.scrollLeft+=cur.getBoundingClientRect().left-nv.getBoundingClientRect().left-8})()})();
 })();
+/* v10: 14-day memorization tracker (localStorage) */
+document.querySelectorAll('.memtrk').forEach(w=>{const k=w.dataset.k,bs=[...w.querySelectorAll('button[data-d]')],out=w.querySelector('.mtp b');let st={};try{st=JSON.parse(localStorage.getItem(k)||'{}')}catch(e){}
+  const paint=()=>{let n=0;bs.forEach(b=>{const on=!!st[b.dataset.d];n+=on;b.setAttribute('aria-pressed',on)});if(out)out.textContent=n};
+  w.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;if(b.classList.contains('mtr'))st={};else if(b.dataset.d)st[b.dataset.d]=!st[b.dataset.d];try{localStorage.setItem(k,JSON.stringify(st))}catch(e){}paint()});paint()});
