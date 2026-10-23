@@ -21,6 +21,7 @@ const lt=$('.lifetl');
 if(lt){const mapEl=$('.map[data-map="life"]');
   const fly=(ll,z,name)=>{if(!mapEl)return;const go=()=>{const m=mapEl._map;if(!m)return false;m.flyTo(ll,z||10,{duration:.9});
       if(mapEl._pin)mapEl._pin.remove();mapEl._pin=L.circleMarker(ll,{radius:11,color:'#fff',weight:3,fillColor:'#ff5d7a',fillOpacity:.95,className:'pinpulse'}).addTo(m).bindTooltip(name,{permanent:true,direction:'top',className:'mlabel'});return true};
+    const x=mapEl.closest('.mapx');if(x&&x.dataset.v==='c'){const f=x.querySelector('.cmap');f.querySelectorAll('.cm-pt.hi').forEach(g=>g.classList.remove('hi'));const g=[...f.querySelectorAll('.cm-pt')].find(g=>{const t=g.querySelector('title');return t&&t.textContent.split('：')[0]===name});if(g)g.classList.add('hi');return}
     if(!go()){if(window.__mapBuild)window.__mapBuild(mapEl);let n=0;const t=setInterval(()=>{if(go()||++n>40)clearInterval(t)},120)}};
   lt.addEventListener('click',e=>{const b=e.target.closest('[data-ll]');if(!b)return;$$('[data-ll].on',lt).forEach(x=>x.classList.remove('on'));b.classList.add('on');
     const ll=b.dataset.ll.split(',').map(Number);fly(ll,+b.dataset.z||10,b.dataset.place||'');

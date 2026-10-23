@@ -1,7 +1,7 @@
 /* v8: animated journey drawing on the Acts map (rAF, one polyline + one marker; respects reduced motion) */
 (()=>{const el=document.querySelector('.map[data-map="acts"]');const J=window.ACTSJ;if(!el||!J)return;
 const RM=matchMedia('(prefers-reduced-motion: reduce)').matches;let layer=null,raf=0;const cap=document.getElementById('actscap');
-const ready=cb=>{if(el._map)return cb(el._map);window.__mapBuild&&window.__mapBuild(el);let n=0;const t=setInterval(()=>{if(el._map){clearInterval(t);setTimeout(()=>cb(el._map),250)}else if(++n>60)clearInterval(t)},120)};
+const ready=cb=>{window.__mapBuild&&window.__mapBuild(el);if(el._map)return cb(el._map);let n=0;const t=setInterval(()=>{if(el._map){clearInterval(t);setTimeout(()=>cb(el._map),250)}else if(++n>60)clearInterval(t)},120)};
 function play(i){ready(m=>{if(!window.L)return;cancelAnimationFrame(raf);if(layer)layer.remove();layer=L.layerGroup().addTo(m);const j=J[i],pts=j.s.map(s=>s[1]);
  m.flyToBounds(L.latLngBounds(pts).pad(.12),{duration:.8});
  const line=L.polyline([pts[0]],{color:j.c,weight:5,opacity:.95}).addTo(layer);const dot=L.circleMarker(pts[0],{radius:8,color:'#fff',weight:2,fillColor:j.c,fillOpacity:1}).addTo(layer);

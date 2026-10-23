@@ -65,7 +65,7 @@ function declutter(m){const pts=(m._pts||[]).slice().sort((a,b)=>b._prio-a._prio
   rs.forEach(([c,e,r])=>{if(!r.width)return;const ov=k=>!(r.right<k.left-2||r.left>k.right+2||r.bottom<k.top-1||r.top>k.bottom+1);const hit=(c._prio<2&&regs.some(ov))||kept.some(k=>!(r.right<k.left-2||r.left>k.right+2||r.bottom<k.top-1||r.top>k.bottom+1));if(hit)e.classList.add('mlhide');else kept.push(r)})}
 function build(el){
   const cfg=window.MAPS&&window.MAPS[el.dataset.map];if(!cfg)return;
-  if(!window.L){el.innerHTML='<div class="mapfb"><b>地图脚本未加载（离线或被拦截），以下为地点列表：</b><ul>'+(cfg.points||[]).map(p=>'<li>'+p.n+(p.d?'：'+p.d:'')+'</li>').join('')+'</ul></div>';return}
+  if(!(window.L&&L.map)){el.innerHTML='<div class="mapfb"><b>地图脚本未加载（离线或被拦截），以下为地点列表：</b><ul>'+(cfg.points||[]).map(p=>'<li>'+p.n+(p.d?'：'+p.d:'')+'</li>').join('')+'</ul></div>';return}
   const jobs=[];const m=base(el,cfg,jobs);
   (cfg.regions||[]).forEach(r=>jobs.push(()=>{if(r.poly)L.polygon(r.poly,{color:r.c,weight:1.5,fillColor:r.c,fillOpacity:.22,dashArray:r.dash||null}).bindPopup('<b>'+r.n+'</b><br>'+(r.d||'')).addTo(m);if(r.circle)L.circle(r.circle,{radius:r.rad,color:r.c,weight:1.5,fillColor:r.c,fillOpacity:.25}).bindPopup('<b>'+r.n+'</b><br>'+(r.d||'')).addTo(m);if(r.lab)lab(m,r.lab,r.n,'reg')}));
   (cfg.routes||[]).forEach(r=>jobs.push(()=>{const pl=L.polyline(r.path,{color:r.c,weight:r.w||4,opacity:.95,dashArray:r.dash||null}).addTo(m);pl.bindTooltip(r.n,{sticky:true});
@@ -80,17 +80,19 @@ function build(el){
 }
 /* v9: Leaflet + Natural Earth are fetched only when a real map is first needed */
 let ldP=null;const js=u=>new Promise((ok,no)=>{const s=document.createElement('script');s.src=u;s.onload=ok;s.onerror=no;document.head.appendChild(s)});
-function need(){if(window.L&&window.NE)return Promise.resolve();if(ldP)return ldP;
+function need(){const hasL=()=>window.L&&window.L.map;if(hasL()&&window.NE)return Promise.resolve();if(ldP)return ldP;
   if(!document.querySelector('link[href*="leaflet.css"]')){const l=document.createElement('link');l.rel='stylesheet';l.href='assets/vendor/leaflet.css';document.head.appendChild(l)}
-  return ldP=Promise.all([window.L?0:js('assets/vendor/leaflet.js'),window.NE?0:js('assets/data/ne.js')]).catch(()=>{})}
-function safe(el){if(el._built)return;el._built=1;const x=el.closest('.mapx');if(x&&x.dataset.v!=='r')tab(x,'r',1);
+  return ldP=Promise.all([hasL()?0:js('assets/vendor/leaflet.js'),window.NE?0:js('assets/data/ne.js')]).catch(()=>{})}
+function safe(el){const x=el.closest('.mapx');if(x&&x.dataset.v!=='r')tab(x,'r',1);if(el._built)return;el._built=1;
   need().then(()=>{el.innerHTML='';try{build(el)}catch(e){console.warn(e);el.innerHTML='<div class="mapfb">地图加载失败</div>'}})}
 /* 概念图 / 实景地图 tabs */
 function tab(x,v,noBuild){x.dataset.v=v;x.querySelectorAll('.mxt [role=tab]').forEach(b=>{const on=b.dataset.v===v;b.setAttribute('aria-selected',on);b.tabIndex=on?0:-1});
   const c=x.querySelector('.mxc'),r=x.querySelector('.map');if(c)c.hidden=v!=='c';if(r){r.hidden=v!=='r';if(v==='r'){if(!noBuild)safe(r);else if(r._map)setTimeout(()=>r._map.invalidateSize(),30)}}}
 document.addEventListener('click',e=>{const b=e.target.closest('.mxt [role=tab]');if(!b)return;const x=b.closest('.mapx');tab(x,b.dataset.v);try{localStorage.setItem('wb-maptab',b.dataset.v)}catch(_){}});
 document.addEventListener('keydown',e=>{const b=e.target.closest&&e.target.closest('.mxt [role=tab]');if(!b||!/^Arrow(Left|Right)$/.test(e.key))return;const o=b.parentNode.querySelector('[role=tab]:not([data-v="'+b.dataset.v+'"])');if(o){o.focus();o.click()}});
-function init(){let pref='c';try{pref=localStorage.getItem('wb-maptab')||'c'}catch(_){}
+/* concept maps animate only while on screen (SMIL paused + CSS class) */
+const cio='IntersectionObserver' in window?new IntersectionObserver(es=>es.forEach(en=>{const f=en.target,s=f.querySelector('.cmo');f.classList.toggle('run',en.isIntersecting);if(s&&s.pauseAnimations)en.isIntersecting?s.unpauseAnimations():s.pauseAnimations()}),{rootMargin:'40px 0px'}):null;
+function init(){document.querySelectorAll('.cmo').forEach(s=>s.pauseAnimations&&s.pauseAnimations());if(cio)document.querySelectorAll('.cmap').forEach(f=>cio.observe(f));let pref='c';try{pref=localStorage.getItem('wb-maptab')||'c'}catch(_){}
   document.querySelectorAll('.mapx').forEach(x=>{if(!x.dataset.v)tab(x,pref==='r'?'r':'c',1)});
   const els=[...document.querySelectorAll('.map[data-map]')].filter(el=>!el.hidden);
   window.__mapsAll=()=>document.querySelectorAll('.map[data-map]').forEach(el=>{if(!el.hidden||!el.closest('.mapx'))safe(el)});

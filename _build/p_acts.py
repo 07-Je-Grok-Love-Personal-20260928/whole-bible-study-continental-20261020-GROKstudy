@@ -69,7 +69,8 @@ def build():
     c.append(spans(ep,28,98,list(range(30,100,5)),'约略的保守派年代；彼后、犹大、希伯来书与马太、马可的年代学界争议较大。书信页（epistles.html）有更详细的书信年代与主题对照。',bands=BANDS,rowh=24,lw=200))
     c.append(h2('a-map','🗺️','旅程动画地图：三次宣教旅程 + 解往罗马'))
     c.append('<div class="jyb" role="group" aria-label="选择旅程"><b>▶ 播放：</b>'+''.join(f'<button class="btn" data-jy="{i}" style="--c:{col}"><i style="background:{col}"></i>{n.split(" · ")[0]}</button>' for i,(n,col,_) in enumerate(J))+'<span id="actscap" class="jycap" aria-live="polite">点按钮，路线会一站一站画出来；地图上的虚线为全部路线。</span></div>')
-    c.append('<div class="map rv" data-map="acts" role="region" aria-label="保罗旅程动画地图" style="height:clamp(380px,62vh,620px)"><div class="lazyph" style="height:100%">🗺️ 地图将在滚动到此处时加载…</div></div>')
+    import concept
+    c.append(concept.block('acts',mapcfg(),'保罗旅程动画地图',height='clamp(380px,62vh,620px)'))
     c.append('<div class="grid g4">'+''.join(f'<div class="card gcard rv" style="--c:{col}"><h4>{E(n)}</h4><ol class="jyl">'+''.join(f'<li><b>{E(s)}</b>{"：" + rich(_mk(d)) if d else ""}</li>' for s,d in st if d)+'</ol></div>' for n,col,st in J)+'</div>')
     c.append(h2('a-pp','⚖️','彼得 × 保罗：路加刻意的平行'))
     c.append(cmp2('彼得（1–12）','保罗（13–28）',[('医治生来瘸腿的','徒3:1–10','徒14:8–10'),('对付行邪术的','行邪术的西门（8:18–24）','以吕马（13:6–12）'),('医病的“媒介”','影儿（5:15）','手巾围裙（19:12）'),('叫死人复活','多加（9:36–41）','犹推古（20:9–12）'),('奇妙出监','天使开门（12:6–11）','地大震动（16:25–26）'),('拒绝被拜','哥尼流俯伏（10:25–26）','路司得人献祭（14:13–15）'),('按手受圣灵','撒玛利亚（8:17）','以弗所（19:6）'),('首篇讲道主题','“神已经立他为主，为基督了”（2:36）','“赦罪的道是由这人传给你们的”（13:38）')],'var(--rose)','var(--paul)'))

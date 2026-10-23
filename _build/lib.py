@@ -231,7 +231,7 @@ def page(fn,title,content,extra_head='',scripts='',cv=True):
 <title>{E(title)} · 整本圣经 欧陆改革宗研读 {V}</title><meta name="description" content="整本圣经解读：救赎历史、圣约神学、时间线、诸王、地理、66卷逐卷、三大信经与三项联合信条（欧陆改革宗）。GROKstudy {V} {DATE}">
 <meta name="theme-color" content="#070b1a"><meta name="wb-version" content="{V}-{DATE}">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📖</text></svg>">
-<script>try{{var d=document.documentElement,L=localStorage,t=L.getItem('wb-theme');if(t==='light')t='dawn';if(!t||t==='dark'||!/^(night|dawn|jade|ruby|contrast)$/.test(t))t='night';d.dataset.theme=t;if(t==='dawn'||t==='jade')d.classList.add('light');if(L.getItem('wb-plain')==='1')d.classList.add('plain');if(L.getItem('wb-focus')==='1')d.classList.add('focus');var w=L.getItem('wb-tocw');if(w)d.style.setProperty('--toc',w+'px')}}catch(e){{}}</script>
+<script>(function(){{try{{var d=document.documentElement,L=localStorage,t=L.getItem('wb-theme');if(t==='light')t='dawn';if(!t||t==='dark'||!/^(night|dawn|jade|ruby|contrast)$/.test(t))t='night';d.dataset.theme=t;if(t==='dawn'||t==='jade')d.classList.add('light');if(L.getItem('wb-plain')==='1')d.classList.add('plain');if(L.getItem('wb-focus')==='1')d.classList.add('focus');var w=L.getItem('wb-tocw');if(w)d.style.setProperty('--toc',w+'px')}}catch(e){{}}}})()</script>
 <script type="speculationrules">{{"prerender":[{{"where":{{"href_matches":"*.html"}},"eagerness":"moderate"}}]}}</script>
 <link rel="stylesheet" href="assets/css/app.css?v={V}">{extra_head}</head>
 <body data-mer="assets/vendor/mermaid.min.js"><div class="aurora"></div><div class="prog"></div>
