@@ -185,8 +185,16 @@ def wrap_sections(c):
     def bal(p): return all(p.count('<'+t)==p.count('</'+t+'>') for t in ('div','section','details','article','figure','table'))
     if not all(bal(p) for p in parts): return c
     return ''.join(p if not p.startswith('<h2') else f'<section class="blk">{p}</section>' for p in parts)
-THEMES=[('night','🌌','星空深蓝','#060a1c','#ffcb5c'),('dawn','🌅','晨曦米白','#f6f3ec','#b07000'),('jade','🍃','翡翠清新','#eaf6f0','#04875a'),('ruby','👑','红宝石宫廷','#1c0711','#ffd27a'),('contrast','🔆','高对比护眼','#0b0a08','#ffd400')]
-HDR='<button class="ibtn hdx" id="plainBtn" title="笔记模式：显示/隐藏彩色标注" aria-label="笔记模式">🖍️</button><button class="ibtn hdx" id="focusBtn" title="专注模式：淡化非重点文字" aria-label="专注模式">🎯</button><button class="ibtn" id="tpBtn" title="主题配色 · 阅读模式" aria-label="主题与阅读模式" aria-expanded="false">🎨</button><div class="tpanel" id="tpanel" hidden><b class="tpt">🎨 主题配色</b><div class="tsw">{tsw}</div><b class="tpt">📖 阅读模式</b><label class="tgl"><input type="checkbox" id="plainChk"> 🖍️ 笔记模式 <small>关闭 = 隐藏全部彩色标注</small></label><label class="tgl"><input type="checkbox" id="focusChk"> 🎯 专注模式 <small>淡化非重点，只亮关键句</small></label><label class="tgl"><input type="checkbox" id="lenisChk"> 🌊 惯性滚动 <small>默认关闭：原生滚动最顺</small></label></div>'.format(tsw=''.join(f'<button data-theme="{k}" style="--sw:{bg};--sa:{ac}"><i></i>{ic} {n}</button>' for k,ic,n,bg,ac in THEMES))
+# v10: single theme registry — (key, icon, name, bg, accent, ink, light?, tagline). Init script, picker and app.js all derive from it.
+THEMES=[('night','🌌','星空深蓝','#060a1c','#ffcb5c','#edf0fb',0,'经典夜读'),('dawn','🌅','晨曦米白','#f6f3ec','#b07000','#1a1f36',1,'明亮柔和'),
+ ('jade','🍃','翡翠清新','#eaf6f0','#04875a','#0d2a21',1,'清爽护眼'),('ruby','👑','红宝石宫廷','#1c0711','#ffd27a','#fbeef2',0,'庄重华丽'),
+ ('contrast','🔆','高对比护眼','#0b0a08','#ffd400','#fffaf0',0,'最大对比度'),('violet','🔮','紫罗兰暮光','#140b28','#ffc76b','#f1ecfb',0,'暮色沉静'),
+ ('ocean','🌊','深海青蓝','#031a22','#33e3d9','#e8f7fa',0,'深邃清凉'),('amber','☀️','暖阳琥珀','#fbf3e4','#b35f00','#2a1c0c',1,'温暖明亮'),
+ ('sakura','🌸','樱花粉雾','#fcf2f5','#c2306e','#2c1520',1,'柔美轻盈'),('sepia','📜','墨纸书卷','#f4ecd8','#8a5a10','#2b2418',1,'纸书长读')]
+THEME_RE='|'.join(t[0] for t in THEMES); THEME_LIGHT=','.join(f'{t[0]}:1' for t in THEMES if t[6])
+def _tsw(k,ic,n,bg,ac,ink,lt,tag): return (f'<button data-theme="{k}" data-bg="{bg}"'+(' data-light="1"' if lt else '')+f' style="--sw:{bg};--sa:{ac};--si:{ink}" aria-label="{n}">'
+    f'<span class="pv" aria-hidden="true"><i></i><i></i><i></i><em></em></span><b>{ic} {n}</b><small>{tag}</small></button>')
+HDR='<button class="ibtn hdx" id="plainBtn" title="笔记模式：显示/隐藏彩色标注" aria-label="笔记模式">🖍️</button><button class="ibtn hdx" id="focusBtn" title="专注模式：淡化非重点文字" aria-label="专注模式">🎯</button><button class="ibtn" id="tpBtn" title="主题配色 · 阅读模式" aria-label="主题与阅读模式" aria-expanded="false">🎨</button><div class="tpanel" id="tpanel" hidden><b class="tpt">🎨 主题配色</b><div class="tsw">{tsw}</div><b class="tpt">📖 阅读模式</b><label class="tgl"><input type="checkbox" id="plainChk"> 🖍️ 笔记模式 <small>关闭 = 隐藏全部彩色标注</small></label><label class="tgl"><input type="checkbox" id="focusChk"> 🎯 专注模式 <small>淡化非重点，只亮关键句</small></label><label class="tgl"><input type="checkbox" id="lenisChk"> 🌊 惯性滚动 <small>默认关闭：原生滚动最顺</small></label></div>'.format(tsw=''.join(_tsw(*t) for t in THEMES))
 TAGRE=re.compile(r'(<[^>]+>)')
 VOID={'br','img','input','meta','link','hr','wbr','source','col','area'}
 SKIPT={'a','cite','svg','script','style','textarea','button','code','pre','title','h2','h3','h4','h5','summary','th'}
@@ -244,7 +252,7 @@ def page(fn,title,content,extra_head='',scripts='',cv=True):
 <title>{E(title)} · 整本圣经 欧陆改革宗研读 {V}</title><meta name="description" content="整本圣经解读：救赎历史、圣约神学、时间线、诸王、地理、66卷逐卷、三大信经与三项联合信条（欧陆改革宗）。GROKstudy {V} {DATE}">
 <meta name="theme-color" content="#070b1a"><meta name="wb-version" content="{V}-{DATE}">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📖</text></svg>">
-<script>(function(){{try{{var d=document.documentElement,L=localStorage,t=L.getItem('wb-theme');if(t==='light')t='dawn';if(!t||t==='dark'||!/^(night|dawn|jade|ruby|contrast)$/.test(t))t='night';d.dataset.theme=t;if(t==='dawn'||t==='jade')d.classList.add('light');if(L.getItem('wb-plain')==='1')d.classList.add('plain');if(L.getItem('wb-focus')==='1')d.classList.add('focus');var w=L.getItem('wb-tocw');if(w)d.style.setProperty('--toc',w+'px')}}catch(e){{}}}})()</script>
+<script>(function(){{try{{var d=document.documentElement,L=localStorage,t=L.getItem('wb-theme');if(t==='light')t='dawn';if(!t||t==='dark'||!/^({THEME_RE})$/.test(t))t='night';d.dataset.theme=t;if({{{THEME_LIGHT}}}[t])d.classList.add('light');if(L.getItem('wb-plain')==='1')d.classList.add('plain');if(L.getItem('wb-focus')==='1')d.classList.add('focus');var w=L.getItem('wb-tocw');if(w)d.style.setProperty('--toc',w+'px')}}catch(e){{}}}})()</script>
 <script type="speculationrules">{{"prerender":[{{"where":{{"href_matches":"*.html"}},"eagerness":"moderate"}}]}}</script>
 <link rel="stylesheet" href="assets/css/app.css?v={V}">{extra_head}</head>
 <body data-mer="assets/vendor/mermaid.min.js"><div class="aurora"></div><div class="prog"></div>

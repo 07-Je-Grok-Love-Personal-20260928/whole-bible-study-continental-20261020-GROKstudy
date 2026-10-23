@@ -4,7 +4,7 @@ const $=(s,r=document)=>r.querySelector(s),$$=(s,r=document)=>[...r.querySelecto
 const root=document.documentElement,body=document.body,LS={g:k=>{try{return localStorage.getItem(k)}catch(e){return null}},s:(k,v)=>{try{localStorage.setItem(k,v)}catch(e){}}};
 const RM=matchMedia('(prefers-reduced-motion: reduce)').matches, MOB=()=>innerWidth<=1000;
 /* ---------- themes & reading modes ---------- */
-const THEMES=['night','dawn','jade','ruby','contrast'],LIGHT={dawn:1,jade:1},TC={night:'#060a1c',dawn:'#f6f3ec',jade:'#edf8f2',ruby:'#16060f',contrast:'#0b0a08'};
+const THEMES=[],LIGHT={},TC={};$$('.tsw button').forEach(b=>{const k=b.dataset.theme;THEMES.push(k);if(b.dataset.light)LIGHT[k]=1;TC[k]=b.dataset.bg});if(!THEMES.length)THEMES.push('night');
 const tp=$('#tpanel'),tpb=$('#tpBtn');
 function markTheme(){const t=root.dataset.theme||'night';$$('.tsw button').forEach(b=>b.classList.toggle('on',b.dataset.theme===t));const m=$('meta[name=theme-color]');m&&m.setAttribute('content',TC[t]||TC.night)}
 function setTheme(t){if(!THEMES.includes(t))t='night';const ap=()=>{root.dataset.theme=t;root.classList.toggle('light',!!LIGHT[t]);markTheme()};LS.s('wb-theme',t);
