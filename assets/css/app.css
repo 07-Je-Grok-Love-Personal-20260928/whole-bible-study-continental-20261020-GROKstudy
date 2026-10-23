@@ -755,8 +755,9 @@ html[data-theme=contrast]{--cm-sea:#000;--cm-sea2:#3a3a3a;--cm-land:#fff6dc;--cm
 @media(max-width:640px){.mxh{display:none}}
 .mapx>.map{margin:0}
 .cmap{margin:0}
-.cmw{position:relative;width:100%;border-radius:14px;overflow:hidden;box-shadow:inset 0 0 0 1px var(--line);background:var(--cm-sea)}
+.cmw{position:relative;width:100%;max-height:min(82vh,860px);border-radius:14px;overflow:hidden}
 .cmw>svg{position:absolute;inset:0;width:100%;height:100%;display:block}
+.cm{border-radius:14px}
 .cmo{pointer-events:none;will-change:transform}
 .cm{font-family:"LXGW WenKai","Kaiti SC","STKaiti","KaiTi","Noto Serif SC",serif}
 .cm-sea{fill:var(--cm-sea)}
@@ -815,3 +816,14 @@ html[data-theme=contrast]{--cm-sea:#000;--cm-sea2:#3a3a3a;--cm-land:#fff6dc;--cm
 .lifemap .mxh{display:none}
 .lifemap .cmw{background:transparent;box-shadow:none}
 .cm-deco,.cm-scale{transform-box:fill-box}
+.mnotes{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:8px 0 14px}
+@media(max-width:760px){.mnotes{grid-template-columns:1fr}}
+.mn{border-radius:14px;padding:10px 14px;border:1px solid var(--line);background:var(--card2);position:relative;overflow:hidden}
+.mn::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--gold)}
+.mn.c::before{background:var(--teal)}
+.mn b{display:block;font-size:14px;margin-bottom:3px}.mn p{margin:0;font-size:14px;line-height:1.75;color:var(--ink2)}
+.mapidx{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:10px 0 14px}
+.mapidx>b{flex-basis:100%;font-size:14px}
+.mapidx a{display:inline-flex;align-items:center;gap:5px;padding:5px 11px;border-radius:999px;border:1px solid var(--line2);font-size:13px;text-decoration:none;color:var(--ink);background:var(--card2);transition:transform .2s,background .2s}
+.mapidx a:hover{transform:translateY(-2px);background:color-mix(in srgb,var(--gold) 18%,transparent)}
+.mapidx a span{font-size:15px}

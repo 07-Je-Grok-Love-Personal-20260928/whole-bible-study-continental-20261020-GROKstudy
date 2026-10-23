@@ -58,9 +58,16 @@ MAPS['paul']={'bounds':[[31,12],[42.5,37]],'color':'#8ea2ff',
  'points':[p('叙利亚安提阿','差派教会；门徒称为“基督徒”'),p('大数','保罗家乡'),p('撒拉米',perm=False),p('帕弗','方伯士求保罗信主'),p('彼西底安提阿','会堂讲道（徒13）'),p('以哥念',perm=False),p('路司得','提摩太家乡；保罗被石头打'),p('特庇',perm=False),p('特罗亚','马其顿异象'),p('腓立比','吕底亚、狱卒；欧洲第一个教会'),p('帖撒罗尼迦'),p('庇哩亚','天天考查圣经',perm=False),p('雅典','亚略巴古讲道'),p('哥林多','住一年半；写帖前后、罗'),p('以弗所','三年；写林前'),p('米利都','向以弗所长老告别（徒20）'),p('该撒利亚','被囚两年'),p('耶路撒冷'),p('米利大','船破；毒蛇'),p('罗马','软禁两年（徒28:30）'),p('高大',perm=False),p('佳澳',perm=False)],
  'legend':[['#3ee0a1','第一次'],['#5ec8ff','第二次'],['#ffb34d','第三次'],['#ff6b6b','往罗马']]}
 TITLES={'ane':('🌍 古代近东与文化区','肥沃月湾三大文明夹着一条“陆桥”——以色列被放在列国十字路口，作“万国之光”。'),'patri':('⛺ 族长之路','约1,500公里：从月神之城吾珥到应许之地。'),'exodus':('🔥 出埃及与旷野','传统南线（另有北线说）；西奈山取传统址。'),'tribes':('🗂️ 十二支派分地','圆圈为示意中心，非精确疆界；利未无地业。'),'divided':('💔 分裂王国（约9–8世纪）','南北分界在伯特利与耶路撒冷之间（便雅悯地）。'),'empires':('🏛️ 帝国、被掳与归回','亚述、巴比伦、波斯疆域为示意轮廓。'),'jesus':('✝️ 耶稣的事工','加利利—撒玛利亚—犹太。'),'paul':('⛵ 保罗宣教旅程','三次宣教 + 押解往罗马。')}
+from geo_v9 import extend as _x9,NOTES
+_x9(P,MAPS,TITLES,p,path)
+def mapnotes(h,cu):
+    return f'<div class="mnotes rv"><div class="mn h"><b>📜 历史背景</b><p>{rich(h)}</p></div><div class="mn c"><b>🏺 文化札记</b><p>{rich(cu)}</p></div></div>'
+def mapindex():
+    order=['ane','patri','exodus','tribes','united','divided','empires','hellen','herods','jesus','jerusalem','paul','seven']
+    return '<nav class="mapidx rv" aria-label="地图索引"><b>🗺️ 13 幅地图 · 点击跳转</b>'+''.join(f'<a href="#map-{k}" style="--i:{i}"><span>{TITLES[k][0].split(" ")[0]}</span>{E(TITLES[k][0].split(" ",1)[1])}</a>' for i,k in enumerate(order))+'</nav>'
 def build():
     open(SITE+'assets/data/maps.js','w').write('window.MAPS='+json.dumps(MAPS,ensure_ascii=False,separators=(',',':'))+';')
-    c=[f'''<section class="hero reveal"><div class="chips"><span class="chip g">🗺️ 地理文化</span><span class="chip">{len(MAPS)} 幅交互地图</span><span class="chip">离线可用（矢量海岸线）</span></div><h1>把经文放回<em>真实的地上</em></h1><p class="lead">圣经的救恩是在真实的时间与空间中成就的（“在本丢·彼拉多手下受难”）。地图采用 Leaflet + 本地矢量海岸线（Natural Earth），没有网络也能显示；右上角可切换 OpenStreetMap / 地形晕渲在线底图。点击地点看说明，拖动/缩放浏览。</p></section>''']
+    c=[f'''<section class="hero reveal"><div class="chips"><span class="chip g">🗺️ 地理文化</span><span class="chip">{len(MAPS)} 幅地图 · 概念图 + 实景</span><span class="chip">离线可用（Natural Earth）</span></div><h1>把经文放回<em>真实的地上</em></h1><p class="lead">圣经的救恩是在真实的时间与空间中成就的（“在本丢·彼拉多手下受难”）。每幅地图都有两种看法：<b>🎨 概念图</b>（手绘风、按民族/帝国着色、路线动画，完全离线）与 <b>🛰️ 实景地图</b>（Leaflet；右上角切换 示意/地形/卫星/街道，在线底图不可达时自动换源，全部失败则退回离线 Natural Earth 底图）。每图附“历史背景 + 文化札记”。</p></section>''']
     c.append(legend_box())
     c.append(h2('why-geo','🧭','地理神学与地形'))
     c.append(h3('why3','为什么地理很重要？三个神学要点'))
@@ -80,16 +87,18 @@ def build():
     ['赫人·安纳托利亚','赫梯语','“千神之国”','宗主条约体系','申命记的约的形式（序言—历史—条款—祝福咒诅）'],
     ['波斯','古波斯语；亚兰文为帝国通用语','琐罗亚斯德教色彩','行省制、驿道、宽容政策','归回；以斯拉记部分用亚兰文写成'],
     ['希腊罗马','希腊语（通用）、拉丁语','哲学（柏拉图、斯多亚、伊壁鸠鲁）、帝王崇拜、神秘宗教','罗马和平、公民权、奴隶制','新约的世界：亚略巴古、皇帝崇拜（启示录）']]))
-    OTM=['ane','patri','exodus','tribes','divided','empires']
-    for grp,(gid,gic,gt) in [(OTM,('maps-ot','🗺️','旧约地图（6 幅）')),(['jesus','paul'],('maps-nt','✝️','新约地图（2 幅）'))]:
+    OTM=['ane','patri','exodus','tribes','united','divided','empires']
+    c.append(mapindex())
+    for grp,(gid,gic,gt) in [(OTM,('maps-ot','🗺️','旧约地图（7 幅）')),(['hellen','herods'],('maps-inter','🏛️','两约之间（2 幅）')),(['jesus','jerusalem','paul','seven'],('maps-nt','✝️','新约地图（4 幅）'))]:
         c.append(h2(gid,gic,gt))
         for k in grp:
             t,d=TITLES[k]
             c.append(h3('map-'+k,t))
             c.append(co('core','<p>'+rich(d)+'</p>','看图要点'))
             c.append(concept.block(k,MAPS[k],t))
+            if k in NOTES: c.append(mapnotes(*NOTES[k]))
             pts=[x for x in MAPS[k].get('points',[]) if x.get('d')][:9]
             if pts:
                 c.append('<details class="dx"><summary>📍 本图地点速记（'+str(len(pts))+'）</summary><div class="in"><div class="grid g3">'+''.join(f'<div class="co info" style="margin:0"><span class="lb">📍 {E(x["n"])}</span><p>{rich(x["d"])}</p></div>' for x in pts)+'</div></div></details>')
-    c.append(note('🧩 地图说明','<p>海岸线：Natural Earth（公有领域，world-atlas 1:50m）经裁剪简化；河流与湖泊为手工示意折线。古代疆界与路线多为学界大致重建（尤其出埃及路线、西奈山位置有多种观点），本站取保守传统观点并作标注。</p>'))
+    c.append(note('🧩 地图说明','<p>离线底图：Natural Earth 1:10m 陆地、湖泊、河流中心线（公有领域，naturalearthdata.com）经裁剪简化；在线底图依次尝试 Esri / OpenTopoMap / CARTO / OpenStreetMap。概念图为示意，不按真实比例绘制疆界。古代疆界与路线多为学界大致重建（尤其出埃及路线、西奈山位置有多种观点），本站取保守传统观点并作标注。</p>'))
     return page('geography.html','地理文化',''.join(c),extra_head='',scripts='<script src="assets/data/maps.js" defer></script><script src="assets/js/maps.js?v='+V+'" defer></script>')

@@ -106,7 +106,7 @@ def svg(key,cfg,title=''):
         if c not in cols:cols.append(c)
         mid=cols.index(c)
         pts=[f(la,lo) for la,lo in r['path']]
-        d=smooth(pts)
+        d=dpath(pts) if (r.get('straight') or cfg.get('city')) else smooth(pts)
         o.append(f'<path class="cm-rt" style="--c:{c}" d="{d}" marker-end="url(#ar-{key}-{mid})"{" stroke-dasharray=%s"%chr(34)+r["dash"]+chr(34) if r.get("dash") else ""}><title>{E_(r["n"])}</title></path>')
         dur=max(4,min(14,len(pts)*1.1))
         ov.append(f'<path class="cm-flow" style="--c:{c};animation-duration:{dur*.35:.1f}s" d="{d}"/><circle class="cm-mv" r="6" style="--c:{c}"><animateMotion dur="{dur:.1f}s" repeatCount="indefinite" path="{d}" rotate="auto"/></circle>')

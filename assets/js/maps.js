@@ -70,6 +70,7 @@ function build(el){
   (cfg.regions||[]).forEach(r=>jobs.push(()=>{if(r.poly)L.polygon(r.poly,{color:r.c,weight:1.5,fillColor:r.c,fillOpacity:.22,dashArray:r.dash||null}).bindPopup('<b>'+r.n+'</b><br>'+(r.d||'')).addTo(m);if(r.circle)L.circle(r.circle,{radius:r.rad,color:r.c,weight:1.5,fillColor:r.c,fillOpacity:.25}).bindPopup('<b>'+r.n+'</b><br>'+(r.d||'')).addTo(m);if(r.lab)lab(m,r.lab,r.n,'reg')}));
   (cfg.routes||[]).forEach(r=>jobs.push(()=>{const pl=L.polyline(r.path,{color:r.c,weight:r.w||4,opacity:.95,dashArray:r.dash||null}).addTo(m);pl.bindTooltip(r.n,{sticky:true});
      if(r.arrow!==false){const a=r.path[r.path.length-1];L.circleMarker(a,{radius:4,color:r.c,fillColor:r.c,fillOpacity:1}).addTo(m)}}));
+  (cfg.valleys||[]).forEach(v=>jobs.push(()=>L.polyline(v.path,{color:'#2f7fd8',weight:5,opacity:.5,dashArray:'2 8'}).bindTooltip(v.n,{sticky:true}).addTo(m)));
   (cfg.points||[]).forEach(p=>jobs.push(()=>pt(m,p,cfg.color)));
   (cfg.labels||[]).forEach(l=>jobs.push(()=>lab(m,l.ll,l.n,l.cls||'reg')));
   if(cfg.legend)jobs.push(()=>{const lg=L.control({position:'bottomleft'});lg.onAdd=()=>{const d=L.DomUtil.create('div','mlabel');d.style.whiteSpace='normal';d.style.maxWidth='220px';d.style.lineHeight='1.6';d.innerHTML=cfg.legend.map(x=>'<span style="display:inline-block;width:12px;height:4px;background:'+x[0]+';margin-right:6px;vertical-align:middle"></span>'+x[1]).join('<br>');return d};lg.addTo(m)});
