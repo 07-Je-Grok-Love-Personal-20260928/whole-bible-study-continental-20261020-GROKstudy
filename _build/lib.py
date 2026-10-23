@@ -34,7 +34,7 @@ def conflabel(s):
     h,n=s[2:].split('.'); return f'多特{["一","二","三四","五"][int(h)]}·{n}'
 GROUPS=[('1','66卷书','📚',[('index.html','📚','66卷书','书架·逐卷13项解读')]),
  ('2','全景总览','🧭',[('overview.html','🏠','全景总览','学习路线·一页纸·标注系统'),('story.html','🧭','救赎大故事','四幕剧·红线·圣经神学'),('covenant.html','🤝','圣约神学','三约·六约·两种施行'),('timeline.html','⏳','时间线·诸王','11时代·8钉子·42王'),('geography.html','🗺️','地理文化','8幅交互地图')]),
- ('3','基督与福音','✝️',[('life-of-christ.html','🌟','基督生平','事件×地图联动'),('gospels.html','📗','四福音对照','四幅肖像·段落对照')]),
+ ('3','基督与福音','✝️',[('life-of-christ.html','🌟','基督生平','事件×地图联动'),('gospels.html','📗','四福音对照','四幅肖像·段落对照'),('harmony.html','📖','四福音合参','202段·和合本·独有细节')]),
  ('4','文体对比','🧩',[('pentateuch.html','⚖️','摩西五经对照','五经横向×纵向'),('history.html','🏛️','历史书对照','得地→被掳→归回'),('poetry.html','🎼','诗歌智慧书对照','五卷三角度看智慧'),('prophets.html','🔥','先知书对照','17先知×君王×帝国'),('epistles.html','✉️','新约书信对照','21封书信·年代·主题')]),
  ('5','专题','🔍',[('kings-chronicles.html','👑','列王纪×历代志','42王逐王对照'),('compare.html','🔗','跨卷对照','以经解经·引用网络'),('stats.html','📊','圣经统计','章节·类别·引用')]),
  ('6','信条','🕊️',[('creeds.html','🕊️','三大信经','背诵版·深度对比'),('forms.html','📜','三项联合信条','37条·129问·多特'),('memory.html','🧠','记忆·测验','口诀·闪卡·测验')]),
@@ -225,7 +225,7 @@ def page(fn,title,content,extra_head='',scripts='',cv=True):
     nav=navhtml(fn); pages=pageshtml(fn); cb=crumbs(fn) or ('','')
     GEN=['pentateuch.html','history.html','poetry.html','prophets.html','gospels.html','epistles.html']
     if fn in GEN:
-        gl=[x for x in GROUPS[1][3] if x[0] in GEN]
+        gl=[x for g_ in GROUPS for x in g_[3] if x[0] in GEN]
         cb=(cb[0]+'<div class="gsw" role="navigation" aria-label="文体对照页切换"><b>📚 文体对照：</b>'+''.join(f'<a href="{f}" class="{"on" if f==fn else ""}">{i} {t.replace("对照","")}</a>' for f,i,t,d in gl)+'</div>',cb[1])
     return f'''<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>{E(title)} · 整本圣经 欧陆改革宗研读 {V}</title><meta name="description" content="整本圣经解读：救赎历史、圣约神学、时间线、诸王、地理、66卷逐卷、三大信经与三项联合信条（欧陆改革宗）。GROKstudy {V} {DATE}">

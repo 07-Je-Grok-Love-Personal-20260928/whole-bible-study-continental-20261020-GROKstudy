@@ -94,4 +94,4 @@ def build():
     c.append(co('trap','<p>'+R('雅歌的两种极端：!!只是寓意（与真实婚姻无关）!!，或!!只是情歌（与救赎无关）!!。改革宗读法：先按字面读作神所赐的婚姻之爱，再在整本圣经的光中看见**基督与教会**（弗5:31–32）这一终极实体。')+'</p>','易错'))
     c.append(quotes('HC116,HC26,HC28,BC2'))
     c.append(co('app','<p>'+R('%%用诗歌智慧书过一周%%：痛苦时读约伯记 38–42，祷告时用一篇诗篇（照着祷告），做决定前读一章箴言（31 章＝每天一章），失落时读传道书 3 与 12，为婚姻祷告时读雅歌 8:6–7。')+'</p>','应用'))
-    return page('poetry.html','诗歌智慧书对照',''.join(c),scripts='<script src="assets/js/v6.js?v=v7" defer></script>')
+    return page('poetry.html','诗歌智慧书对照',''.join(c),scripts='<script src="assets/js/v6.js?v=v8" defer></script>')

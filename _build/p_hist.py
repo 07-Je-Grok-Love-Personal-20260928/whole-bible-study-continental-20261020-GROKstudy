@@ -94,4 +94,4 @@ def build():
     c.append(co('trap','<p>'+R('!!把历史书读成“道德榜样集”!!（学大卫勇敢、学基甸信心）。20 世纪 30 年代荷兰改革宗的“救赎历史 vs 示范主义”讨论（斯基尔德、霍尔维达等）提醒：先问**神在救赎历史中做什么**，再谈榜样；英雄们本身都需要救主。')+'</p>','易错'))
     c.append(quotes('BC13,HC27,BC27,HC31'))
     c.append(co('app','<p>'+R('%%读历史书三问%%：① 这段在**哪个阶段**（看时间跨度图）？② 作者用什么**标准**评价（申命记？大卫与圣殿？）③ 这里的失败或拯救怎样让我**更渴望基督**？')+'</p>','应用'))
-    return page('history.html','历史书对照',''.join(c),scripts='<script src="assets/js/v6.js?v=v7" defer></script>')
+    return page('history.html','历史书对照',''.join(c),scripts='<script src="assets/js/v6.js?v=v8" defer></script>')
