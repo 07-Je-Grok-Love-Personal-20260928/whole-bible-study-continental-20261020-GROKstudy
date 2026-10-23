@@ -50,7 +50,7 @@ def build():
     c.append(legend_box())
     c.append(h2('a18','🎯','徒1:8 结构：三个同心圆'))
     seg=[('耶路撒冷','1–7',7,'var(--gold)'),('犹太与撒玛利亚','8–12',5,'var(--emer)'),('直到地极','13–28',16,'var(--sky)')]
-    c.append('<div class="obar rv" style="display:flex;height:40px;border-radius:10px;overflow:hidden;margin:8px 0">'+''.join(f'<span style="flex:{n} 1 0;background:color-mix(in srgb,{col} 55%,transparent);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;min-width:0;overflow:hidden;white-space:nowrap">{t} {r}</span>' for t,r,n,col in seg)+'</div>')
+    c.append('<div class="obar rv" style="display:flex;height:40px;border-radius:10px;overflow:hidden;margin:8px 0">'+''.join(f'<span style="flex:{n} 1 0;background:color-mix(in srgb,{col} 82%,var(--bg));display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;min-width:0;overflow:hidden;white-space:nowrap">{t} {r}</span>' for t,r,n,col in seg)+'</div>')
     seg2=[('彼得为主 · 向犹太人','1–12',12,'var(--rose)'),('保罗为主 · 向外邦人','13–28',16,'var(--paul)')]
     c.append('<div class="obar rv" style="display:flex;height:30px;border-radius:10px;overflow:hidden;margin:4px 0 10px">'+''.join(f'<span style="flex:{n} 1 0;background:color-mix(in srgb,{col} 45%,transparent);display:flex;align-items:center;justify-content:center;font-size:12.5px;min-width:0;overflow:hidden;white-space:nowrap">{t} {r}</span>' for t,r,n,col in seg2)+'</div>')
     c.append(h3('a-prog','📈 六次“进展报告”（和合本原文）：路加给的结构钥匙'))

@@ -974,7 +974,7 @@ html:not(.light) mark.hy{color:#fff}
 .spines a i{opacity:1}
 .hero .chip{color:var(--ink)}
 .hero .rf{color:color-mix(in oklab,var(--rfc) 45%,var(--ink))}
-html:not(.light) span[style*="var(--gold) 55%"]{color:#1a1206}
+.obar>span{color:#14100a}html.light .obar>span{color:#fff}
 /* light themes: anything coloured by a bright per-item --c gets clamped to a readable lightness */
 html.light :is(.kt .evl,.gt,.gc,.tl .ev .d,.gcard h4){color:oklch(from var(--c,currentColor) min(l,.47) c h)}
 html.light [style*="color:var(--ic)"]{color:oklch(from var(--ic) min(l,.47) c h)!important}
@@ -1008,3 +1008,4 @@ html.light .hero.img .key{color:#fff;background:linear-gradient(transparent 55%,
 h2.h .ic{display:inline-block;transition:transform .35s var(--ease)}
 h2.h:hover .ic{transform:rotate(-10deg) scale(1.18)}
 @media(prefers-reduced-motion:reduce){.srs.rv svg{opacity:1;transform:none;transition:none}h2.h:hover .ic{transform:none}}
+.mbadge .rf{color:inherit;border-bottom-color:currentColor}html.dawn sup,html[data-theme=dawn] sup{color:var(--ink2)}
