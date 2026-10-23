@@ -55,8 +55,9 @@ def spans(rows,y0,y1,ticks,cap='',bands=None,rowh=30,lw=150,W=1100,id_=''):
     for i,(lb,a,b,col,tip) in enumerate(rows):
         y=T+i*rowh; w=max(X(b)-X(a),5)
         s+=f'<g class="spr" style="--d:{i*40}ms"><text x="{lw-8}" y="{y+rowh*.62:.1f}" text-anchor="end" class="spl">{E(lb)}</text><rect x="{X(a):.1f}" y="{y+5}" width="{w:.1f}" height="{rowh-10}" rx="5" fill="{col}" class="spb"><title>{E(lb)}：{E(tip)}</title></rect>'
-        if w>90: s+=f'<text x="{X(a)+6:.1f}" y="{y+rowh*.62:.1f}" class="spt">{E(tip)}</text>'
-        elif (b-y0)/(y1-y0)>.86: s+=f'<text x="{X(a)-6:.1f}" y="{y+rowh*.62:.1f}" text-anchor="end" class="spt2">{E(tip)}</text>'
+        tw=sum(7 if ord(ch_)<256 else 12.5 for ch_ in tip)+12
+        if w>=tw: s+=f'<text x="{X(a)+6:.1f}" y="{y+rowh*.62:.1f}" class="spt">{E(tip)}</text>'
+        elif X(b)+6+tw>W-4: s+=f'<text x="{X(a)-6:.1f}" y="{y+rowh*.62:.1f}" text-anchor="end" class="spt2">{E(tip)}</text>'
         else: s+=f'<text x="{X(b)+6:.1f}" y="{y+rowh*.62:.1f}" class="spt2">{E(tip)}</text>'
         s+='</g>'
     s+='</svg>'

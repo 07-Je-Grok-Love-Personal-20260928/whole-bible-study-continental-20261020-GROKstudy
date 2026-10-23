@@ -719,3 +719,13 @@ details.hs>summary h3{margin:0;font-size:15.5px;flex:1 1 260px;min-width:0}
 html.light .hu b{filter:brightness(.6)}
 .hpar{list-style:none;padding:0;margin:10px 0 0;display:flex;flex-wrap:wrap;gap:6px;align-items:center;font-size:13px}.hpar>b{width:100%;font-size:12.5px;color:var(--ink2)}
 .hpar li{display:flex;gap:4px;align-items:center}.hpar li span:last-child{color:var(--mut);font-size:11.5px}
+/* v8 acts */
+.evfig .evt{font-size:12.5px;font-weight:600}.evfig .evr{font-size:11px;fill:var(--mut)}
+.evp{opacity:0;transform-box:fill-box;animation:evp .5s var(--ease) forwards;animation-delay:var(--d)}
+@keyframes evp{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.evp{animation:none;opacity:1}}
+.jyb{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:8px 0}
+.jyb .btn i{display:inline-block;width:14px;height:4px;border-radius:2px;margin-right:6px;vertical-align:middle}
+.jyb .btn.on{background:color-mix(in srgb,var(--c) 30%,transparent);border-color:var(--c)}
+.jycap{flex:1 1 280px;min-width:0;font-size:13px;color:var(--ink2);padding:4px 10px;border-radius:10px;background:var(--card2);border:1px solid var(--line)}
+.jyl{margin:4px 0 0;padding-left:20px;font-size:13px;line-height:1.6}.jyl b{color:var(--k)}
