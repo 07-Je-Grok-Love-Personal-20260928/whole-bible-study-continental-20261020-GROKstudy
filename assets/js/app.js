@@ -148,7 +148,7 @@ window.__merAll=()=>Promise.all(mers.map(p=>{renderMer(p);return loadMer()}));
 /* ---------- filters ---------- */
 const txt=it=>{if(!it.__t){const t=it.querySelector('template');it.__t=(it.textContent+(t?t.content.textContent:'')).toLowerCase()}return it.__t};
 $$('.filters').forEach(f=>{const items=$$(f.dataset.target);const q=$('input',f);let cat='all';
-  function apply(){const v=(q&&q.value||'').trim().toLowerCase();items.forEach(it=>{const okc=cat==='all'||it.dataset.cat===cat;const okq=!v||txt(it).includes(v);it.classList.toggle('hidden',!(okc&&okq))});measure()}
+  function apply(){const v=(q&&q.value||'').trim().toLowerCase();items.forEach(it=>{const okc=cat==='all'||it.dataset.cat===cat||it.dataset.t===cat;const okq=!v||txt(it).includes(v);it.classList.toggle('hidden',!(okc&&okq))});measure()}
   $$('button[data-cat]',f).forEach(b=>b.addEventListener('click',()=>{$$('button[data-cat]',f).forEach(x=>x.classList.remove('on'));b.classList.add('on');cat=b.dataset.cat;apply()}));
   let tq;q&&q.addEventListener('input',()=>{clearTimeout(tq);tq=setTimeout(apply,160)});});
 $$('[data-expand]').forEach(b=>b.addEventListener('click',()=>{const open=b.dataset.state!=='open';if(open&&/\.bk/.test(b.dataset.expand))window.__hydrateAll();$$(b.dataset.expand).forEach(d=>d.open=open);b.dataset.state=open?'open':'closed';b.textContent=open?'全部收起':'全部展开';measure()}));

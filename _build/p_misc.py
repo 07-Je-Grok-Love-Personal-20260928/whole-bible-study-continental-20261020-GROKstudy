@@ -14,8 +14,8 @@ def index():
     c.append('<div class="grid g6 reveal">'+''.join(f'<div class="card tile" style="text-align:center"><div class="big">{i}</div><h4 class="shimmer" style="font-size:26px">{n}</h4><p>{t}</p></div>' for n,t,i in stats)+'</div>')
     c.append(legend_box(True))
     c.append(h2('path','🛤️','学习路线：先整体，再局部，最后记牢'))
-    c.append(h3('mods',f'五组 {len(PAGES)} 个学习模块（编号＝全站导航）'))
-    GD={'index.html':'学习路线、66 卷色图、一页纸、标注系统','story.html':'四幕剧、十二场景、女人后裔红线、七条圣经神学主题','covenant.html':'救赎之约·行为之约·恩典之约；六个历史之约；律法三用','timeline.html':'11 时代、8 钉子年份、42 位君王全表与年代图','geography.html':'8 幅交互地图：近东、族长、出埃及、王国、帝国、耶稣、保罗',
+    c.append(h3('mods',f'{len(GROUPS)} 组 {len(PAGES)} 个学习模块（编号＝全站导航）'))
+    GD={'index.html':'书架总图 + 66 卷逐卷解读（旧约 39 · 新约 27）','overview.html':'学习路线、66 卷色图、一页纸、标注系统','story.html':'四幕剧、十二场景、女人后裔红线、七条圣经神学主题','covenant.html':'救赎之约·行为之约·恩典之约；六个历史之约；律法三用','timeline.html':'11 时代、8 钉子年份、42 位君王全表与年代图','geography.html':'8 幅交互地图：近东、族长、出埃及、王国、帝国、耶稣、保罗',
      'ot.html':'旧约 39 卷逐卷 13 项解读 + 认信连接','nt.html':'新约 27 卷逐卷 13 项解读 + 认信连接','pentateuch.html':'五卷故事线、律法与约的递进、会幕与五祭、托勒多、申命记=条约','history.html':'得地→士师循环→王国→被掳→归回；两种史观','poetry.html':'希伯来平行体、诗篇五卷、敬畏耶和华、伯/箴/传三角度','prophets.html':'17 位先知 × 君王 × 帝国时间轴、弥赛亚预言链、耶和华的日子','gospels.html':'四幅肖像、41 段落对照、神迹比喻、符类问题','epistles.html':'21 封书信 × 使徒行传年代、称义/教会/末世、罗↔加↔雅',
      'life-of-christ.html':'48 事件 × 地图联动、受难周逐日、三职二状态','kings-chronicles.html':'两种眼光、42 王逐王对照、双轨时间线、口诀','compare.html':'10 组以经解经：创↔启、利↔来、雅↔罗……','stats.html':'章节数、类别、作者、旧约引用、文体组统计',
      'creeds.html':'背诵版、遮盖背诵、三份信经深度对比','forms.html':'比利时信条 37 条、海德堡 52 主日 129 问、多特信经','memory.html':'口诀总表、闪卡、选择题、排序游戏','sources.html':'逐字来源、核对报告、推荐网站'}
@@ -42,7 +42,7 @@ def index():
     c.append(h3('em-era','救赎历史年代色带'))
     from p_timeline import ERAS
     c.append('<div class="era rv">'+''.join(f'<a href="timeline.html#eras" style="--c:{col}"><b>{n}</b>{y}</a>' for n,r,col,y in ERAS)+'</div>')
-    return page('index.html','首页总览',''.join(c))
+    return page('overview.html','全景总览',''.join(c))
 def memory():
     c=['''<section class="hero reveal"><div class="chips"><span class="chip g">🧠 记忆·测验</span><span class="chip">口诀 · 闪卡 · 选择题 · 排序游戏</span></div><h1>把学到的<em>钉牢在心里</em></h1><p class="lead">记忆科学：<span class="key">提取练习</span>（自测）比重复阅读有效得多；<span class="key">间隔重复</span>（1-3-7-14 天）；<span class="key">颜色与图像编码</span>；<span class="key">串联故事</span>。</p></section>''']
     c.append(h2('mn','🪝','口诀：先挂钩'))

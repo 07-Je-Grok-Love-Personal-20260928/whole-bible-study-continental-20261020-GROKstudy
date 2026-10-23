@@ -1,5 +1,5 @@
 import json,re,html
-V='v7'; DATE='2026-10-22'
+V='v8'; DATE='2026-10-23'
 import os
 HERE=os.path.dirname(os.path.abspath(__file__))
 CCI=os.path.join(HERE,'data','cci')+'/'
@@ -32,15 +32,17 @@ def conflabel(s):
     if s.startswith('HC'): return f'海德堡{s[2:]}问'
     if s.startswith('BC'): return f'比利时{s[2:]}条'
     h,n=s[2:].split('.'); return f'多特{["一","二","三四","五"][int(h)]}·{n}'
-GROUPS=[('1','总览','🧭',[('index.html','🏠','首页总览','学习路线·66卷色图·一页纸'),('story.html','🧭','救赎大故事','四幕剧·红线·圣经神学'),('covenant.html','🤝','圣约神学','三约·六约·两种施行'),('timeline.html','⏳','时间线·诸王','11时代·8钉子·42王'),('geography.html','🗺️','地理文化','8幅交互地图')]),
- ('2','书卷','📚',[('ot.html','📜','旧约39卷','逐卷13项解读'),('nt.html','✝️','新约27卷','逐卷13项解读'),('pentateuch.html','⚖️','摩西五经对照','五经横向×纵向'),('history.html','🏛️','历史书对照','得地→被掳→归回'),('poetry.html','🎼','诗歌智慧书对照','五卷三角度看智慧'),('prophets.html','🔥','先知书对照','17先知×君王×帝国'),('gospels.html','📗','四福音对照','四幅肖像·段落对照'),('epistles.html','✉️','新约书信对照','21封书信·年代·主题')]),
- ('3','专题','🔍',[('life-of-christ.html','🌟','基督生平','48事件×地图'),('kings-chronicles.html','👑','列王纪×历代志','42王逐王对照'),('compare.html','🔗','跨卷对照','10组以经解经'),('stats.html','📊','圣经统计','章节·类别·引用')]),
- ('4','信条','🕊️',[('creeds.html','🕊️','三大信经','背诵版·深度对比'),('forms.html','📚','三项联合信条','37条·129问·多特')  ,('memory.html','🧠','记忆·测验','口诀·闪卡·测验')]),
- ('5','资料','🗂️',[('sources.html','🗂️','资料来源','逐字来源·核对')])]
+GROUPS=[('1','66卷书','📚',[('index.html','📚','66卷书','书架·逐卷13项解读')]),
+ ('2','全景总览','🧭',[('overview.html','🏠','全景总览','学习路线·一页纸·标注系统'),('story.html','🧭','救赎大故事','四幕剧·红线·圣经神学'),('covenant.html','🤝','圣约神学','三约·六约·两种施行'),('timeline.html','⏳','时间线·诸王','11时代·8钉子·42王'),('geography.html','🗺️','地理文化','8幅交互地图')]),
+ ('3','基督与福音','✝️',[('life-of-christ.html','🌟','基督生平','事件×地图联动'),('gospels.html','📗','四福音对照','四幅肖像·段落对照')]),
+ ('4','文体对比','🧩',[('pentateuch.html','⚖️','摩西五经对照','五经横向×纵向'),('history.html','🏛️','历史书对照','得地→被掳→归回'),('poetry.html','🎼','诗歌智慧书对照','五卷三角度看智慧'),('prophets.html','🔥','先知书对照','17先知×君王×帝国'),('epistles.html','✉️','新约书信对照','21封书信·年代·主题')]),
+ ('5','专题','🔍',[('kings-chronicles.html','👑','列王纪×历代志','42王逐王对照'),('compare.html','🔗','跨卷对照','以经解经·引用网络'),('stats.html','📊','圣经统计','章节·类别·引用')]),
+ ('6','信条','🕊️',[('creeds.html','🕊️','三大信经','背诵版·深度对比'),('forms.html','📜','三项联合信条','37条·129问·多特'),('memory.html','🧠','记忆·测验','口诀·闪卡·测验')]),
+ ('7','资料','🗂️',[('sources.html','🗂️','资料来源','逐字来源·核对')])]
 PAGES=[(f,i,t) for _,_,_,ps in GROUPS for f,i,t,_d in ps]
 PNUM={f:f'{g}.{k+1}' for g,_,_,ps in GROUPS for k,(f,_i,_t,_d) in enumerate(ps)}
 PGRP={f:(g,gn,gi) for g,gn,gi,ps in GROUPS for (f,_i,_t,_d) in ps}
-GCIRC='①②③④⑤'
+GCIRC='①②③④⑤⑥⑦'
 def navhtml(fn):
     o=''
     for g,gn,gi,ps in GROUPS:
@@ -235,7 +237,7 @@ def page(fn,title,content,extra_head='',scripts='',cv=True):
 <body data-mer="assets/vendor/mermaid.min.js"><div class="aurora"></div><div class="prog"></div>
 <header class="top"><button class="ibtn" id="tocBtn" title="目录 显示/隐藏" aria-label="目录">☰</button><a class="brand" href="index.html">📖 <b>整本圣经</b><span class="t">· 欧陆改革宗研读</span><small>GROKstudy {V}</small></a><nav class="nav">{nav}</nav>'''+HDR+f'''</header>
 <div class="wrap"><aside class="toc" id="toc"><div class="toch"><b>📑 本页目录</b><button id="tocL2" title="只展开到二级">二级</button><button id="tocAll" title="全部展开">全开</button><button id="tocNone" title="全部收起">全收</button><button id="tocClose" title="隐藏目录" aria-label="隐藏目录">✕</button></div>
-<input id="tocq" placeholder="🔍 筛选目录…" aria-label="筛选目录"><div class="tocbody" data-lenis-prevent>{toctree(toc)}<div class="tocpages"><b>🧭 全站页面 · 5 组 {len(PAGES)} 页</b>{pages}</div></div><div class="rz" title="拖动调整目录宽度（双击复位）" role="separator" aria-orientation="vertical"><span class="rztip"></span></div><div class="rzhint" hidden>↔ 拖动右边缘调整目录宽度</div></aside><div class="scrim"></div>
+<input id="tocq" placeholder="🔍 筛选目录…" aria-label="筛选目录"><div class="tocbody" data-lenis-prevent>{toctree(toc)}<div class="tocpages"><b>🧭 全站页面 · {len(GROUPS)} 组 {len(PAGES)} 页</b>{pages}</div></div><div class="rz" title="拖动调整目录宽度（双击复位）" role="separator" aria-orientation="vertical"><span class="rztip"></span></div><div class="rzhint" hidden>↔ 拖动右边缘调整目录宽度</div></aside><div class="scrim"></div>
 <main id="main">{cb[0]}{content}
 {cb[1]}<footer class="ft">📖 整本圣经 · 欧陆改革宗研读 — GROKstudy {V}（{DATE}）。信经与信条引文逐字取自 <a href="https://ccifellowship.org" target="_blank" rel="noopener">ccifellowship.org</a>（中国改革宗教会）；经文采用和合本。本站为学习辅助，日期采用保守派（Thiele 式）年代学，个别年份学界有±1–2年差异。<br>{"<br>".join(f'<b>{GCIRC[int(g)-1]} {gn}</b>：'+" · ".join(f'<a href="{f}">{PNUM[f]} {t}</a>' for f,i,t,d in ps) for g,gn,gi,ps in GROUPS)}</footer></main></div>
 <button class="ibtn totop" aria-label="回到顶部">↑</button>

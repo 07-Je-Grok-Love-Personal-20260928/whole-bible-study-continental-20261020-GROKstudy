@@ -85,7 +85,7 @@ def card(b):
     keys=''.join(f'<li>{qmark(k,False)}</li>' for k in x['key'])
     H=lambda k,t:f'<h4 class="h" id="b-{i}-{k}">{t}</h4>'
     ph=BKH.get(i,{})
-    return f'''<article class="bk" id="bk-{i}" data-cat="{b['cat']}" style="--c:{col};--phd:{ph.get('d',1500)}px;--pht:{ph.get('t',2100)}px;--phm:{ph.get('m',3000)}px;--pfd:{ph.get('D',1700)}px;--pft:{ph.get('T',2300)}px;--pfm:{ph.get('M',3300)}px">
+    return f'''<article class="bk" id="bk-{i}" data-cat="{b['cat']}" data-t="{'ot' if b['n']<=39 else 'nt'}" style="--c:{col};--phd:{ph.get('d',1500)}px;--pht:{ph.get('t',2100)}px;--phm:{ph.get('m',3000)}px;--pfd:{ph.get('D',1700)}px;--pft:{ph.get('T',2300)}px;--pfm:{ph.get('M',3300)}px">
 <header><div class="no">{b['n']}</div><div style="min-width:0;flex:1"><h3 class="h" id="b-{i}" data-num="{b['n']}" data-toc="{E(b['name'])}">{ic} {b['name']}<small>{b['en']} · {b['ch']}章</small></h3>
 <div class="chips" style="margin-top:6px"><span class="chip" style="border-color:{col};color:{col}">{cl}</span><span class="chip">{test}第{b['n'] if b['n']<=39 else b['n']-39}卷</span><span class="chip">✍️ {E(_chipcut(b['au'],22))}</span><span class="chip">🕰️ {E(_chipcut(b['dt'].split('；')[0],30))}</span></div></div>
 <div class="one">💡 {qmark(one)}</div></header>
