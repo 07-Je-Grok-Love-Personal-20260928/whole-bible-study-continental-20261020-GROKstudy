@@ -16,8 +16,8 @@ def index():
     c.append(h2('path','🛤️','学习路线：先整体，再局部，最后记牢'))
     c.append(h3('mods',f'{len(GROUPS)} 组 {len(PAGES)} 个学习模块（编号＝全站导航）'))
     GD={'index.html':'书架总图 + 66 卷逐卷解读（旧约 39 · 新约 27）','overview.html':'学习路线、66 卷色图、一页纸、标注系统','story.html':'四幕剧、十二场景、女人后裔红线、七条圣经神学主题','covenant.html':'救赎之约·行为之约·恩典之约；六个历史之约；律法三用','timeline.html':'11 时代、8 钉子年份、42 位君王全表与年代图','geography.html':'8 幅交互地图：近东、族长、出埃及、王国、帝国、耶稣、保罗',
-     'ot.html':'旧约 39 卷逐卷 13 项解读 + 认信连接','nt.html':'新约 27 卷逐卷 13 项解读 + 认信连接','pentateuch.html':'五卷故事线、律法与约的递进、会幕与五祭、托勒多、申命记=条约','history.html':'得地→士师循环→王国→被掳→归回；两种史观','poetry.html':'希伯来平行体、诗篇五卷、敬畏耶和华、伯/箴/传三角度','prophets.html':'17 位先知 × 君王 × 帝国时间轴、弥赛亚预言链、耶和华的日子','gospels.html':'四幅肖像、41 段落对照、神迹比喻、符类问题','epistles.html':'21 封书信 × 使徒行传年代、称义/教会/末世、罗↔加↔雅',
-     'life-of-christ.html':'48 事件 × 地图联动、受难周逐日、三职二状态','kings-chronicles.html':'两种眼光、42 王逐王对照、双轨时间线、口诀','compare.html':'10 组以经解经：创↔启、利↔来、雅↔罗……','stats.html':'章节数、类别、作者、旧约引用、文体组统计',
+     'harmony.html':'202 段四福音合参：和合本原文并排、覆盖图、按卷筛选','acts.html':'AD 30–95 时间线、罗马统治者、三次宣教旅程动画地图、彼得×保罗','pentateuch.html':'五卷故事线、律法与约的递进、会幕与五祭、托勒多、申命记=条约','history.html':'得地→士师循环→王国→被掳→归回；两种史观','poetry.html':'希伯来平行体、诗篇五卷、敬畏耶和华、伯/箴/传三角度','prophets.html':'17 位先知 × 君王 × 帝国时间轴、弥赛亚预言链、耶和华的日子','gospels.html':'四幅肖像、41 段落对照、神迹比喻、符类问题','epistles.html':'21 封书信 × 使徒行传年代、称义/教会/末世、罗↔加↔雅',
+     'life-of-christ.html':'64 事件 × 地图联动、受难周逐日、三职二状态','kings-chronicles.html':'两种眼光、42 王逐王对照、双轨时间线、口诀','compare.html':'以经解经对照 + 134 条跨卷连接弧线网络','stats.html':'章节数、类别、作者、旧约引用、文体组统计',
      'creeds.html':'背诵版、遮盖背诵、三份信经深度对比','forms.html':'比利时信条 37 条、海德堡 52 主日 129 问、多特信经','memory.html':'口诀总表、闪卡、选择题、排序游戏','sources.html':'逐字来源、核对报告、推荐网站'}
     for g,gn,gi,ps in GROUPS:
         c.append(f'<div class="modg rv"><b class="modgh"><span class="gn">{GCIRC[int(g)-1]}</span> {gi} {gn}</b><div class="grid g3">'+''.join(f'<a class="card tile" href="{f}"><div class="big">{i}</div><h4><span class="pnb">{PNUM[f]}</span> {t}</h4><p>{GD.get(f,d)}</p></a>' for f,i,t,d in ps)+'</div></div>')
@@ -91,6 +91,13 @@ def sources():
     c.append(h2('refs','📚','参考网站（供延伸学习；本站未从中作逐字引用）'))
     R=[('https://ccifellowship.org','中国改革宗教会（CCI）','信经、信条、海德堡讲道（52主日）、经文证道、疑难解答'),('https://www.ccreformed.org','洛杉矶改革宗·恩约教会','中文改革宗讲道与教导'),('https://www.reformedbeginner.net','改革宗初学者','入门文章与信条导读'),('https://canrc.org','Canadian Reformed Churches','欧陆改革宗（荷兰解放派传统），Book of Praise'),('https://www.urcna.org','United Reformed Churches in North America','三项联合信条'),('https://heritagereformed.com','Heritage Reformed Congregations','荷兰第二次改教（Nadere Reformatie）传统'),('https://www.prca.org','Protestant Reformed Churches in America','三项联合信条；圣约论述'),('https://opc.org','Orthodox Presbyterian Church','威斯敏斯特信仰准则（opc.org/wcf.html 等）'),('https://canadianreformedseminary.ca','Canadian Reformed Theological Seminary','欧陆改革宗神学教育'),('https://crts.edu','CRTS','神学院资源'),('https://www.wts.edu','Westminster Theological Seminary','霍志恒圣经神学传统')]
     c.append('<div class="grid g3">'+''.join(f'<a class="card tile" href="{u}" target="_blank" rel="noopener"><div class="big">🔗</div><h4>{n}</h4><p>{d}<br><small>{u}</small></p></a>' for u,n,d in R)+'</div>')
+    c.append(h2('v8src','📖','v8 新增：和合本经文与跨卷数据'))
+    c.append(table(['用途','来源','本站处理'],[
+      ['《四福音合参》与使徒行传页的经文（逐字）','<a href="https://ebible.org/find/details.php?id=cmn-cu89s" target="_blank" rel="noopener">eBible.org cmn-cu89s：新标点和合本（简体），标注为公有领域</a>；VPL 文件 2021-10-15 版，2026-10-23 下载','构建时逐节取用；<code>[ ]</code> 内的译者补字以斜体显示；个别合并/缺节照原文件（如约7:53 并入 8:1、太18:11 等）'],
+      ['经文交叉核对','<a href="https://github.com/scrollmapper/bible_databases" target="_blank" rel="noopener">scrollmapper bible_databases：ChiUn（和合本繁体）</a> 经 OpenCC 繁→简','四福音 3768 节平均相似度 98.6%，97% 的经节 > 0.9；差异主要来自新标点本的标点与少数用字'],
+      ['合参分段与次序','本站编辑，参考 A. T. Robertson, <i>A Harmony of the Gospels</i>（1922）与 K. Aland, <i>Synopsis Quattuor Evangeliorum</i> 的传统','分段、次序与阶段年代属编辑判断，非唯一可能'],
+      ['跨卷连接 134 条','本站编辑精选：明确引文按新约经文自身的引用；预表、主题呼应属解经判断','代表性选择，非穷尽统计；见 <a href="compare.html#xref">跨卷连接网络</a>'],
+      ['使徒行传年代（AD 30–95）','保守派常用年表（如 F. F. Bruce, <i>Paul: Apostle of the Heart Set Free</i>；迦流铭文定 AD 51–52）','多数年份 ±1–2 年；书信写作年代为约值']]))
     c.append(h2('method','🧪','年代与资料方法'))
     c.append('<ul><li>旧约诸王年代：Edwin R. Thiele 系统（及 McFall 修订），与保守派研读本（如 ESV/改革宗研读本）一致；个别年份 ±1 年。</li><li>出埃及采“早期说”1446年（王上6:1）。</li><li>耶稣受难年取 AD 30 或 33 两说并列。</li><li>地图：Natural Earth 海岸线（公有领域）+ 手工标注；古代地点坐标为通行考古识别，部分存争议（已标注）。</li><li>经文：和合本。</li><li>书卷解读、口诀、图表为本站作者依改革宗正统立场综述，不属逐字引文；凡逐字引文均以紫色框/“逐字”标签标出并链接原页。</li></ul>')
     c.append(h3('v6src','v6 统计与学术资料'))
