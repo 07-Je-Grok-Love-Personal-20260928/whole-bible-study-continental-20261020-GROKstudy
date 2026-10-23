@@ -770,12 +770,12 @@ html[data-theme=contrast]{--cm-sea:#000;--cm-sea2:#3a3a3a;--cm-land:#fff6dc;--cm
 .cm-reg:hover{fill-opacity:.42}
 .cm-rt{fill:none;stroke:var(--c);stroke-width:4.2;stroke-linecap:round;stroke-linejoin:round;opacity:.95}
 .cm-rl{fill:var(--c);text-anchor:middle;font-weight:800;letter-spacing:.18em;paint-order:stroke;stroke:var(--cm-halo);stroke-width:4.5px;stroke-linejoin:round;filter:none}
-.cm-sl{fill:var(--cm-ink);opacity:.62;text-anchor:middle;font-size:15px;font-style:italic;letter-spacing:.2em}
-.cm-pt circle{fill:var(--c);stroke:#fff;stroke-width:2}
+.cm-sl{fill:var(--cm-ink);opacity:.62;text-anchor:middle;font-size:calc(15px*var(--fs,1));font-style:italic;letter-spacing:.2em}
+.cm-pt circle{fill:var(--c);stroke:#fff;stroke-width:calc(2px*var(--fs,1))}
 .cm-pt.k circle{stroke:var(--cm-ink);stroke-width:2.2}
-.cm-ic{font-size:17px;text-anchor:middle;font-family:"Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif}
-.cm-pl{font-size:14px;fill:var(--cm-ink);paint-order:stroke;stroke:var(--cm-halo);stroke-width:4px;stroke-linejoin:round}
-.cm-pl.k{font-size:17px;font-weight:800}
+.cm-ic{font-size:calc(17px*var(--fs,1));text-anchor:middle;font-family:"Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif}
+.cm-pl{font-size:calc(14px*var(--fs,1));fill:var(--cm-ink);paint-order:stroke;stroke:var(--cm-halo);stroke-width:4px;stroke-linejoin:round}
+.cm-pl.k{font-size:calc(17px*var(--fs,1));font-weight:800}
 .cm-deco circle{fill:var(--cm-halo);stroke:var(--cm-coast);stroke-width:1.2;opacity:.8}
 .cm-deco path{fill:var(--cm-coast);opacity:.55}.cm-deco path.n{fill:#c0392b;opacity:.95}
 .cm-deco text{font-size:14px;font-weight:800;text-anchor:middle;fill:var(--cm-ink)}
@@ -813,3 +813,5 @@ html[data-theme=contrast]{--cm-sea:#000;--cm-sea2:#3a3a3a;--cm-land:#fff6dc;--cm
 .leaflet-container .leaflet-tooltip.mlabel::before{display:none}
 .leaflet-container canvas,.leaflet-container svg{max-width:none!important;max-height:none!important}
 .lifemap .mxh{display:none}
+.lifemap .cmw{background:transparent;box-shadow:none}
+.cm-deco,.cm-scale{transform-box:fill-box}

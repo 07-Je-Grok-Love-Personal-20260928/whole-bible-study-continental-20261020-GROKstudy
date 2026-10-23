@@ -52,7 +52,7 @@ def build():
         z=13 if pl in ('圣殿','客西马尼','各各他','橄榄山','伯大尼') else 10
         evs+=(f'<div class="lev{" key" if t in KEY_EV else ""}" data-ph="{ph}" style="--c:{col}"><button data-ll="{ll[0]},{ll[1]}" data-z="{z}" data-place="{E(pl)}"><span class="ln">{i+1}</span><span class="ld">{E(d30)}{f" <small>／{E(d33)}</small>" if d33!=d30 else ""}</span>'
               f'<b>{"<span class=star>★</span> " if t in KEY_EV else ""}{E(t)}</b><span class="lp">📍 {E(pl)}</span></button><div class="lr">{refs_html(r)}</div><div class="lnote">{rich(nt)}</div></div>')
-    c.append(f'<div class="lifegrid"><div class="lifetl">{evs}</div><div class="lifemap">{concept.block('life',dict(mapcfg(),bounds=[[31.25,34.55],[33.35,36.0]],tall=1,routes=[]),'基督生平地图')}<p class="srcline">年代：前为 AD 30 说，／后为 AD 33 说。地点为传统或约略位置（如以马忤斯、登山变像之山有争议）。</p></div></div>')
+    c.append(f'<div class="lifegrid"><div class="lifetl">{evs}</div><div class="lifemap">{concept.block('life',dict(mapcfg(),bounds=[[31.25,34.55],[33.35,36.0]],tall=1,routes=[],fs=2.1),'基督生平地图')}<p class="srcline">年代：前为 AD 30 说，／后为 AD 33 说。地点为传统或约略位置（如以马忤斯、登山变像之山有争议）。</p></div></div>')
     # ----- feasts
     c.append(h2('feasts','🐑','约翰福音的节期：事工长度的钥匙'))
     c.append(h3('jfeasts','约翰记载的六个节期'))

@@ -50,7 +50,7 @@ def nice_km(kmpx,W):
 def tw(t,fs):return sum(fs*(1 if ord(ch)>0x2e80 else .56) for ch in t)
 def svg(key,cfg,title=''):
     f,W,H,(s,w,n,e),k=proj(cfg)
-    rnd=random.Random(key)
+    rnd=random.Random(key);S=cfg.get('fs',1)
     B=box(w,s,e,n);D=ne();tol=(e-w)/520
     o=[];ov=[]
     city=cfg.get('city')
@@ -118,10 +118,10 @@ def svg(key,cfg,title=''):
     def free(b):return all(b[2]<q[0] or b[0]>q[2] or b[3]<q[1] or b[1]>q[3] for q in boxes)
     lab=[]
     for t,(x,y),c in rl:
-        fs=24 if len(t)<=5 else 20
+        fs=(24 if len(t)<=5 else 20)*S
         wdt=tw(t,fs)+len(t)*3;b=(x-wdt/2,y-fs*.8,x+wdt/2,y+fs*.3)
         boxes.append(b)
-        lab.append(f'<text class="cm-rl" x="{x}" y="{y}" style="--c:{c};font-size:{fs}px">{E_(t)}</text>')
+        lab.append(f'<text class="cm-rl" x="{x}" y="{y}" style="--c:{c};font-size:{fs:.0f}px">{E_(t)}</text>')
     for l in cfg.get('labels',[]):
         x,y=f(*l['ll']);t=re.sub(r'^\W+\s*','',l['n']) if not l['n'][0].isalnum() and ord(l['n'][0])<0x2e80 else l['n']
         lab.append(f'<text class="cm-sl" x="{x}" y="{y}">{E_(l["n"])}</text>')
@@ -133,9 +133,9 @@ def svg(key,cfg,title=''):
         kk=p.get('k') or p['n']=='耶路撒冷';c=p.get('c') or cfg.get('color','#ff6b6b')
         ic=p.get('i') or ICON.get(p['n'],'')
         t=E_(p['n']+('：'+re.sub('<[^>]+>','',p['d']) if p.get('d') else ''))
-        dots.append(f'<g class="cm-pt{" k" if kk else ""}" style="--c:{c}"><title>{t}</title><circle cx="{x}" cy="{y}" r="{7 if kk else 4.6}"/>'+(f'<text class="cm-ic" x="{x}" y="{y-11}">{ic}</text>' if ic else '')+'</g>')
-        fs=17 if kk else 14;wdt=tw(p['n'],fs)
-        for dx,dy,anc in [(10,5,'start'),(-10,5,'end'),(0,-14 if not ic else -30,'middle'),(0,22,'middle')]:
+        dots.append(f'<g class="cm-pt{" k" if kk else ""}" style="--c:{c}"><title>{t}</title><circle cx="{x}" cy="{y}" r="{(7 if kk else 4.6)*S:.1f}"/>'+(f'<text class="cm-ic" x="{x}" y="{y-11*S:.1f}">{ic}</text>' if ic else '')+'</g>')
+        fs=(17 if kk else 14)*S;wdt=tw(p['n'],fs)
+        for dx,dy,anc in [(10*S,5*S,'start'),(-10*S,5*S,'end'),(0,(-14 if not ic else -30)*S,'middle'),(0,22*S,'middle')]:
             x0=x+dx if anc=='start' else x+dx-wdt if anc=='end' else x-wdt/2
             b=(x0-2,y+dy-fs*.85,x0+wdt+2,y+dy+3)
             if b[0]>=0 and b[2]<=W and b[1]>=0 and b[3]<=H and free(b):
@@ -145,7 +145,7 @@ def svg(key,cfg,title=''):
     deco=(f'<g class="cm-deco" transform="translate({W-58} 62)"><circle r="30"/><path d="M0,-34 L7,0 L0,34 L-7,0 Z"/><path class="n" d="M0,-34 L7,0 L-7,0 Z"/><text y="-40">N</text></g>'
           f'<g class="cm-scale" transform="translate(24 {H-26})"><path d="M0,0 h{L_:.1f} M0,-6 v12 M{L_/2:.1f},-4 v8 M{L_:.1f},-6 v12"/><text x="{L_/2:.1f}" y="-10">{km} 公里</text></g>')
     hdr=f'<desc>{E_(title)}——概念示意图（地形、疆界、路线均为大致示意）</desc>'
-    svgm=(f'<svg class="cm" viewBox="0 0 {W} {H}" role="img" aria-label="{E_(title)} · 概念图" preserveAspectRatio="xMidYMid meet">{hdr}<defs>{"".join(defs)}</defs>'
+    svgm=(f'<svg class="cm" viewBox="0 0 {W} {H}"{f' style="--fs:{S}"' if S!=1 else ''} role="img" aria-label="{E_(title)} · 概念图" preserveAspectRatio="xMidYMid meet">{hdr}<defs>{"".join(defs)}</defs>'
           f'<rect class="cm-sea" width="{W}" height="{H}"/>{base}{regs}{rts}{"".join(dots)}{"".join(lab)}{deco}</svg>')
     svgo=f'<svg class="cmo" viewBox="0 0 {W} {H}" aria-hidden="true" preserveAspectRatio="xMidYMid meet">{"".join(ov)}</svg>' if ov else ''
     # legend
