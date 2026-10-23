@@ -17,14 +17,17 @@ const KIND=[['off','示意'],['topo','地形'],['sat','卫星'],['street','街�
 const BEST={};/* provider index that worked on this page, shared by all maps */
 const SEAS=[['地 中 海',[34.2,25]],['红 海',[21.5,38.3]],['波 斯 湾',[27.3,51]],['黑 海',[43.2,34.5]],['里 海',[41.5,50.6]],['爱 琴 海',[38.6,25.1]],['亚 得 里 亚 海',[42.8,15.6]]];
 function tiles(m,kind,note){
-  if(m._tl){m.removeLayer(m._tl);m._tl=null}clearTimeout(m._wd);m._kind=kind;
+  if(m._tl){m.removeLayer(m._tl);m._tl=null}clearTimeout(m._wd);m._kind=kind;m._el&&m._el.classList.remove('mtok');
   if(kind==='off'){note('离线示意底图（Natural Earth）');return}
   const ch=PROV[kind];let i=BEST[kind]||0;
   const next=why=>{if(m._tl){m.removeLayer(m._tl);m._tl=null}clearTimeout(m._wd);
+    m._el&&m._el.classList.remove('mtok');
     if(i>=ch.length){note('⚠️ 在线底图均不可达 → 已显示离线底图',1);m._el&&m._el.classList.add('mtfail');return}
     const p=ch[i],t=L.tileLayer(p[0],{subdomains:p[2]||'abc',maxZoom:p[3],maxNativeZoom:p[3],attribution:p[1],crossOrigin:false,keepBuffer:1,updateWhenIdle:true});
     let ok=0,er=0;const adv=()=>{if(m._tl!==t)return;i++;next()};
     t.on('tileload',()=>{if(!ok){BEST[kind]=i;note(KIND.find(k=>k[0]===kind)[1]+' · '+p[1].replace(/^©\s*/,''))}ok++});
+    /* v9 perf: once the online layer has fully covered the view, stop painting the offline base under it (it was the main scroll-raster cost) */
+    t.on('load',()=>{if(m._tl===t&&ok&&m._el)m._el.classList.add('mtok')});
     t.on('tileerror',()=>{er++;if(er>=3&&ok===0||er>ok*2+8)adv()});
     m._tl=t;t.addTo(m);m._wd=setTimeout(()=>{if(!ok)adv()},4500);note('⏳ 正在连接 '+p[1].replace(/^©\s*/,'')+'…')};
   m._el&&m._el.classList.remove('mtfail');next()}

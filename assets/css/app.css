@@ -878,3 +878,6 @@ html[data-theme=contrast] .fabt,html[data-theme=contrast] .fb{background:#000;bo
 .calx>*{min-width:0}
 @media(max-width:600px){.calx .steps{grid-template-columns:1fr!important}.calx .steps>div{min-width:0}.calx .ub{white-space:normal}}
 @media(max-width:980px){.calx{grid-template-columns:1fr}}
+
+/* v9 perf: off-screen real maps skip rendering; offline base hidden once online tiles cover the map */
+.map{content-visibility:auto}.map.mtok .leaflet-nebase-pane{display:none}
