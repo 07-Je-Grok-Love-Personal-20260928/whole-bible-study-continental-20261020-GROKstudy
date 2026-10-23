@@ -1,17 +1,17 @@
-# 整本圣经研读-20261023-v9-GROKstudy
+# 整本圣经研读-20261024-v10-GROKstudy
 
-> **主题**：整本《圣经》解读（欧陆改革宗 · 正统神学）｜**时间**：2026-10-23｜**版本号**：v9｜GROKstudy
+> **主题**：整本《圣经》解读（欧陆改革宗 · 正统神学）｜**时间**：2026-10-24｜**版本号**：v10｜GROKstudy
 
 66 卷书架与逐卷解读 · 全景总览 · 救赎故事 · 圣约神学 · 时间线 · **地理（13 幅地图：概念图＋实景）· 历史文化** · 基督生平 · 四福音对照 · 四福音合参（202 段，和合本）· 使徒行传与初代教会 · 五组文体对照 · 列王纪×历代志 · 跨卷连接网络 · 统计 · 三大信经与三项联合信条全文 · 记忆测验。
 信经与信条引文全部**逐字**取自 [ccifellowship.org](https://ccifellowship.org)（中国改革宗教会），构建时自动校验（174 处）；经文采用和合本；威斯敏斯特标准仅作补充参照。
 
-## 🔗 在线访问（当前版本 v9）
+## 🔗 在线访问（当前版本 v10）
 
 | 平台 | 链接 |
 |---|---|
 | GitHub Pages | https://07-je-grok-love-personal-20260928.github.io/whole-bible-study-continental-GROKstudy/ |
-| Surge | https://whole-bible-study-20261023-v9-grokstudy.surge.sh/ |
-| Netlify | https://whole-bible-study-20261023-v9-grokstudy.netlify.app/ |
+| Surge | https://whole-bible-study-20261024-v10-grokstudy.surge.sh/ |
+| Netlify | https://whole-bible-study-20261024-v10-grokstudy.netlify.app/ |
 | 源码仓库 | https://github.com/07-Je-Grok-Love-Personal-20260928/whole-bible-study-continental-GROKstudy |
 
 ## 📑 页面结构（23 页 · 7 组）
@@ -80,7 +80,7 @@
 
 ```bash
 python3 _build/build.py      # 生成全部 HTML；逐字引文校验；Mermaid 预渲染；内部链接/锚点/资源检查（_build/links.py）
-THEMES=night,dawn,jade,ruby,contrast python3 _build/check.py all   # 无头 Chromium 390/820/1440：溢出、控制台错误、Mermaid、地图
+THEMES=night,dawn,jade,ruby,contrast,violet,ocean,amber,sakura,sepia python3 _build/check.py all   # 无头 Chromium 390/820/1440：溢出、控制台错误、Mermaid、地图
 ```
 
 - 纯静态站点；第三方库已本地化：`assets/vendor/`（Leaflet 1.9.4、Mermaid 11 仅构建期使用、Lenis 1.3.27）。
@@ -89,6 +89,34 @@ THEMES=night,dawn,jade,ruby,contrast python3 _build/check.py all   # 无头 Chro
 - 信条数据：`_build/data/cci/*.json`。正文短引用以 `{{HC27|…}}` 标记，构建时必须是原文子串，否则构建失败。
 
 ## 📝 版本历史
+
+### v10 — 2026-10-24（tag `v10-20261024`，[Release](https://github.com/07-Je-Grok-Love-Personal-20260928/whole-bible-study-continental-GROKstudy/releases/tag/v10-20261024)）
+- 在线：Surge https://whole-bible-study-20261024-v10-grokstudy.surge.sh/ · Netlify https://whole-bible-study-20261024-v10-grokstudy.netlify.app/ · GitHub Pages（main）
+- **⚡ 顺滑**：离线底图改为本地 blob 图片瓦片层（GridLayer），悬停改用 JS 命中测试、去掉隐形 SVG 命中图形——地理页 13 幅地图全用离线底图时滚动不再卡；SVG 动画改为有限次数，不再有任何随滚动执行的 JS。
+- **🎨 10 套主题配色**（🎨 按钮 → 带迷你预览的色卡面板，点击即换、记忆选择、首屏无闪烁）：🌌 星空深蓝 · 🌅 晨曦米白 · 🍃 翡翠清新 · 👑 红宝石宫廷 · 🔆 高对比护眼 · 🔮 紫罗兰暮光（新）· 🌊 深海青蓝（新）· ☀️ 暖阳琥珀（新）· 🌸 樱花粉雾（新）· 📜 墨纸书卷（新）；单一主题注册表驱动初始化脚本、色卡与 app.js；两轮对比度修正（浅色主题色值约束、徽章/书脊/地图标签文字色）；Mermaid 流程图随主题换色，长链流程图保持可读字号（可横向滑动）。
+- **📊 可视化**：记忆页新增间隔重复曲线图与 14 天打卡记录；基督生平页新增受难周篇幅占比条；各级标题配上生动图标。
+- **📖 内容**：补强最单薄的几卷书的“圣约位置 / 为什么写”（马可福音、哈该书、犹大书、俄巴底亚书、腓立比书、约翰三书）。
+- **🖍️ 标注与排版**：分级图例（必背 / 理解 / 线索 / 辨析 / 恩典）；🙈 **背诵模式**——遮住必背内容与关键词，点击揭开自测，底部显示“已揭开 n / N”并可全部遮住 / 全部揭开；排版字号阶梯、行长与段落节奏、中文标点挤压（text-spacing-trim / palt）、严格断行；手机端“三要点”卡片中的关键词不再单独占一行。
+- **✅ 检查**：25 个 HTML × 10 套主题 × 390/820/1440（750 次）无溢出、无控制台错误、目录不遮挡正文；4,464 个站内链接全部有效；逐字引文校验 174 处；拦截全部在线瓦片主机时，地理/行传/基督生平页 15 幅实景地图全部显示离线底图（390 与 1440）、无脚本错误。
+
+#### v10 性能（无头 Chrome，CPU 4× 降速，单独运行、3 次取中位数；p95 帧 · >50ms 卡顿帧 · 长任务数）
+
+| 页面 | 手机 390 手势滚动 v9 → v10 | 桌面 1440 手势滚动 v9 → v10 | v10 脚本滚动 390 / 1440 |
+|---|---|---|---|
+| index | 16.8 ms · 0 · 0 → **16.8 ms · 0 · 0** | 16.8 ms · 0 · 0 → **16.8 ms · 0 · 0** | 16.8 ms · 0 / 16.7 ms · 0 |
+| geography | 16.7 ms · 0 · 0 → **16.7 ms · 0 · 0** | 16.7 ms · 0 · 0 → **16.7 ms · 0 · 0** | 16.7 ms · 0 / 16.7 ms · 0 |
+| life-of-christ | 16.8 ms · 0 · 0 → **16.7 ms · 0 · 0** | 16.8 ms · 0 · 0 → **16.8 ms · 0 · 0** | 16.7 ms · 0 / 16.7 ms · 0 |
+| acts | 16.7 ms · 0 · 0 → **16.7 ms · 0 · 0** | 16.8 ms · 0 · 0 → **16.8 ms · 0 · 0** | 16.8 ms · 0 / 16.7 ms · 0 |
+| harmony | 16.7 ms · 0 · 0 → **16.7 ms · 0 · 0** | 16.7 ms · 0 · 0 → **16.8 ms · 0 · 0** | 16.8 ms · 0 / 16.7 ms · 0 |
+| compare | 16.8 ms · 0 · 0 → **16.7 ms · 0 · 0** | 16.8 ms · 0 · 0 → **16.7 ms · 0 · 0** | 16.7 ms · 0 / 16.7 ms · 0 |
+| stats | 16.8 ms · 0 · 0 → **16.7 ms · 0 · 0** | 16.7 ms · 0 · 0 → **16.8 ms · 0 · 0** | 16.8 ms · 0 / 16.7 ms · 0 |
+| memory | 16.7 ms · 0 · 0 → **16.7 ms · 0 · 0** | 16.7 ms · 0 · 0 → **16.7 ms · 0 · 0** | 16.8 ms · 0 / 16.7 ms · 0 |
+| culture | 16.7 ms · 0 · 0 → **16.7 ms · 0 · 0** | 16.7 ms · 0 · 0 → **16.8 ms · 0 · 0** | 16.7 ms · 0 / 16.8 ms · 0 |
+| gospels | 16.7 ms · 0 · 0 → **16.7 ms · 0 · 0** | 16.8 ms · 0 · 0 → **16.8 ms · 0 · 0** | 16.7 ms · 0 / 16.7 ms · 0 |
+
+40 组（10 页 × 2 宽度 × 手势/脚本）p95 最大 **16.8 ms**，长任务 **0**，卡顿帧 **0**（acts@1440 手势滚动首轮中位数 33.3 ms/1 帧，复测 5 次中位数 16.8 ms/0，与 v9 同条件复测一致）。v9 的 stats / memory / gospels 为本次用 v9 快照同条件补测。
+
+地理页 13 幅实景地图全部使用离线底图：390 手势 v9 16.8 ms · 3 卡顿帧 · 1 长任务 → **v10 16.8 ms · 0 · 0**；1440 手势 16.8 → **16.8 ms · 0 · 0**；脚本滚动 390/1440 均 ≤ 16.7 ms · 0。
 
 ### 仓库改名 — 2026-10-23
 - 仓库由 `whole-bible-study-continental-20261020-GROKstudy` 改名为 **`whole-bible-study-continental-GROKstudy`**（主题-GROKstudy）。GitHub Pages 地址随之变为 https://07-je-grok-love-personal-20260928.github.io/whole-bible-study-continental-GROKstudy/ ；Surge / Netlify 各版本链接不变。
