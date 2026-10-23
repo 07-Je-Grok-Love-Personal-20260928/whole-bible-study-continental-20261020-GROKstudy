@@ -32,6 +32,8 @@ def run(files):
         fp=os.path.join(SITE,f); s=open(fp).read()
         def rep(m):
             nonlocal n; h=hashlib.sha1(m.group(1).encode()).hexdigest()[:12]; n+=1
-            return f'<div class="mersvg md">{cache[h]["dark"]}</div><div class="mersvg ml">{cache[h]["light"]}</div>'
+            vb=re.search(r'viewBox="([-0-9. ]+)"',cache[h]["dark"]); w,hh=(float(x) for x in vb.group(1).split()[2:4]) if vb else (0,1)
+            wide=f' mwide" style="--mw:{round(w*.78)}px' if w>1000 and w/hh>6 else ''   # v10: long LR chains keep a readable size and scroll sideways
+            return f'<div class="mersvg md{wide}">{cache[h]["dark"]}</div><div class="mersvg ml{wide}">{cache[h]["light"]}</div>'
         s=PRE.sub(rep,s); open(fp,'w').write(s)
     print('mermaid prerendered:',n)

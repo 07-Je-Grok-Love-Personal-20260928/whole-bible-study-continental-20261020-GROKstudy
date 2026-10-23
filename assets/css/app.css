@@ -362,6 +362,12 @@ details.dx>summary h4.h .sn{display:none}
 /* v2: pre-rendered mermaid (no runtime) */
 .mersvg{overflow-x:auto}.mersvg svg{max-width:100%;height:auto;display:block;margin:0 auto}
 .mersvg.ml{display:none}html.light .mersvg.ml{display:block}html.light .mersvg.md{display:none}
+/* v10: Mermaid flowcharts follow the active theme (unstyled nodes only; explicitly coloured nodes keep their colours) */
+.mersvg .flowchart .node :is(rect,polygon,circle,ellipse,path):not([style*=fill]){fill:color-mix(in srgb,var(--gold) 14%,var(--bg))!important;stroke:color-mix(in srgb,var(--gold) 65%,var(--bg))!important}
+.mersvg .flowchart .node:not(:has([style*=fill])) .nodeLabel{color:var(--ink)!important}.mersvg .flowchart .edgeLabel,.mersvg .flowchart .edgeLabel *{color:var(--ink2)!important}
+.mersvg .flowchart .edgeLabel rect,.mersvg .flowchart .labelBkg{fill:var(--bg)!important;background:var(--bg)!important}
+.mersvg .flowchart .flowchart-link{stroke:color-mix(in srgb,var(--ink) 55%,var(--bg))!important}.mersvg .flowchart marker path{fill:color-mix(in srgb,var(--ink) 55%,var(--bg))!important;stroke:none!important}
+.mersvg.mwide svg{width:var(--mw)!important;max-width:none!important;margin:0}
 /* v3: site-pages list always one column */
 .tocpages{grid-template-columns:1fr!important}
 .tocpages a{white-space:normal}
