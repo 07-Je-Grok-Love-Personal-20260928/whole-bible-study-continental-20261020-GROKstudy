@@ -5,6 +5,7 @@ from lib import _plain
 from genre import kbox,mnem,cards,quotes,grid,chbars,R
 from v5extra import hbar
 from p_stats import VERSES
+import p_harmony as PH_
 V4=[ # key, 象, 作者, 日期, 读者, 基督肖像, 主题, 钥字, 目的经文, 结构, 旧约使用, 结尾, 独有
 ('Mt','狮子（王）','马太（利未），税吏出身的使徒','约 AD 50–60 年代（圣殿被毁前）','犹太基督徒：熟悉律法与先知','**应许的君王**——大卫的子孙、亚伯拉罕的后裔、新摩西',
  '==天国已经临近==：旧约应许在耶稣身上应验','“天国”（约32次）、“应验”、“义”','太1:1；5:17','五大讲论（5–7、10、13、18、24–25），各以“耶稣讲完了这些话”收尾——像新的“摩西五经”',
@@ -55,6 +56,11 @@ def build():
       ('📜','教会的领受，不是发明','早期教会（如爱任纽，约 AD 180）已明确只承认四卷；把四卷合成一卷的《四福音合参》（他提安，约 AD 170）没有取代正典。','var(--vio)')])+'</div>')
     c.append(co('conf','<p>'+rich('比利时信条列出新约正典时，首先就是{{BC4|四福音书，即马太福音、马可福音、路加福音及约翰福音}}。正典的根据不是教会的投票：{{BC5|与其说这是因为教会接受并赞同它们，倒不如说这是因为圣灵在我们心中作见证，证明它们都来自神}}。',False)+'</p>','认信'))
     c.append(bc(4)+bc(5))
+    _ss=[x for p_ in PH_.P for x in p_['s']]; _n=lambda m:sum(1 for x in _ss if len(x['r'])==m); _jo=[sum(1 for x in p_['s'] if 'Jn' in x['r'] and len(x['r'])>1) for p_ in PH_.P]
+    c.append(h3('hmcov',f'合参覆盖：{PH_.N} 段在四卷中的分布'))
+    c.append(PH_.coverage())
+    c.append(hbar([('✦ 四卷皆有',_n(4),'var(--gold)'),('三卷',_n(3),'var(--sky)'),('两卷',_n(2),'var(--vio)'),('仅一卷',_n(1),'var(--rose)')],' 段',f'按本站《四福音合参》{PH_.N} 段统计（分段为编辑选择，参 Robertson / Aland 传统）。竖线＝13 个阶段。'))
+    c.append(co('info',f'<p>想逐段并排读经文？→ <a href="harmony.html">📖 四福音合参（{PH_.N} 段，和合本原文）</a>；想看耶稣升天之后福音怎样从耶路撒冷到罗马？→ <a href="acts.html">🗺️ 使徒行传与新约历史</a>。</p><p>'+rich(f'**观察**：约翰与符类重叠的 {sum(_jo)} 段中，有 {sum(_jo[9:])} 段落在==受难周到复活==（第 10–13 阶段），加利利事工几乎全由符类记载。',False)+'</p>','延伸'))
     c.append(h3('table4','一表看懂四福音（纵向总表）'))
     rows=[]
     for k,sym,au,dt,rd,po,th,kw,pv,st,ot,en,un in V4:

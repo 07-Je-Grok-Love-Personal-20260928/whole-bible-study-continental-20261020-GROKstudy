@@ -22,6 +22,7 @@ def build():
     c.append(hero(['🌟 基督生平','保守派年代','四福音出处','地图联动','受难周逐日'],'从伯利恒到橄榄山：','基督生平全景',
       '把四福音放进一条时间线：<span class="must">降生 约6–4 BC</span> · <span class="must">受洗 AD 26/27（或29）</span> · <span class="must">十字架 AD 30（或33）</span>。点击任一事件，右侧地图会<b class="k">飞到那个地方</b>；每个事件都列出四福音出处。'))
     c.append(legend_box())
+    c.append(co('info','<p>本页按<b class="k">年代与地点</b>排列 '+str(len(EV))+' 个事件，点「▶️ 自动播放」可让地图依次飞行。要逐段读四福音原文 → <a href="harmony.html">📖 四福音合参</a>；升天之后的历史 → <a href="acts.html">🗺️ 使徒行传与新约历史</a>。</p>','延伸'))
     c.append(h2('frame','🧭','整体：年代框架与两种主要看法'))
     c.append(h3('pins','五个钉子年份'))
     c.append(stats([('6–4 BC','降生（希律死于 4 BC 前）','🌟','var(--gold)'),('AD 26/27','受洗（AD 30 说）','🕊️','var(--sky)'),('3 个','约翰明记的逾越节','🐑','var(--vio)'),('AD 30','钉十字架（4月7日）','✝️','var(--rose)'),('AD 33','另一主要看法（4月3日）','📅','var(--emer)'),('40 + 10','升天第40天，五旬节第50天','☁️','var(--gold)')]))
