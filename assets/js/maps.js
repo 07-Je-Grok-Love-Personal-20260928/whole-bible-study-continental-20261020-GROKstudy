@@ -1,33 +1,52 @@
-/* Leaflet maps: offline vector base (assets/data/land.js) + optional online tiles. Degrades to text list if Leaflet missing. */
+/* v9 maps: Leaflet + Natural Earth offline base (assets/data/ne.js) + online tile chains; loaded lazily. Degrades to a text list if Leaflet missing. */
 (function(){
 addEventListener('scroll',()=>{window.__mLS=performance.now()},{passive:true});
-const RIVERS={
- '尼罗河':[[24.09,32.9],[25.7,32.64],[27.18,31.18],[29.0,30.85],[30.04,31.23],[30.6,31.0],[31.45,30.4]],
- '尼罗河东支':[[30.04,31.23],[30.8,31.6],[31.4,31.85]],
- '幼发拉底河':[[39.0,39.4],[38.4,38.6],[36.83,38.01],[35.95,39.0],[35.3,40.15],[34.55,40.89],[33.4,43.3],[32.54,44.42],[31.3,45.6],[30.96,46.1],[30.6,47.4],[29.95,48.5]],
- '底格里斯河':[[38.0,40.4],[37.5,42.0],[36.36,43.15],[35.45,43.26],[34.2,43.9],[33.3,44.4],[32.4,45.7],[31.1,47.4],[30.6,47.6]],
- '约旦河':[[33.25,35.62],[32.9,35.62],[32.71,35.57],[32.35,35.56],[32.0,35.53],[31.77,35.55]]
-};
-const LAKES={
- '死海':[[31.78,35.55],[31.72,35.6],[31.5,35.6],[31.25,35.53],[31.05,35.45],[31.12,35.38],[31.4,35.45],[31.65,35.47]],
- '加利利海':[[32.9,35.59],[32.86,35.65],[32.8,35.65],[32.71,35.6],[32.75,35.53],[32.84,35.52]]
-};
+/* v9: tile-provider chains with automatic fallback (tileerror / no-load watchdog) over an always-present
+   offline Natural Earth base drawn in its own pane UNDER the tiles — if every host is blocked the base still shows. */
+const PROV={
+ topo:[['https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}','Esri World Topo','',17],
+       ['https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png','© OpenTopoMap (CC-BY-SA) © OSM','abc',15],
+       ['https://services.arcgisonline.com/ArcGIS/rest/services/World_Shaded_Relief/MapServer/tile/{z}/{y}/{x}','Esri Shaded Relief','',13],
+       ['https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}.png','© CARTO © OpenStreetMap','abcd',18]],
+ sat:[['https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}','Esri World Imagery','',17],
+      ['https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}','Esri World Imagery（备用主机）','',17]],
+ street:[['https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}.png','© CARTO © OpenStreetMap','abcd',18],
+         ['https://tile.openstreetmap.org/{z}/{x}/{y}.png','© OpenStreetMap','',18],
+         ['https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png','© OSM France · HOT','abc',18]]};
+const KIND=[['off','示意'],['topo','地形'],['sat','卫星'],['street','街道']];
+const BEST={};/* provider index that worked on this page, shared by all maps */
+const SEAS=[['地 中 海',[34.2,25]],['红 海',[21.5,38.3]],['波 斯 湾',[27.3,51]],['黑 海',[43.2,34.5]],['里 海',[41.5,50.6]],['爱 琴 海',[38.6,25.1]],['亚 得 里 亚 海',[42.8,15.6]]];
+function tiles(m,kind,note){
+  if(m._tl){m.removeLayer(m._tl);m._tl=null}clearTimeout(m._wd);m._kind=kind;
+  if(kind==='off'){note('离线示意底图（Natural Earth）');return}
+  const ch=PROV[kind];let i=BEST[kind]||0;
+  const next=why=>{if(m._tl){m.removeLayer(m._tl);m._tl=null}clearTimeout(m._wd);
+    if(i>=ch.length){note('⚠️ 在线底图均不可达 → 已显示离线底图',1);m._el&&m._el.classList.add('mtfail');return}
+    const p=ch[i],t=L.tileLayer(p[0],{subdomains:p[2]||'abc',maxZoom:p[3],maxNativeZoom:p[3],attribution:p[1],crossOrigin:false,keepBuffer:1,updateWhenIdle:true});
+    let ok=0,er=0;const adv=()=>{if(m._tl!==t)return;i++;next()};
+    t.on('tileload',()=>{if(!ok){BEST[kind]=i;note(KIND.find(k=>k[0]===kind)[1]+' · '+p[1].replace(/^©\s*/,''))}ok++});
+    t.on('tileerror',()=>{er++;if(er>=3&&ok===0||er>ok*2+8)adv()});
+    m._tl=t;t.addTo(m);m._wd=setTimeout(()=>{if(!ok)adv()},4500);note('⏳ 正在连接 '+p[1].replace(/^©\s*/,'')+'…')};
+  m._el&&m._el.classList.remove('mtfail');next()}
 function base(el,cfg,jobs){
-  const m=L.map(el,{scrollWheelZoom:false,zoomSnap:.25,worldCopyJump:false,attributionControl:true,preferCanvas:!!cfg.canvas});
-  const off=L.layerGroup();
-  if(window.LAND){const gj=L.geoJSON(null,{style:{color:'#c9a96a',weight:1,fillColor:'#e8d9b0',fillOpacity:.92},interactive:false}).addTo(off);
-    let fs=window.LAND.features||[window.LAND];fs=fs.flatMap(f=>f.geometry&&f.geometry.type==='MultiPolygon'?f.geometry.coordinates.map(c=>({type:'Feature',properties:{},geometry:{type:'Polygon',coordinates:c}})):[f]);
-    for(let i=0;i<fs.length;i+=8){const ch=fs.slice(i,i+8);jobs.push(()=>gj.addData({type:'FeatureCollection',features:ch}))}}
-  const wat=L.layerGroup();
-  for(const k in LAKES)L.polygon(LAKES[k],{color:'#3a7bd5',weight:1,fillColor:'#4f8ee0',fillOpacity:.9,interactive:false}).addTo(wat);
-  for(const k in RIVERS)L.polyline(RIVERS[k],{color:'#3a7bd5',weight:2.2,opacity:.9}).bindTooltip(k,{sticky:true}).addTo(wat);
-  off.addTo(m);jobs.push(()=>wat.addTo(m));
-  jobs.push(()=>{
-  const osm=L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:12,attribution:'© OpenStreetMap'});
-  const topo=L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Shaded_Relief/MapServer/tile/{z}/{y}/{x}',{maxZoom:13,attribution:'Esri Shaded Relief'});
-  L.control.layers({'离线矢量底图（默认）':off,'OpenStreetMap 在线':osm,'地形晕渲 在线':topo},{'河流湖泊':wat},{collapsed:true}).addTo(m);
-  m.attributionControl.setPrefix('Leaflet · 离线海岸线 Natural Earth');
-  });
+  const m=L.map(el,{scrollWheelZoom:false,zoomSnap:.25,worldCopyJump:false,attributionControl:true,preferCanvas:!!cfg.canvas});m._el=el;
+  m.createPane('nebase').style.zIndex=150;const rd=L.canvas({pane:'nebase',padding:.2});
+  const NE=window.NE;
+  if(NE){const lw=L.layerGroup().addTo(m);
+    for(let i=0;i<NE.land.length;i+=12){const ch=NE.land.slice(i,i+12);jobs.push(()=>ch.forEach(c=>L.polygon(c.map(r=>r.map(p=>[p[1],p[0]])),{renderer:rd,pane:'nebase',color:'#b99a5e',weight:1,fillColor:'#eadcb4',fillOpacity:1,interactive:false}).addTo(lw)))}
+    jobs.push(()=>{NE.lakes.forEach(k=>{const g=L.polygon(k.c.map(r=>r.map(p=>[p[1],p[0]])),{renderer:rd,pane:'nebase',color:'#3a7bd5',weight:1,fillColor:'#5d97e3',fillOpacity:1,interactive:!!k.n}).addTo(lw);if(k.n)g.bindTooltip(k.n,{sticky:true})});
+      NE.rivers.forEach(r=>{const g=L.polyline(r.c.map(p=>[p[1],p[0]]),{renderer:rd,pane:'nebase',color:'#3a7bd5',weight:r.n?2.2:1.2,opacity:.9,interactive:!!r.n}).addTo(lw);if(r.n)g.bindTooltip(r.n,{sticky:true})});
+      const B=L.latLngBounds(cfg.bounds).pad(.1);SEAS.forEach(s=>{if(B.contains(s[1]))L.marker(s[1],{pane:'nebase',interactive:false,icon:L.divIcon({className:'',html:'<span class="mlabel sea">'+s[0]+'</span>',iconSize:null})}).addTo(lw)})})}
+  /* status chip + switcher 示意/地形/卫星/街道 */
+  const st=L.control({position:'bottomright'});let stEl;st.onAdd=()=>{stEl=L.DomUtil.create('div','mlnote');return stEl};st.addTo(m);
+  const note=(t,bad)=>{if(stEl){stEl.textContent=t;stEl.classList.toggle('bad',!!bad)}};
+  const sw=L.control({position:'topright'});sw.onAdd=()=>{const d=L.DomUtil.create('div','mlsw');d.setAttribute('role','group');d.setAttribute('aria-label','底图');
+    d.innerHTML=KIND.map(k=>'<button type="button" data-k="'+k[0]+'" aria-pressed="false">'+k[1]+'</button>').join('');L.DomEvent.disableClickPropagation(d);
+    d.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;set(b.dataset.k);try{localStorage.setItem('wb-mapbase',b.dataset.k)}catch(_){}});return d};sw.addTo(m);
+  const set=k=>{sw.getContainer().querySelectorAll('button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.k===k));tiles(m,k,note)};
+  let k0='topo';try{k0=localStorage.getItem('wb-mapbase')||'topo'}catch(_){}if(navigator.onLine===false)k0='off';if(!PROV[k0])k0='off';
+  jobs.push(()=>set(k0));
+  m.attributionControl.setPrefix('Leaflet · 离线底图 Natural Earth（公有领域）');
   m.fitBounds(cfg.bounds);
   return m;
 }
@@ -46,7 +65,7 @@ function declutter(m){const pts=(m._pts||[]).slice().sort((a,b)=>b._prio-a._prio
   rs.forEach(([c,e,r])=>{if(!r.width)return;const ov=k=>!(r.right<k.left-2||r.left>k.right+2||r.bottom<k.top-1||r.top>k.bottom+1);const hit=(c._prio<2&&regs.some(ov))||kept.some(k=>!(r.right<k.left-2||r.left>k.right+2||r.bottom<k.top-1||r.top>k.bottom+1));if(hit)e.classList.add('mlhide');else kept.push(r)})}
 function build(el){
   const cfg=window.MAPS&&window.MAPS[el.dataset.map];if(!cfg)return;
-  if(!window.L){el.innerHTML='<div class="mapfb"><b>地图脚本未加载，以下为地点列表：</b><ul>'+(cfg.points||[]).map(p=>'<li>'+p.n+(p.d?'：'+p.d:'')+'</li>').join('')+'</ul></div>';return}
+  if(!window.L){el.innerHTML='<div class="mapfb"><b>地图脚本未加载（离线或被拦截），以下为地点列表：</b><ul>'+(cfg.points||[]).map(p=>'<li>'+p.n+(p.d?'：'+p.d:'')+'</li>').join('')+'</ul></div>';return}
   const jobs=[];const m=base(el,cfg,jobs);
   (cfg.regions||[]).forEach(r=>jobs.push(()=>{if(r.poly)L.polygon(r.poly,{color:r.c,weight:1.5,fillColor:r.c,fillOpacity:.22,dashArray:r.dash||null}).bindPopup('<b>'+r.n+'</b><br>'+(r.d||'')).addTo(m);if(r.circle)L.circle(r.circle,{radius:r.rad,color:r.c,weight:1.5,fillColor:r.c,fillOpacity:.25}).bindPopup('<b>'+r.n+'</b><br>'+(r.d||'')).addTo(m);if(r.lab)lab(m,r.lab,r.n,'reg')}));
   (cfg.routes||[]).forEach(r=>jobs.push(()=>{const pl=L.polyline(r.path,{color:r.c,weight:r.w||4,opacity:.95,dashArray:r.dash||null}).addTo(m);pl.bindTooltip(r.n,{sticky:true});
@@ -59,13 +78,28 @@ function build(el){
   el._map=m; setTimeout(()=>m.invalidateSize(),300);
   let dT=0;const dc=()=>{clearTimeout(dT);dT=setTimeout(()=>{if(jobs.length){dc();return}requestAnimationFrame(()=>declutter(m))},120)};m.on('zoomend moveend',dc);dc();
 }
-function safe(el){if(el._built)return;el._built=1;el.innerHTML='';try{build(el)}catch(e){console.warn(e);el.innerHTML='<div class="mapfb">地图加载失败</div>'}}
-function init(){const els=[...document.querySelectorAll('.map[data-map]')];if(!('IntersectionObserver' in window)){els.forEach(safe);return}
+/* v9: Leaflet + Natural Earth are fetched only when a real map is first needed */
+let ldP=null;const js=u=>new Promise((ok,no)=>{const s=document.createElement('script');s.src=u;s.onload=ok;s.onerror=no;document.head.appendChild(s)});
+function need(){if(window.L&&window.NE)return Promise.resolve();if(ldP)return ldP;
+  if(!document.querySelector('link[href*="leaflet.css"]')){const l=document.createElement('link');l.rel='stylesheet';l.href='assets/vendor/leaflet.css';document.head.appendChild(l)}
+  return ldP=Promise.all([window.L?0:js('assets/vendor/leaflet.js'),window.NE?0:js('assets/data/ne.js')]).catch(()=>{})}
+function safe(el){if(el._built)return;el._built=1;const x=el.closest('.mapx');if(x&&x.dataset.v!=='r')tab(x,'r',1);
+  need().then(()=>{el.innerHTML='';try{build(el)}catch(e){console.warn(e);el.innerHTML='<div class="mapfb">地图加载失败</div>'}})}
+/* 概念图 / 实景地图 tabs */
+function tab(x,v,noBuild){x.dataset.v=v;x.querySelectorAll('.mxt [role=tab]').forEach(b=>{const on=b.dataset.v===v;b.setAttribute('aria-selected',on);b.tabIndex=on?0:-1});
+  const c=x.querySelector('.mxc'),r=x.querySelector('.map');if(c)c.hidden=v!=='c';if(r){r.hidden=v!=='r';if(v==='r'){if(!noBuild)safe(r);else if(r._map)setTimeout(()=>r._map.invalidateSize(),30)}}}
+document.addEventListener('click',e=>{const b=e.target.closest('.mxt [role=tab]');if(!b)return;const x=b.closest('.mapx');tab(x,b.dataset.v);try{localStorage.setItem('wb-maptab',b.dataset.v)}catch(_){}});
+document.addEventListener('keydown',e=>{const b=e.target.closest&&e.target.closest('.mxt [role=tab]');if(!b||!/^Arrow(Left|Right)$/.test(e.key))return;const o=b.parentNode.querySelector('[role=tab]:not([data-v="'+b.dataset.v+'"])');if(o){o.focus();o.click()}});
+function init(){let pref='c';try{pref=localStorage.getItem('wb-maptab')||'c'}catch(_){}
+  document.querySelectorAll('.mapx').forEach(x=>{if(!x.dataset.v)tab(x,pref==='r'?'r':'c',1)});
+  const els=[...document.querySelectorAll('.map[data-map]')].filter(el=>!el.hidden);
+  window.__mapsAll=()=>document.querySelectorAll('.map[data-map]').forEach(el=>{if(!el.hidden||!el.closest('.mapx'))safe(el)});
+  if(!('IntersectionObserver' in window)){els.forEach(safe);return}
 /* build only while the user is not scrolling (Leaflet init is a long task) */
 let lastS=0,qT=0;const q=[];addEventListener('scroll',()=>{lastS=performance.now()},{passive:true});
 const pump=()=>{qT=0;if(!q.length)return;const idle=performance.now()-lastS;if(idle<350){qT=setTimeout(pump,380-idle);return}safe(q.shift());if(q.length)qT=setTimeout(pump,120)};
-const io=new IntersectionObserver(es=>es.forEach(en=>{if(en.isIntersecting){io.unobserve(en.target);q.push(en.target);if(!qT)qT=setTimeout(pump,60)}}),{rootMargin:'300px 0px'});els.forEach(el=>io.observe(el));window.__mapsAll=()=>els.forEach(safe)}
-window.__mapBuild=safe;
+const io=new IntersectionObserver(es=>es.forEach(en=>{if(en.isIntersecting){io.unobserve(en.target);q.push(en.target);if(!qT)qT=setTimeout(pump,60)}}),{rootMargin:'300px 0px'});els.forEach(el=>io.observe(el))}
+window.__mapBuild=safe;window.__mapTab=tab;
 if(document.readyState!=='loading')init();else document.addEventListener('DOMContentLoaded',init);
 let rzT=0;addEventListener('resize',()=>{clearTimeout(rzT);rzT=setTimeout(()=>document.querySelectorAll('.map').forEach(el=>el._map&&el._map.invalidateSize()),200)},{passive:true});
 })();

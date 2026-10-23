@@ -122,4 +122,4 @@ def build():
     c.append(co('trap','<p>'+R('!!以色列人靠守律法得救!!——错。出20:2 恩典在前；多特信经：{{DT2_5|因此，人不能通过守律法而获得救恩}}。旧约圣徒和我们一样“因信”得救（来11；罗4）。')+'</p>','易错'))
     c.append(quotes('HC19,BC25,HC115'))
     c.append(co('app','<p>'+R('%%读五经三问%%：① 神在这里**怎样施恩在先**？② 这条律例保护的是**哪一种与神同住的关系**？③ 这个制度/人物**怎样在基督里成全**？')+'</p>','应用'))
-    return page('pentateuch.html','摩西五经对照',''.join(c),scripts='<script src="assets/js/v6.js?v=v8" defer></script>')
+    return page('pentateuch.html','摩西五经对照',''.join(c),scripts='<script src="assets/js/v6.js?v='+V+'" defer></script>')

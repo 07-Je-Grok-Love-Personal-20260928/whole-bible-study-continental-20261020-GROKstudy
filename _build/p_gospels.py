@@ -145,4 +145,4 @@ def build():
     c.append(co('conf','<p>'+R('四福音合起来正是海德堡要理问答所说的三重职分：基督被立为{{HC31|我们的大先知和教师}}（太：登山宝训）、{{HC31|我们唯一的大祭司}}（可：舍命作赎价）、{{HC31|我们永远的君王}}（太、约：王与权柄）。他的一生不只是榜样：{{HC37|基督在地上生活的整个时期，特别是最后阶段，用他的肉体与灵魂担当了神对全人类罪恶的忿怒}}。')+'</p>','认信'))
     c.append(co('conf','<p>'+R('四卷同时见证**真神**（约1:1）与**真人**（路2:52）：{{BC19|正因如此，我们宣告基督是真神，也是真人}}。复活不是附录：{{HC45|基督的复活是我们将来荣耀复活的确据}}。')+'</p>','认信'))
     c.append(quotes('HC31,HC37,BC19,HC45'))
-    return page('gospels.html','四福音深度对照',''.join(c),scripts='<script src="assets/js/v6.js?v=v8" defer></script>')
+    return page('gospels.html','四福音深度对照',''.join(c),scripts='<script src="assets/js/v6.js?v='+V+'" defer></script>')

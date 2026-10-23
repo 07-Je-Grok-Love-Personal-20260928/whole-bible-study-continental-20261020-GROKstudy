@@ -120,4 +120,4 @@ def build():
     c.append(co('trap','<p>'+R('!!把先知书当作当代新闻的密码本!!（把某国某年对号入座）。改革宗读法：先按**原初听众**（哪位王、哪个帝国）理解，再看它在**基督**里怎样应验，然后才谈对教会与末日的意义（彼前1:10–12）。')+'</p>','易错'))
     c.append(quotes('HC31,BC18,BC5'))
     c.append(co('app','<p>'+R('%%读先知书四步%%：① 在时间轴上找到这位先知和他的**王**；② 分出**控告 / 审判 / 盼望**三种段落；③ 找到**弥赛亚**线索（看新约引用）；④ 问：同一位圣者今天怎样呼召我**悔改与盼望**？')+'</p>','应用'))
-    return page('prophets.html','先知书对照',''.join(c),scripts='<script src="assets/js/v6.js?v=v8" defer></script>')
+    return page('prophets.html','先知书对照',''.join(c),scripts='<script src="assets/js/v6.js?v='+V+'" defer></script>')

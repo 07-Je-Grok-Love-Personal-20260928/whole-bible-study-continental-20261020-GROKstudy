@@ -91,4 +91,4 @@ def build():
             if pts:
                 c.append('<details class="dx"><summary>📍 本图地点速记（'+str(len(pts))+'）</summary><div class="in"><div class="grid g3">'+''.join(f'<div class="co info" style="margin:0"><span class="lb">📍 {E(x["n"])}</span><p>{rich(x["d"])}</p></div>' for x in pts)+'</div></div></details>')
     c.append(note('🧩 地图说明','<p>海岸线：Natural Earth（公有领域，world-atlas 1:50m）经裁剪简化；河流与湖泊为手工示意折线。古代疆界与路线多为学界大致重建（尤其出埃及路线、西奈山位置有多种观点），本站取保守传统观点并作标注。</p>'))
-    return page('geography.html','地理文化',''.join(c),extra_head='<link rel="stylesheet" href="assets/vendor/leaflet.css">',scripts='<script src="assets/vendor/leaflet.js"></script><script src="assets/data/land.js"></script><script src="assets/data/maps.js"></script><script src="assets/js/maps.js?v=v5"></script>')
+    return page('geography.html','地理文化',''.join(c),extra_head='',scripts='<script src="assets/data/maps.js" defer></script><script src="assets/js/maps.js?v='+V+'" defer></script>')

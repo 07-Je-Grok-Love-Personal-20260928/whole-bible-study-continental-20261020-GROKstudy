@@ -90,4 +90,4 @@ def build():
     c.append(stats([(f'{len(JUDAH)}','犹大君王（含亚她利雅）','🟦','var(--sky)'),(f'{len(ISRAEL)}','以色列王','🟥','var(--rose)'),(f'{good}','犹大善王（含参半）','✅','var(--emer)'),('0','以色列善王','❌','var(--rose)'),(f'{L[4]} 年',f'最长：{L[0]}','⏳','var(--gold)'),(f'{LI[4]} 年',f'北国最长：{LI[0]}','⏳','var(--vio)')]))
     c.append('<p>详细的在位年数图、善恶分布和双轨时间线见 <a href="kings-chronicles.html">👑 列王纪 × 历代志</a>。</p>')
     c.append(co('app','<p>'+rich('数字的用处是**挂钩**：记住“929 + 260 = 1189”“39 + 27 = 66”“1446 · 966 · 931 · 722 · 586 · 538”，其他内容就有地方挂。',False)+'</p>','应用'))
-    return page('stats.html','圣经统计',''.join(c),scripts='<script src="assets/js/v6.js?v=v8" defer></script>')
+    return page('stats.html','圣经统计',''.join(c),scripts='<script src="assets/js/v6.js?v='+V+'" defer></script>')

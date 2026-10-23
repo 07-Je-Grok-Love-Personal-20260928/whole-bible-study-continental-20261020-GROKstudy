@@ -95,4 +95,4 @@ def build():
     c.append(co('trap','<p>'+R('!!希伯来书 6 章证明真信徒会失去救恩!!——多特信经第五项教义：警告本身就是神保守信徒的**方法**；真信徒会跌倒，却不会最终离弃。')+'</p>','易错'))
     c.append(quotes('HC32,BC22,HC64,DT3.8,DT3.14'))
     c.append(co('app','<p>'+R('%%读书信四问%%：① **处境**：哪个教会、什么问题（看年代图和使徒行传）？② **直述**：神在基督里为他们做了什么？③ **命令**：所以要怎样活？④ **今天**：我们的教会是否有同样的问题？')+'</p>','应用'))
-    return page('epistles.html','新约书信对照',''.join(c),scripts='<script src="assets/js/v6.js?v=v8" defer></script>')
+    return page('epistles.html','新约书信对照',''.join(c),scripts='<script src="assets/js/v6.js?v='+V+'" defer></script>')

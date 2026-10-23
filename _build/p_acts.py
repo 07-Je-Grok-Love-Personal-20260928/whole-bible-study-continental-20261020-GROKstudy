@@ -83,5 +83,5 @@ def build():
     c.append(co('conf','<p>'+rich('使徒行传是海德堡第54问的历史画面：神的儿子藉着圣灵和圣言{{HC54|为他自己召聚、护卫、保守，并存留他的子民}}。比利时信条第29条列出真教会的标志：{{BC29|她宣讲纯正的福音；她按照基督当初设立圣礼的样式施行圣礼；她为纠正错误、刑罚罪恶而执行教会纪律}}。下面为原文（逐字引自 ccifellowship.org）。',False)+'</p>','认信')+confref('HC54,BC27,BC29'))
     c.append(mnem([('徒1:8','耶 → 犹撒 → 地极','1–7 / 8–12 / 13–28'),('保罗年表','35 归主 · 46 一 · 49 会 · 49 二 · 52 三 · 57 捕 · 60 罗','“三五四六，四九五二，五七六零”'),('六报告','6:7 · 9:31 · 12:24 · 16:5 · 19:20 · 28:31','每段结尾都有“道兴旺”')]))
     c.append(co('app','<p>'+rich('今天的教会仍活在“徒1:8”与“徒28:31”之间：**同一位圣灵**，**同一个福音**，向着==直到地极==。问自己：我在哪个“同心圆”里作见证？',False)+'</p>','应用'))
-    return page('acts.html','使徒行传与初代教会',''.join(c),extra_head='<link rel="stylesheet" href="assets/vendor/leaflet.css">',
-      scripts='<script src="assets/vendor/leaflet.js" defer></script><script src="assets/data/land.js" defer></script><script src="assets/data/maps8.js" defer></script><script src="assets/js/maps.js?v=v8" defer></script><script src="assets/js/acts.js?v=v8" defer></script>')
+    return page('acts.html','使徒行传与初代教会',''.join(c),extra_head='',
+      scripts='<script src="assets/data/maps8.js" defer></script><script src="assets/js/maps.js?v='+V+'" defer></script><script src="assets/js/acts.js?v='+V+'" defer></script>')
